@@ -1,32 +1,32 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Admin\\Desktop\\DevEnv\\backend\\Pokemon_Forum_API\\Pokemon_Forum_API.csproj": {}
+    "C:\\Users\\Admin\\Desktop\\DevEnv\\backend\\Pokemon_Forum_API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Admin\\Desktop\\DevEnv\\backend\\Pokemon_Forum_API\\Pokemon_Forum_API.csproj": {
+    "C:\\Users\\Admin\\Desktop\\DevEnv\\backend\\Pokemon_Forum_API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Admin\\Desktop\\DevEnv\\backend\\Pokemon_Forum_API\\Pokemon_Forum_API.csproj",
+        "projectUniqueName": "C:\\Users\\Admin\\Desktop\\DevEnv\\backend\\Pokemon_Forum_API.csproj",
         "projectName": "Pokemon_Forum_API",
-        "projectPath": "C:\\Users\\Admin\\Desktop\\DevEnv\\backend\\Pokemon_Forum_API\\Pokemon_Forum_API.csproj",
+        "projectPath": "C:\\Users\\Admin\\Desktop\\DevEnv\\backend\\Pokemon_Forum_API.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Admin\\Desktop\\DevEnv\\backend\\Pokemon_Forum_API\\obj\\",
+        "outputPath": "C:\\Users\\Admin\\Desktop\\DevEnv\\backend\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "net5.0"
+          "net6.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net5.0": {
-            "targetAlias": "net5.0",
+          "net6.0": {
+            "targetAlias": "net6.0",
             "projectReferences": {}
           }
         },
@@ -37,8 +37,8 @@
         }
       },
       "frameworks": {
-        "net5.0": {
-          "targetAlias": "net5.0",
+        "net6.0": {
+          "targetAlias": "net6.0",
           "imports": [
             "net461",
             "net462",
