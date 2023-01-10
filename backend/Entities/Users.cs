@@ -11,22 +11,27 @@ namespace Pokemon_Forum_API.Entities
 {
     public class Users
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int user_id { get; set; }
         public string username { get; set; }
         public string password { get; set; }
         public string email { get; set; }
         public DateTime join_date { get; set; }
-
         public int role_id { get; set; }
-        public Roles role { get; set; }
-        public bool is_banned { get; set; }
+        public bool isBanned { get; set; }
 
-        public List<Threads> threads { get; set; } = new List<Threads>();
-        public List<Posts> posts { get; set; } = new List<Posts>();
-        public List<Likes> likes { get; set; } = new List<Likes>();
-        public List<BannedUsers> bannedusers { get; set; } = new List<BannedUsers>();
+        public Users(){}
+        public Users(int user_id, string username, string password, string email, DateTime join_date, int role_id, bool isBanned )
+        {
+            this.user_id = user_id;
+            this.username = username;
+            this.password = password;
+            this.email = email;
+            this.join_date = join_date;
+            this.role_id = role_id;
+            this.isBanned = isBanned;
+        }
+
+        
     }
 
 }
