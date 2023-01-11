@@ -7,6 +7,17 @@ namespace Pokemon_Forum_API.Entities
 {
     public class Posts
     {
+        private int userId;
+
+        public Posts(int post_id, string content, DateTime create_date, int thread_id, int userId)
+        {
+            this.post_id = post_id;
+            this.content = content;
+            this.create_date = create_date;
+            this.thread_id = thread_id;
+            this.userId = userId;
+        }
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int post_id { get; set; }

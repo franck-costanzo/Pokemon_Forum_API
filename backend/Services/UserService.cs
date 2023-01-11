@@ -1,13 +1,14 @@
-﻿using Pokemon_Forum_API.Entities;
+﻿using Microsoft.IdentityModel.Tokens;
+using MySql.Data.MySqlClient;
+using Pokemon_Forum_API.Entities;
+using Pokemon_Forum_API.Tools.UserTools;
 using System;
 using System.Collections.Generic;
-using MySql.Data.MySqlClient;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
-using System.Security.Cryptography;
 using utils;
-using Microsoft.VisualBasic;
-using Org.BouncyCastle.Utilities.Collections;
-using System.Web.Helpers;
 
 namespace Pokemon_Forum_API.Services
 {
@@ -16,6 +17,11 @@ namespace Pokemon_Forum_API.Services
         string connectionString = Utils.ConnectionString;
         public UserService() {}
 
+        /// <summary>
+        /// Method to get all users from DB
+        /// </summary>
+        /// <param name="connString"></param>
+        /// <returns></returns>
         public async Task<List<Users>> GetAllUsers(string connString)
         {
             
@@ -38,7 +44,7 @@ namespace Pokemon_Forum_API.Services
                         DateTime join_date = reader.GetDateTime(4);
                         int role_id = reader.GetInt32(5);
                         bool isBanned = reader.GetBoolean(6);
-                        users.Add(new Users(id, username, password, email, join_date, role_id, isBanned));
+                        users.Add(new Users(id, username, "Password is encrypted", email, join_date, role_id, isBanned));
                     }
                 }
                 
@@ -46,6 +52,12 @@ namespace Pokemon_Forum_API.Services
             return users;
         }
 
+        /// <summary>
+        /// Method to get one user by his ID from DB
+        /// </summary>
+        /// <param name="connString"></param>
+        /// <param name="_id"></param>
+        /// <returns></returns>
         public async Task<Users> GetUserById(string connString, int _id)
         {
 
@@ -69,7 +81,7 @@ namespace Pokemon_Forum_API.Services
                         DateTime join_date = reader.GetDateTime(4);
                         int role_id = reader.GetInt32(5);
                         bool isBanned = reader.GetBoolean(6);
-                        return user = new Users(id, username, password, email, join_date, role_id, isBanned));
+                        return user = new Users(id, username, password, email, join_date, role_id, isBanned);
                     }
                 }
 
@@ -78,80 +90,94 @@ namespace Pokemon_Forum_API.Services
             return user;
         }
 
-        public async Task<bool> CreateUser(string connString, Users user)
+        /// <summary>
+        /// Method to create a user
+        /// </summary>
+        /// <param name="connString"></param>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public async Task<Users> CreateUser(string connString, UserDtoCreate user)
         {
             try
             {
-                string sqlQuery = "INSERT INTO Users(username, password, email, join_date, role_id, isBanned)" +
-                              "VALUES(@username, @password', @email, @join_date, @role_id, @isBanned);";
+                if (!Tools.Tools.IsValidEmail(user.email)) throw new Exception();                   
+
+                string sqlQuery = "INSERT INTO Users(username, password, email, join_date, role_id, isBanned) VALUES(@username, @password, @email, @join_date, @role_id, @isBanned);";
+                DateTime now = DateTime.Now;
                 using (MySqlConnection conn = new MySqlConnection(connString))
-                using (MySqlCommand cmd = new MySqlCommand(sqlQuery, conn))
                 {
-
                     await conn.OpenAsync();
-                    cmd.Parameters.AddWithValue("@username", user.username);
-                    cmd.Parameters.AddWithValue("@password", user.password);
-                    cmd.Parameters.AddWithValue("@email", user.email);
-                    cmd.Parameters.AddWithValue("@join_date", user.join_date);
-                    cmd.Parameters.AddWithValue("@role_id", user.role_id);
-                    cmd.Parameters.AddWithValue("@isBanned", user.isBanned);
+                    using (MySqlCommand cmd = new MySqlCommand(sqlQuery, conn))
+                    {
+                        cmd.Parameters.Add("@username", MySqlDbType.VarChar).Value = user.username;
+                        cmd.Parameters.Add("@password", MySqlDbType.VarChar).Value = BCrypt.Net.BCrypt.HashPassword(user.password);
+                        cmd.Parameters.Add("@email", MySqlDbType.VarChar).Value = user.email;
+                        cmd.Parameters.Add("@join_date", MySqlDbType.DateTime).Value = now;
+                        cmd.Parameters.Add("@role_id", MySqlDbType.Int32).Value = 3;
+                        cmd.Parameters.Add("@isBanned", MySqlDbType.Bit).Value = false;
 
-                    await cmd.ExecuteNonQueryAsync();
-                    return true;
-
+                        await cmd.ExecuteNonQueryAsync();
+                    }
                 }
+                return new Users(user.username, user.email, now, 3, false);
             }
-            catch(Exception ex) 
+            catch (Exception ex)
             {
-                return false;
+                // Handle other exceptions
+                return new Users();
             }
         }
 
-        public async Task<bool> UpdateUser(string connString, int id, Users user)
+        /// <summary>
+        /// Method to update a user by his ID
+        /// </summary>
+        /// <param name="connString"></param>
+        /// <param name="id"></param>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public async Task<Users> UpdateUser(string connString, int id, UserDtoUpdate user)
         {
             var tempUser = await GetUserById(connectionString, id);
-            if (tempUser != null) 
+            if (tempUser != null && BCrypt.Net.BCrypt.Verify(user.oldPassword, tempUser.password))
             {
                 try
                 {
                     string sqlQuery = "UPDATE users SET username = @username," +
                                                       " password =  @password," +
-                                                      " email = @email," +
-                                                      " join_date = @join_date," +
-                                                      " role_id = @role_id," +
-                                                      " isBanned = @isBanned" +
+                                                      " email = @email" +
                                                       " WHERE user_id = @user_id;";
                     using (MySqlConnection conn = new MySqlConnection(connString))
                     using (MySqlCommand cmd = new MySqlCommand(sqlQuery, conn))
                     {
-
                         await conn.OpenAsync();
-                        cmd.Parameters.AddWithValue("@username", user.username);
-                        cmd.Parameters.AddWithValue("@password", user.password);
-                        cmd.Parameters.AddWithValue("@email", user.email);
-                        cmd.Parameters.AddWithValue("@join_date", user.join_date);
-                        cmd.Parameters.AddWithValue("@role_id", user.role_id);
-                        cmd.Parameters.AddWithValue("@isBanned", user.isBanned);
-                        cmd.Parameters.AddWithValue("@user_id", user.user_id);
-
+                        cmd.Parameters.Add("@username", MySqlDbType.VarChar).Value = user.username;
+                        cmd.Parameters.Add("@password", MySqlDbType.VarChar).Value = BCrypt.Net.BCrypt.HashPassword(user.password);
+                        cmd.Parameters.Add("@email", MySqlDbType.VarChar).Value = user.email;
+                        cmd.Parameters.Add("@user_id", MySqlDbType.Int32).Value = id;
                         await cmd.ExecuteNonQueryAsync();
-                        return true;
+                        return new Users(id, user.username, user.email);
 
                     }
                 }
                 catch (Exception ex)
                 {
-                    return false;
+                    return new Users();
                 }
             }
             else
             {
-                return false;
+                return new Users();
             }
             
         }
 
-        public async Task<bool> DeleteUser(string connString, int id)
+        /// <summary>
+        /// Method to delete a user by his ID
+        /// </summary>
+        /// <param name="connString"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<Users> DeleteUser(string connString, int id)
         {
 
             var tempUser = await GetUserById(connectionString, id);
@@ -159,7 +185,7 @@ namespace Pokemon_Forum_API.Services
             {
                 try
                 {
-                    string sqlQuery = "DELETE FROM user WHERE  user_id = @user_id;";
+                    string sqlQuery = "DELETE FROM users WHERE user_id = @user_id;";
                     using (MySqlConnection conn = new MySqlConnection(connString))
                     using (MySqlCommand cmd = new MySqlCommand(sqlQuery, conn))
                     {
@@ -168,19 +194,157 @@ namespace Pokemon_Forum_API.Services
                         cmd.Parameters.AddWithValue("@user_id", id);
 
                         await cmd.ExecuteNonQueryAsync();
-                        return true;
+                        return tempUser;
 
                     }
                 }
                 catch (Exception ex)
                 {
-                    return false;
+                    return new Users();
                 }
             }
             else
             {
-                return false;
+                return new Users();
             }
         }
+
+        /// <summary>
+        /// Method to login User using JWT tokens
+        /// </summary>
+        /// <param name="connString"></param>
+        /// <param name="_username"></param>
+        /// <param name="_password"></param>
+        /// <returns></returns>
+        public async Task<SecurityToken> LoginUserJWT(string connString, string _username, string _password)
+        {
+            Users user = new Users();
+
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(connString))
+                using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM users where username=@username", conn))
+                {
+                    await conn.OpenAsync();
+                    cmd.Parameters.AddWithValue("@username", _username);
+
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            int id = reader.GetInt32(0);
+                            string username = reader.GetString(1);
+                            string password = reader.GetString(2);
+                            string email = reader.GetString(3);
+                            DateTime join_date = reader.GetDateTime(4);
+                            int role_id = reader.GetInt32(5);
+                            bool isBanned = reader.GetBoolean(6);
+
+                            if (BCrypt.Net.BCrypt.Verify(_password, password))
+                            {
+                                user = new Users(id, username, password, email, join_date, role_id, isBanned);
+                            }
+                            else
+                            {
+                                return null;
+                            }
+                        }
+                    }
+                }
+
+                if (user.user_id != 0)
+                {
+                    // create a JWT token
+                    var tokenHandler = new JwtSecurityTokenHandler();
+                    var key = Encoding.ASCII.GetBytes("MySecretKeyThatNeedsToBeLonger");  // replace with your secret key
+                    var tokenDescriptor = new SecurityTokenDescriptor
+                    {
+                        Subject = new ClaimsIdentity(new Claim[]
+                        {
+                        new Claim(ClaimTypes.Name, user.user_id.ToString())
+                        }),
+                        Expires = DateTime.UtcNow.AddDays(7),
+                        SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                    };
+                    var token = tokenHandler.CreateToken(tokenDescriptor);
+                    return token;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Method to get all threads by user ID
+        /// </summary>
+        /// <param name="connString"></param>
+        /// <param name="user_id"></param>
+        /// <returns></returns>
+        public async Task<List<Threads>> GetThreadsByUserId(string connString, int user_id)
+        {
+            List<Threads> threads = new List<Threads>();
+
+            using (MySqlConnection conn = new MySqlConnection(connString))
+            using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM Threads WHERE user_id = @user_id", conn))
+            {
+                await conn.OpenAsync();
+                cmd.Parameters.AddWithValue("@user_id", user_id);
+
+                using (var reader = await cmd.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        int thread_id = reader.GetInt32(0);
+                        string title = reader.GetString(1);
+                        DateTime create_date = reader.GetDateTime(2);
+                        DateTime last_post_date = reader.GetDateTime(3);
+                        int userId = reader.GetInt32(4);
+                        int? forum_id = reader.IsDBNull(5) ? (int?)null : reader.GetInt32(5);
+                        int? subforum_id = reader.IsDBNull(6) ? (int?)null : reader.GetInt32(6);
+                        threads.Add(new Threads(thread_id, title, create_date, last_post_date, userId, forum_id, subforum_id));
+                    }
+                }
+            }
+            return threads;
+        }
+
+        /// <summary>
+        /// Method to get all posts by User Id
+        /// </summary>
+        /// <param name="connString"></param>
+        /// <param name="user_id"></param>
+        /// <returns></returns>
+        public async Task<List<Posts>> GetPostsByUserId(string connString, int user_id)
+        {
+            List<Posts> posts = new List<Posts>();
+
+            using (MySqlConnection conn = new MySqlConnection(connString))
+            using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM Posts WHERE user_id = @user_id", conn))
+            {
+                await conn.OpenAsync();
+                cmd.Parameters.AddWithValue("@user_id", user_id);
+
+                using (var reader = await cmd.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        int post_id = reader.GetInt32(0);
+                        string content = reader.GetString(1);
+                        DateTime create_date = reader.GetDateTime(2);
+                        int thread_id = reader.GetInt32(3);
+                        int userId = reader.GetInt32(4);
+                        posts.Add(new Posts(post_id, content, create_date, thread_id, userId));
+                    }
+                }
+            }
+            return posts;
+        }
+
     }
 }

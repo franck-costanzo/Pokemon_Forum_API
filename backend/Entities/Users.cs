@@ -31,7 +31,31 @@ namespace Pokemon_Forum_API.Entities
             this.isBanned = isBanned;
         }
 
-        
+        public Users(string username, string email, DateTime join_date, int role_id, bool isBanned)
+        {
+            this.username = username;
+            this.email = email;
+            this.join_date = join_date;
+            this.role_id = role_id;
+            this.isBanned = isBanned;
+        }
+
+        public Users(int id, string username, string email)
+        {
+            this.user_id = id;
+            this.username = username;
+            this.email = email;
+        }
+
+        public Users(int id, string username, string email, DateTime join_date, int role_id, bool isBanned) : this(id, username, email)
+        {
+            this.user_id = id;
+            this.username = username;
+            this.email = email;
+            this.join_date = join_date;
+            this.role_id = role_id;
+            this.isBanned = isBanned;
+        }
     }
 
 }

@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <ApplicationIcon>keys.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="fractal.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="keys.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="fractal.jpg" />
+  </ItemGroup>
+
+</Project>
