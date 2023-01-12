@@ -30,6 +30,16 @@ namespace Pokemon_Forum_API.Entities
             this.user_id = user_id;
         }
 
+        public Likes()
+        {
+        }
+
+        public Likes(int post_id, int user_id)
+        {
+            this.post_id = post_id;
+            this.user_id = user_id;
+        }
+
         #endregion
     }
 
