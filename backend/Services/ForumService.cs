@@ -77,8 +77,10 @@ namespace Pokemon_Forum_API.Services
                         string name = reader.GetString(1);
                         string description = reader.GetString(2);
                         var forum = new Forums(forum_id, name, description);
-                        //forum.subforums = 
-                        //forum.threads =
+                        var tempForum = await GetAllSubForumsByForumId(connString, forum_id);
+                        forum.subforums = tempForum.subforums;
+                        tempForum = await GetAllThreadsByForumId(connString, forum_id);
+                        forum.threads = tempForum.threads;
                         return forum;
                     }
                 }
@@ -200,6 +202,79 @@ namespace Pokemon_Forum_API.Services
             {
                 return new Forums();
             }
+        }
+
+        /// <summary>
+        /// Method to get oneall subforums by forum ID from DB
+        /// </summary>
+        /// <param name="connString"></param>
+        /// <param name="_id"></param>
+        /// <returns></returns>
+        public async Task<Forums> GetAllSubForumsByForumId(string connString, int _id)
+        {
+            List<SubForums> list = new List<SubForums>();
+            Forums forum = await GetForumById(connString, _id);
+            using (MySqlConnection conn = new MySqlConnection(connString))
+            using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM subforums where forum_id=@forum_id", conn))
+            {
+                await conn.OpenAsync();
+                cmd.Parameters.AddWithValue("@forum_id", _id);
+
+                using (var reader = await cmd.ExecuteReaderAsync())
+                {
+
+                    while (await reader.ReadAsync())
+                    {
+                        int subforum_id = reader.GetInt32(0);
+                        string name = reader.GetString(1);
+                        string description = reader.GetString(2);
+                        var forum_id = reader.GetInt32(0);
+                        list.Add(new SubForums(subforum_id, name, description, forum_id));
+                    }
+                }
+
+            }
+            forum.subforums = list;
+
+            return new Forums();
+        }
+
+        /// <summary>
+        /// Method to get one forum by his ID from DB
+        /// </summary>
+        /// <param name="connString"></param>
+        /// <param name="_id"></param>
+        /// <returns></returns>
+        public async Task<Forums> GetAllThreadsByForumId(string connString, int _id)
+        {
+            List<Threads> list = new List<Threads>();
+            Forums forum = await GetForumById(connString, _id);
+            using (MySqlConnection conn = new MySqlConnection(connString))
+            using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM threads where forum_id=@forum_id", conn))
+            {
+                await conn.OpenAsync();
+                cmd.Parameters.AddWithValue("@forum_id", _id);
+
+                using (var reader = await cmd.ExecuteReaderAsync())
+                {
+
+                    while (await reader.ReadAsync())
+                    {
+                        int thread_id = reader.GetInt32(0);
+                        string title = reader.GetString(1);
+                        DateTime create_date = reader.GetDateTime(2);
+                        DateTime last_post_date = reader.GetDateTime(3);
+                        int user_id = reader.GetInt32(4);
+                        int? forum_id = reader.GetInt32(5);
+                        int? subforum_id = reader.GetInt32(6);
+                        list.Add(new Threads(thread_id, title, create_date, last_post_date, user_id, forum_id, subforum_id));
+                    }
+                }
+
+            }
+            forum.threads = list;
+
+            return new Forums();
         }
     }
 }

@@ -7,18 +7,7 @@ namespace Pokemon_Forum_API.Entities
 {
     public class Threads
     {
-        private int userId;
-
-        public Threads(int thread_id, string title, DateTime create_date, DateTime last_post_date, int userId, int? forum_id, int? subforum_id)
-        {
-            this.thread_id = thread_id;
-            this.title = title;
-            this.create_date = create_date;
-            this.last_post_date = last_post_date;
-            this.userId = userId;
-            this.forum_id = forum_id;
-            this.subforum_id = subforum_id;
-        }
+        #region Properties
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -37,5 +26,22 @@ namespace Pokemon_Forum_API.Entities
         public SubForums subforum { get; set; }
 
         public List<Posts> posts { get; set; } = new List<Posts>();
+
+        #endregion
+
+        #region Constructor
+
+        public Threads(int thread_id, string title, DateTime create_date, DateTime last_post_date, int user_id, int? forum_id, int? subforum_id)
+        {
+            this.thread_id = thread_id;
+            this.title = title;
+            this.create_date = create_date;
+            this.last_post_date = last_post_date;
+            this.user_id = user_id;
+            this.forum_id = forum_id;
+            this.subforum_id = subforum_id;
+        }
+
+        #endregion
     }
 }
