@@ -73,7 +73,7 @@ CREATE TABLE Threads (
 -- Posts table
 CREATE TABLE Posts (
   post_id INT AUTO_INCREMENT NOT NULL,
-  content VARCHAR(255) NOT NULL,
+  content TEXT NOT NULL,
   create_date DATE NOT NULL,
   thread_id INT NOT NULL,
   user_id INT NOT NULL,

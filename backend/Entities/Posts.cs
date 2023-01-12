@@ -7,8 +7,6 @@ namespace Pokemon_Forum_API.Entities
 {
     public class Posts
     {
-
-
         #region Properties
 
         [Key]
@@ -30,6 +28,18 @@ namespace Pokemon_Forum_API.Entities
         public Posts(int post_id, string content, DateTime create_date, int thread_id, int user_id)
         {
             this.post_id = post_id;
+            this.content = content;
+            this.create_date = create_date;
+            this.thread_id = thread_id;
+            this.user_id = user_id;
+        }
+
+        public Posts()
+        {
+        }
+
+        public Posts(string content, DateTime create_date, int thread_id, int user_id)
+        {
             this.content = content;
             this.create_date = create_date;
             this.thread_id = thread_id;
