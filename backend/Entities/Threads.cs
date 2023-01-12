@@ -42,6 +42,20 @@ namespace Pokemon_Forum_API.Entities
             this.subforum_id = subforum_id;
         }
 
+        public Threads()
+        {
+        }
+
+        public Threads(string title, DateTime create_date, DateTime last_post_date, int user_id, int? forum_id, int? subforum_id)
+        {
+            this.title = title;
+            this.create_date = create_date;
+            this.last_post_date = last_post_date;
+            this.user_id = user_id;
+            this.forum_id = forum_id;
+            this.subforum_id = subforum_id;
+        }
+
         #endregion
     }
 }
