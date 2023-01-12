@@ -19,7 +19,7 @@ namespace Pokemon_Forum_API.DTO.BannedUserDTO
         public DateTime ban_end_date { get; set; }
 
         [Required]
-        [StringLength(255, MinimumLength = 20, ErrorMessage = "username length must be between 20 and 255")]
+        [StringLength(255, MinimumLength = 20, ErrorMessage = "reason length must be between 20 and 255")]
         public string reason { get; set; }
     }
 }

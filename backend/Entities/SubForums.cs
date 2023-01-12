@@ -33,6 +33,13 @@ namespace Pokemon_Forum_API.Entities
             this.forum_id = forum_id;
         }
 
+        public SubForums(string name, string description, int forum_id)
+        {
+            this.name = name;
+            this.description = description;
+            this.forum_id = forum_id;
+        }
+
         #endregion
     }
 }
