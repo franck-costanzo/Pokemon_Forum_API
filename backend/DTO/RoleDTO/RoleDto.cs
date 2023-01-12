@@ -2,7 +2,7 @@
 
 namespace Pokemon_Forum_API.DTO.RoleDTO
 {
-    public class RoleDtoCreate
+    public class RoleDto
     {
         [Required]
         [StringLength(20, MinimumLength = 3, ErrorMessage = "username length must be between 3 and 20")]

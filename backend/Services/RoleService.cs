@@ -86,7 +86,7 @@ namespace Pokemon_Forum_API.Services
         /// <param name="connString"></param>
         /// <param name="role"></param>
         /// <returns></returns>
-        public async Task<Roles> CreateRole(string connString, RoleDtoCreate role)
+        public async Task<Roles> CreateRole(string connString, RoleDto role)
         {
             try
             {                  
@@ -120,7 +120,7 @@ namespace Pokemon_Forum_API.Services
         /// <param name="id"></param>
         /// <param name="role"></param>
         /// <returns></returns>
-        public async Task<Roles> UpdateRole(string connString, int id, RoleDtoUpdate role)
+        public async Task<Roles> UpdateRole(string connString, int id, RoleDto role)
         {
             var tempRole = await GetRoleById(connectionString, id);
             if (tempRole != null)

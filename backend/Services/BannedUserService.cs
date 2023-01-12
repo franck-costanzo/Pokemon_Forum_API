@@ -1,0 +1,222 @@
+﻿using Microsoft.IdentityModel.Tokens;
+using MySql.Data.MySqlClient;
+using Pokemon_Forum_API.DTO.BannedUserDTO;
+using Pokemon_Forum_API.Entities;
+using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
+using utils;
+
+namespace Pokemon_Forum_API.Services
+{
+    public class BannedUserService
+    {
+        string connectionString = Utils.ConnectionString;
+
+        UserService userService = new UserService();
+        public BannedUserService() { }
+
+        /// <summary>
+        /// Method to get all bannedUsers from DB
+        /// </summary>
+        /// <param name="connString"></param>
+        /// <returns></returns>
+        public async Task<List<BannedUsers>> GetAllBannedUsers(string connString)
+        {
+
+            List<BannedUsers> bannedUsers = new List<BannedUsers>();
+
+            using (MySqlConnection conn = new MySqlConnection(connString))
+            using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM bannedusers", conn))
+            {
+                await conn.OpenAsync();
+
+                using (var reader = await cmd.ExecuteReaderAsync())
+                {
+
+                    while (await reader.ReadAsync())
+                    {
+                        int banned_user_id = reader.GetInt32(0);
+                        int user_id = reader.GetInt32(1);
+                        int banned_by_user_id = reader.GetInt32(2);
+                        DateTime ban_start_date = reader.GetDateTime(3);
+                        DateTime ban_end_date = reader.GetDateTime(4);
+                        string reason = reader.GetString(5);
+                        var tempUser = new BannedUsers(banned_user_id, user_id, banned_by_user_id, ban_start_date, ban_end_date, reason);
+                        tempUser.user = await userService.GetUserById(connectionString, user_id);
+                        tempUser.user.password = "Password way encrypted";
+                        tempUser.bannedbyuser = await userService.GetUserById(connectionString, banned_by_user_id);
+                        tempUser.bannedbyuser.password = "Password way encrypted";
+                        bannedUsers.Add(tempUser);
+                    }
+                }
+
+            }
+            return bannedUsers;
+        }
+
+        /// <summary>
+        /// Method to get one bannedUser by his ID from DB
+        /// </summary>
+        /// <param name="connString"></param>
+        /// <param name="_id"></param>
+        /// <returns></returns>
+        public async Task<BannedUsers> GetBannedUserById(string connString, int _id)
+        {
+
+            using (MySqlConnection conn = new MySqlConnection(connString))
+            using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM bannedUsers where bannedUser_id=@bannedUser_id", conn))
+            {
+                await conn.OpenAsync();
+                cmd.Parameters.AddWithValue("@bannedUser_id", _id);
+
+                using (var reader = await cmd.ExecuteReaderAsync())
+                {
+
+                    while (await reader.ReadAsync())
+                    {
+                        int banned_user_id = reader.GetInt32(0);
+                        int user_id = reader.GetInt32(1);
+                        int banned_by_user_id = reader.GetInt32(2);
+                        DateTime ban_start_date = reader.GetDateTime(3);
+                        DateTime ban_end_date = reader.GetDateTime(4);
+                        string reason = reader.GetString(5);
+                        var tempUser = new BannedUsers(banned_user_id, user_id, banned_by_user_id, ban_start_date, ban_end_date, reason);
+                        tempUser.user = await userService.GetUserById(connectionString, user_id);
+                        tempUser.user.password = "Password way encrypted";
+                        tempUser.bannedbyuser = await userService.GetUserById(connectionString, banned_by_user_id);
+                        tempUser.bannedbyuser.password = "Password way encrypted";
+                        return tempUser;
+                    }
+                }
+
+            }
+
+            return new BannedUsers();
+        }
+
+        /// <summary>
+        /// Method to create a bannedUser
+        /// </summary>
+        /// <param name="connString"></param>
+        /// <param name="bannedUser"></param>
+        /// <returns></returns>
+        public async Task<BannedUsers> CreateBannedUser(string connString, BannedUserDto bannedUser)
+        {
+            try
+            {
+
+                string sqlQuery = "INSERT INTO BannedUsers (user_id, banned_by_user_id, ban_start_date, ban_end_date, reason) " +
+                                                   "VALUES (@user_id, @banned_by_user_id, @ban_start_date, @ban_end_date, @reason);";
+                DateTime now = DateTime.Now;
+                using (MySqlConnection conn = new MySqlConnection(connString))
+                {
+                    await conn.OpenAsync();
+                    using (MySqlCommand cmd = new MySqlCommand(sqlQuery, conn))
+                    {
+                        cmd.Parameters.Add("@user_id", MySqlDbType.Int32).Value = bannedUser.user_id;
+                        cmd.Parameters.Add("@banned_by_user_id", MySqlDbType.Int32).Value = bannedUser.banned_by_user_id;
+                        cmd.Parameters.Add("@ban_start_date", MySqlDbType.DateTime).Value = bannedUser.ban_start_date;
+                        cmd.Parameters.Add("@ban_end_date", MySqlDbType.DateTime).Value = bannedUser.ban_end_date;
+                        cmd.Parameters.Add("@reason", MySqlDbType.VarChar).Value = bannedUser.reason;
+
+                        await cmd.ExecuteNonQueryAsync();
+                    }
+                }
+                return new BannedUsers(bannedUser.user_id, bannedUser.banned_by_user_id,
+                                        bannedUser.ban_start_date, bannedUser.ban_end_date, bannedUser.reason);
+            }
+            catch (Exception ex)
+            {
+                // Handle other exceptions
+                return new BannedUsers();
+            }
+        }
+
+        /// <summary>
+        /// Method to update a bannedUser by his ID
+        /// </summary>
+        /// <param name="connString"></param>
+        /// <param name="id"></param>
+        /// <param name="bannedUser"></param>
+        /// <returns></returns>
+        public async Task<BannedUsers> UpdateBannedUser(string connString, int id, BannedUserDto bannedUser)
+        {
+            var tempBannedUser = await GetBannedUserById(connectionString, id);
+            if (tempBannedUser != null)
+            {
+                try
+                {
+                    string sqlQuery = "UPDATE bannedUsers SET name = @name," +
+                                                      " description =  @description," +
+                                                      " WHERE bannedUser_id = @bannedUser_id;";
+                    using (MySqlConnection conn = new MySqlConnection(connString))
+                    using (MySqlCommand cmd = new MySqlCommand(sqlQuery, conn))
+                    {
+                        await conn.OpenAsync();
+                        cmd.Parameters.Add("@user_id", MySqlDbType.Int32).Value = bannedUser.user_id;
+                        cmd.Parameters.Add("@banned_by_user_id", MySqlDbType.Int32).Value = bannedUser.banned_by_user_id;
+                        cmd.Parameters.Add("@ban_start_date", MySqlDbType.DateTime).Value = bannedUser.ban_start_date;
+                        cmd.Parameters.Add("@ban_end_date", MySqlDbType.DateTime).Value = bannedUser.ban_end_date;
+                        cmd.Parameters.Add("@reason", MySqlDbType.VarChar).Value = bannedUser.reason;
+                        cmd.Parameters.Add("@banned_user_id", MySqlDbType.Int32).Value = id;
+                        await cmd.ExecuteNonQueryAsync();
+                        return new BannedUsers(id, bannedUser.user_id, bannedUser.banned_by_user_id,
+                            bannedUser.ban_start_date, bannedUser.ban_end_date, bannedUser.reason);
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return new BannedUsers();
+                }
+            }
+            else
+            {
+                return new BannedUsers();
+            }
+
+        }
+
+        /// <summary>
+        /// Method to delete a bannedUser by his ID
+        /// </summary>
+        /// <param name="connString"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<BannedUsers> DeleteBannedUser(string connString, int id)
+        {
+
+            var tempBannedUser = await GetBannedUserById(connectionString, id);
+            if (tempBannedUser != null)
+            {
+                try
+                {
+                    string sqlQuery = "DELETE FROM bannedUsers WHERE bannedUser_id = @bannedUser_id;";
+                    using (MySqlConnection conn = new MySqlConnection(connString))
+                    using (MySqlCommand cmd = new MySqlCommand(sqlQuery, conn))
+                    {
+
+                        await conn.OpenAsync();
+                        cmd.Parameters.AddWithValue("@bannedUser_id", id);
+
+                        await cmd.ExecuteNonQueryAsync();
+                        return tempBannedUser;
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return new BannedUsers();
+                }
+            }
+            else
+            {
+                return new BannedUsers();
+            }
+        }
+    }
+}
