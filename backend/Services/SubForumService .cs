@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using utils;
 
-namespace Pokemon_SubForum_API.Services
+namespace Pokemon_Forum_API.Services
 {
     public class SubForumService
     {

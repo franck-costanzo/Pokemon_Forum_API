@@ -2,13 +2,12 @@
 using Pokemon_Forum_API.DTO.ThreadDTO;
 using Pokemon_Forum_API.Entities;
 using Pokemon_Forum_API.Services;
-using Pokemon_SubForum_API.Services;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using utils;
 
-namespace Pokemon_Thread_API.Services
+namespace Pokemon_Forum_API.Services
 {
     public class ThreadService
     {
