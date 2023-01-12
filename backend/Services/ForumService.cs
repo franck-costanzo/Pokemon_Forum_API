@@ -43,8 +43,10 @@ namespace Pokemon_Forum_API.Services
                         string name = reader.GetString(1);
                         string description = reader.GetString(2);
                         var forum = new Forums(forum_id, name, description);
-                        //forum.subforums = 
-                        //forum.threads =
+                        var tempForum = await GetAllSubForumsByForumId(connString, forum_id);
+                        forum.subforums = tempForum.subforums;
+                        tempForum = await GetAllThreadsByForumId(connString, forum_id);
+                        forum.threads = tempForum.threads;
                         forums.Add(forum);
                     }
                 }
