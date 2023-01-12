@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Pokemon_Forum_API.DTO.UserDTO;
 using Pokemon_Forum_API.Entities;
 using Pokemon_Forum_API.Services;
-using Pokemon_Forum_API.Tools.UserTools;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;

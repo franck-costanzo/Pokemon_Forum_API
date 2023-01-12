@@ -1,7 +1,7 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using MySql.Data.MySqlClient;
+using Pokemon_Forum_API.DTO.UserDTO;
 using Pokemon_Forum_API.Entities;
-using Pokemon_Forum_API.Tools.UserTools;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;

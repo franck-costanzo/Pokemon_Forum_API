@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Pokemon_Forum_API.Tools.UserTools
+namespace Pokemon_Forum_API.DTO.UserDTO
 {
-    public class UserDtoCreate
+    public class UserDtoLogin
     {
         [Required]
         [StringLength(20, MinimumLength = 3, ErrorMessage = "username length must be between 3 and 20")]
@@ -10,7 +10,6 @@ namespace Pokemon_Forum_API.Tools.UserTools
         [Required]
         [StringLength(20, MinimumLength = 8, ErrorMessage = "password length must be between 8 and 20")]
         public string password { get; set; }
-        [Required]
-        public string email { get; set; }
+
     }
 }
