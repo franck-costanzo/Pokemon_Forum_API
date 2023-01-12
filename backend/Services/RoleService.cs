@@ -128,13 +128,13 @@ namespace Pokemon_Forum_API.Services
                 try
                 {
                     string sqlQuery = "UPDATE roles SET name = @name," +
-                                                      " description =  @description," +
+                                                      " description =  @description" +
                                                       " WHERE role_id = @role_id;";
                     using (MySqlConnection conn = new MySqlConnection(connString))
                     using (MySqlCommand cmd = new MySqlCommand(sqlQuery, conn))
                     {
                         await conn.OpenAsync();
-                        cmd.Parameters.Add("@rolename", MySqlDbType.VarChar).Value = role.name;
+                        cmd.Parameters.Add("@name", MySqlDbType.VarChar).Value = role.name;
                         cmd.Parameters.Add("@description", MySqlDbType.VarChar).Value = role.description;
                         cmd.Parameters.Add("@role_id", MySqlDbType.Int32).Value = id;
                         await cmd.ExecuteNonQueryAsync();
