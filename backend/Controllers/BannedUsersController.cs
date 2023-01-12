@@ -73,7 +73,7 @@ namespace Pokemon_Forum_API.Controllers
             try 
             {
                 var updatedBannedUser = await bannedUserService.UpdateBannedUser(connectionString, id, bannedUser);
-                if (updatedBannedUser != null)
+                if (updatedBannedUser.banned_by_user_id != 0)
                 {
                     return Ok(updatedBannedUser);
                 }

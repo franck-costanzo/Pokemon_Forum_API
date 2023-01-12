@@ -12,7 +12,6 @@ namespace Pokemon_Forum_API.DTO.BannedUserDTO
         [Required]
         public int banned_by_user_id { get; set; }
 
-        [Required]
         public DateTime ban_start_date { get; set; }
 
         [Required]

@@ -68,10 +68,10 @@ namespace Pokemon_Forum_API.Services
         {
 
             using (MySqlConnection conn = new MySqlConnection(connString))
-            using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM bannedUsers where bannedUser_id=@bannedUser_id", conn))
+            using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM bannedusers where banned_user_id=@banned_user_id", conn))
             {
                 await conn.OpenAsync();
-                cmd.Parameters.AddWithValue("@bannedUser_id", _id);
+                cmd.Parameters.AddWithValue("@banned_user_id", _id);
 
                 using (var reader = await cmd.ExecuteReaderAsync())
                 {
@@ -119,7 +119,7 @@ namespace Pokemon_Forum_API.Services
                     {
                         cmd.Parameters.Add("@user_id", MySqlDbType.Int32).Value = bannedUser.user_id;
                         cmd.Parameters.Add("@banned_by_user_id", MySqlDbType.Int32).Value = bannedUser.banned_by_user_id;
-                        cmd.Parameters.Add("@ban_start_date", MySqlDbType.DateTime).Value = bannedUser.ban_start_date;
+                        cmd.Parameters.Add("@ban_start_date", MySqlDbType.DateTime).Value = now;
                         cmd.Parameters.Add("@ban_end_date", MySqlDbType.DateTime).Value = bannedUser.ban_end_date;
                         cmd.Parameters.Add("@reason", MySqlDbType.VarChar).Value = bannedUser.reason;
 
@@ -150,9 +150,12 @@ namespace Pokemon_Forum_API.Services
             {
                 try
                 {
-                    string sqlQuery = "UPDATE bannedUsers SET name = @name," +
-                                                      " description =  @description," +
-                                                      " WHERE bannedUser_id = @bannedUser_id;";
+                    string sqlQuery = "UPDATE bannedUsers SET user_id = @user_id," +
+                                                      " banned_by_user_id =  @banned_by_user_id," +
+                                                      " ban_start_date =  @ban_start_date," +
+                                                      " ban_end_date =  @ban_end_date," +
+                                                      " reason =  @reason," +
+                                                      " WHERE banned_user_id = @banned_user_id;";
                     using (MySqlConnection conn = new MySqlConnection(connString))
                     using (MySqlCommand cmd = new MySqlCommand(sqlQuery, conn))
                     {
