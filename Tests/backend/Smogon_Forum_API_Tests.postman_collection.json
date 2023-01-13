@@ -1,0 +1,1334 @@
+{
+	"info": {
+		"_postman_id": "049307ed-187d-4c9d-91b6-9171783bc96e",
+		"name": "TESTS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21702646"
+	},
+	"item": [
+		{
+			"name": "/users",
+			"item": [
+				{
+					"name": "Get all users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"aurelie\",\r\n    \"age\" : 25\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44345/users",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44345",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get 1 user by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44345/users/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44345",
+							"path": [
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"tontonJO\",\r\n    \"password\": \"tontonJO\",\r\n    \"email\" : \"tontonJO@tontonJO.fr\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44345/users",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44345",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update user",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n{\r\n    \"username\": \"tontonJO\",\r\n    \"oldpassword\": \"tontonJO\",\r\n    \"password\" : \"JOtonton\",\r\n    \"email\" : \"tontonJO@tontonJO.fr\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44345/users/13",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44345",
+							"path": [
+								"users",
+								"13"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete user",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44345/users/13",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44345",
+							"path": [
+								"users",
+								"13"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"tontonJO\",\r\n    \"password\" : \"tontonJO\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44345/users/login",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44345",
+							"path": [
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all threads by user id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44345/users/1/threads",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44345",
+							"path": [
+								"users",
+								"1",
+								"threads"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all posts by user id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44345/users/1/posts",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44345",
+							"path": [
+								"users",
+								"1",
+								"posts"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "/bannedusers",
+			"item": [
+				{
+					"name": "Get all banned users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44345/bannedusers",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44345",
+							"path": [
+								"bannedusers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get 1 banned user by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44345/bannedusers/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44345",
+							"path": [
+								"bannedusers",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create BannedUser",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_id\" : 6,\r\n    \"banned_by_user_id\" : 2,\r\n    \"ban_end_date\" : \"2024-01-14T19:20:30.000Z\",\r\n    \"reason\" : \"Was being a lil dick, so I CRUSHED HIM TO BAN HELL\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44345/bannedusers",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44345",
+							"path": [
+								"bannedusers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update BannedUser",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_id\" : 6,\r\n    \"banned_by_user_id\" : 2,\r\n    \"ban_end_date\" : \"2025-01-14T19:20:30.000Z\",\r\n    \"reason\" : \"Was being a lil dick, so I CRUSHED HIM TO BAN HELL + one year\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44345/bannedusers/2",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44345",
+							"path": [
+								"bannedusers",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "https://localhost:44345/bannedusers/2",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44345/bannedusers/2",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44345",
+							"path": [
+								"bannedusers",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "/roles",
+			"item": [
+				{
+					"name": "Get all roles",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44345/roles",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44345",
+							"path": [
+								"roles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get 1 role by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44345/roles/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44345",
+							"path": [
+								"roles",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create role",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"SUPERMAN\",\r\n    \"description\" : \"the hero among us\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44345/roles/",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44345",
+							"path": [
+								"roles",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update role",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"HyperMan\",\r\n    \"description\" : \"the hero among us\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44345/roles/4",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44345",
+							"path": [
+								"roles",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete role",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44345/roles/4",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44345",
+							"path": [
+								"roles",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all users by role ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44345/roles/3/users",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44345",
+							"path": [
+								"roles",
+								"3",
+								"users"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "/topics",
+			"item": [
+				{
+					"name": "Get all topics",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44345/topics",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44345",
+							"path": [
+								"topics"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get 1 topic by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44345/roles/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44345",
+							"path": [
+								"roles",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create topic",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"SUPERMAN\",\r\n    \"description\" : \"the hero among us\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44345/roles/",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44345",
+							"path": [
+								"roles",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update topic",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"HyperMan\",\r\n    \"description\" : \"the hero among us\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44345/roles/4",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44345",
+							"path": [
+								"roles",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete topic",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44345/roles/4",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44345",
+							"path": [
+								"roles",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all users by role ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44345/roles/3/users",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44345",
+							"path": [
+								"roles",
+								"3",
+								"users"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "/forums",
+			"item": [
+				{
+					"name": "Get all forums",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44345/forums",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44345",
+							"path": [
+								"forums"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get 1 forum by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44345/forums/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44345",
+							"path": [
+								"forums",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a new forum",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"moumoumou\",\r\n    \"description\" : \"the moumoumou is the bestooooooooooooo !\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44345/forums",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44345",
+							"path": [
+								"forums"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update a forum by ID",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"moumoumou\",\r\n    \"description\" : \"the moumoumou is the bestooooooooooooo, youpiyooooooooo HELLOOOOO !\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44345/forums/3",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44345",
+							"path": [
+								"forums",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all subforums by forum ID",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"moumoumou\",\r\n    \"description\" : \"the moumoumou is the bestooooooooooooo, youpiyooooooooo HELLOOOOO !\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44345/forums/1/subforums",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44345",
+							"path": [
+								"forums",
+								"1",
+								"subforums"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all threads by forum ID",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"moumoumou\",\r\n    \"description\" : \"the moumoumou is the bestooooooooooooo, youpiyooooooooo HELLOOOOO !\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44345/forums/1/threads",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44345",
+							"path": [
+								"forums",
+								"1",
+								"threads"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "/subforums",
+			"item": [
+				{
+					"name": "Get all subforums",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44345/subforums",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44345",
+							"path": [
+								"subforums"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get 1 subforum by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44345/subforums/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44345",
+							"path": [
+								"subforums",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a new subforum",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"SUB moumoumou\",\r\n    \"description\" : \"the moumoumou is the bestooooooooooooo !\",\r\n    \"forum_id\" : 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44345/subforums",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44345",
+							"path": [
+								"subforums"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update a subforum by ID",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"SUB moumoumou\",\r\n    \"description\" : \"the moumoumou is the bestooooooooooooo, youpiyooooooooo HELLOOOOO !\",\r\n    \"forum_id\" : 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44345/subforums/3",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44345",
+							"path": [
+								"subforums",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Subforum by id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44345/subforums/3",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44345",
+							"path": [
+								"subforums",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all threads by subforum ID",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"moumoumou\",\r\n    \"description\" : \"the moumoumou is the bestooooooooooooo, youpiyooooooooo HELLOOOOO !\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44345/subforums/1/threads",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44345",
+							"path": [
+								"subforums",
+								"1",
+								"threads"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "/threads",
+			"item": [
+				{
+					"name": "Get all threads",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44345/threads",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44345",
+							"path": [
+								"threads"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get 1 thread by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44345/threads/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44345",
+							"path": [
+								"threads",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a new thread",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\" : \"title moumoumou\",\r\n    \"user_id\" : 1,\r\n    \"forum_id\" : 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44345/threads",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44345",
+							"path": [
+								"threads"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update a thread by ID",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\" : \"title MOMO\",\r\n    \"user_id\" : 1,\r\n    \"forum_id\" : 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44345/threads/4",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44345",
+							"path": [
+								"threads",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete thread by id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44345/threads/4",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44345",
+							"path": [
+								"threads",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all posts by thread ID",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"moumoumou\",\r\n    \"description\" : \"the moumoumou is the bestooooooooooooo, youpiyooooooooo HELLOOOOO !\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44345/threads/1/posts",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44345",
+							"path": [
+								"threads",
+								"1",
+								"posts"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "/posts",
+			"item": [
+				{
+					"name": "Get all posts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44345/posts",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44345",
+							"path": [
+								"posts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get 1 post by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44345/posts/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44345",
+							"path": [
+								"posts",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a new post",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\" : \"the moumoumou is the bestooooooooooooo ! the moumoumou is the bestooooooooooooo ! the moumoumou is the bestooooooooooooo !the moumoumou is the bestooooooooooooo !the moumoumou is the bestooooooooooooo !\",\r\n    \"thread_id\" : 1,\r\n    \"user_id\" : 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44345/posts",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44345",
+							"path": [
+								"posts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update a post by ID",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\" : \"YIPEEEEEEEEE ! the moumoumou is the bestooooooooooooo ! the moumoumou is the bestooooooooooooo ! the moumoumou is the bestooooooooooooo !the moumoumou is the bestooooooooooooo !the moumoumou is the bestooooooooooooo !\",\r\n    \"thread_id\" : 1,\r\n    \"user_id\" : 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44345/posts/6",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44345",
+							"path": [
+								"posts",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete post by id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44345/posts/6",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44345",
+							"path": [
+								"posts",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all likes by post ID",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44345/posts/1/likes",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44345",
+							"path": [
+								"posts",
+								"1",
+								"likes"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "/likes",
+			"item": [
+				{
+					"name": "Get 1 Like by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44345/likes/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44345",
+							"path": [
+								"likes",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a new like",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"post_id\" : 5,\r\n    \"user_id\" : 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44345/likes",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44345",
+							"path": [
+								"likes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete like by id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44345/likes/6",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44345",
+							"path": [
+								"likes",
+								"6"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
