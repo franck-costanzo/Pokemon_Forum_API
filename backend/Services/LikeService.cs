@@ -37,8 +37,8 @@ namespace Pokemon_Forum_API.Services
                     while (await reader.ReadAsync())
                     {
                         int like_id = reader.GetInt32(0);
-                        int post_id = reader.GetInt32(4);
-                        int user_id = reader.GetInt32(5);
+                        int post_id = reader.GetInt32(1);
+                        int user_id = reader.GetInt32(2);
                         var like = new Likes(like_id, post_id, user_id);
                         like.user = await userService.GetUserById(connString, user_id);
                         like.post = await postService.GetPostById(connString, post_id);
@@ -64,7 +64,7 @@ namespace Pokemon_Forum_API.Services
             {
 
                 string sqlQuery = "INSERT INTO likes (post_id, user_id) " +
-                                                   "VALUES (@post_id, @post_id);";
+                                                   "VALUES (@post_id, @user_id);";
 
                 using (MySqlConnection conn = new MySqlConnection(connString))
                 {
