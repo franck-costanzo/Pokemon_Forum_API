@@ -40,13 +40,13 @@ namespace Pokemon_Forum_API.Services
                         int post_id = reader.GetInt32(0);
                         string content = reader.GetString(1);
                         DateTime create_date = reader.GetDateTime(2);
-                        int thread_id = reader.GetInt32(4);
-                        int user_id = reader.GetInt32(5);
+                        int thread_id = reader.GetInt32(3);
+                        int user_id = reader.GetInt32(4);
                         var thread = new Posts(post_id, content, create_date, thread_id, user_id);
-                        var tempPost = await GetAllLikesByPostId(connString, post_id);
-                        thread.likes = tempPost.likes;
-                        thread.user = await userService.GetUserById(connString, user_id);
-                        thread.thread = await threadService.GetThreadById(connString, thread_id);
+                        /*var tempPost = await GetAllLikesByPostId(connString, post_id);
+                        thread.likes = tempPost.likes;*/
+                        /*thread.user = await userService.GetUserById(connString, user_id);
+                        thread.thread = await threadService.GetThreadById(connString, thread_id);*/
                         
                         posts.Add(thread);
                     }
@@ -79,13 +79,13 @@ namespace Pokemon_Forum_API.Services
                         int post_id = reader.GetInt32(0);
                         string content = reader.GetString(1);
                         DateTime create_date = reader.GetDateTime(2);
-                        int thread_id = reader.GetInt32(4);
-                        int user_id = reader.GetInt32(5);
+                        int thread_id = reader.GetInt32(3);
+                        int user_id = reader.GetInt32(4);
                         var thread = new Posts(post_id, content, create_date, thread_id, user_id);
-                        var tempPost = await GetAllLikesByPostId(connString, post_id);
+                       /* var tempPost = await GetAllLikesByPostId(connString, post_id);
                         thread.likes = tempPost.likes;
                         thread.user = await userService.GetUserById(connString, user_id);
-                        thread.thread = await threadService.GetThreadById(connString, thread_id);
+                        thread.thread = await threadService.GetThreadById(connString, thread_id);*/
 
                         return thread;
                     }
@@ -104,6 +104,7 @@ namespace Pokemon_Forum_API.Services
         /// <returns></returns>
         public async Task<Posts> CreatePost(string connString, PostDto post)
         {
+            DateTime now = DateTime.Now;
             try
             {
 
@@ -117,7 +118,7 @@ namespace Pokemon_Forum_API.Services
                     {
 
                         cmd.Parameters.Add("@content", MySqlDbType.VarChar).Value = post.content;
-                        cmd.Parameters.Add("@create_date", MySqlDbType.DateTime).Value = post.create_date;
+                        cmd.Parameters.Add("@create_date", MySqlDbType.DateTime).Value = now;
                         cmd.Parameters.Add("@thread_id", MySqlDbType.Int32).Value = post.thread_id;
                         cmd.Parameters.Add("@user_id", MySqlDbType.Int32).Value = post.user_id;
 
@@ -149,7 +150,7 @@ namespace Pokemon_Forum_API.Services
                 {
                     string sqlQuery = "UPDATE posts SET content = @content," +
                                                       " create_date =  @create_date," +
-                                                      " thread_id = @thread_id " +
+                                                      " thread_id = @thread_id, " +
                                                       " user_id = @user_id " +
                                                       " WHERE post_id = @post_id;";
                     using (MySqlConnection conn = new MySqlConnection(connString))

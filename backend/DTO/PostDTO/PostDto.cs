@@ -9,7 +9,6 @@ namespace Pokemon_Forum_API.DTO.PostDTO
         [StringLength(60000, MinimumLength = 30, ErrorMessage = "description length must be between 30 and 60000")]
         public string content { get; set; }
 
-        [Required]
         public DateTime create_date { get; set; }
 
         [Required]
