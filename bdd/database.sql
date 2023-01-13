@@ -36,13 +36,21 @@ CREATE TABLE BannedUsers (
     CONSTRAINT FK_BannedUsers_banned_by_user_id_Users FOREIGN KEY (banned_by_user_id) REFERENCES Users(user_id)
 );
 
+-- Topics table
+CREATE TABLE Topics (
+  topic_id INT AUTO_INCREMENT NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  PRIMARY KEY (topic_id)
+);
 
 -- Forums table
 CREATE TABLE Forums (
   forum_id INT AUTO_INCREMENT NOT NULL,
   name VARCHAR(255) NOT NULL,
   description VARCHAR(255) NOT NULL,
-  PRIMARY KEY (forum_id)
+  topic_id INT NOT NULL,
+  PRIMARY KEY (forum_id),
+  CONSTRAINT FK_Forums_topic_id_Topics FOREIGN Key (topic_id) REFERENCES Topics (topic_id) ON DELETE CASCADE
 );
 
 -- Sub Forums table
@@ -107,9 +115,12 @@ VALUES (3, 'user', 'password', 'user@example.com', '2022-01-01', 3, FALSE);
 INSERT INTO Users (user_id, username, password, email, join_date, role_id, isBanned) 
 VALUES (4, 'user2', 'password', 'user2@example.com', '2022-01-01', 3, TRUE);
 
+-- Topic fixtures
+INSERT INTO Topics (topic_id, name, description) VALUES (1, 'First topic');
+
 -- Forums fixtures
-INSERT INTO Forums (forum_id, name, description) VALUES (1, 'General Discussion', 'Discuss anything you like here');
-INSERT INTO Forums (forum_id, name, description) VALUES (2, 'News and Announcements', 'Official announcements and news');
+INSERT INTO Forums (forum_id, name, description) VALUES (1, 'General Discussion', 'Discuss anything you like here', 1);
+INSERT INTO Forums (forum_id, name, description) VALUES (2, 'News and Announcements', 'Official announcements and news', 1);
 
 -- SubForums fixtures
 INSERT INTO SubForums (subforum_id, name, description, forum_id) VALUES (1, 'Sub Forum 1', 'First Sub Forum', 1);
