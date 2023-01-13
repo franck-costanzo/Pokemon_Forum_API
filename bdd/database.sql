@@ -116,11 +116,11 @@ INSERT INTO Users (user_id, username, password, email, join_date, role_id, isBan
 VALUES (4, 'user2', 'password', 'user2@example.com', '2022-01-01', 3, TRUE);
 
 -- Topic fixtures
-INSERT INTO Topics (topic_id, name, description) VALUES (1, 'First topic');
+INSERT INTO Topics (topic_id, name) VALUES (1, 'First topic');
 
 -- Forums fixtures
-INSERT INTO Forums (forum_id, name, description) VALUES (1, 'General Discussion', 'Discuss anything you like here', 1);
-INSERT INTO Forums (forum_id, name, description) VALUES (2, 'News and Announcements', 'Official announcements and news', 1);
+INSERT INTO Forums (forum_id, name, description, topic_id) VALUES (1, 'General Discussion', 'Discuss anything you like here', 1);
+INSERT INTO Forums (forum_id, name, description, topic_id) VALUES (2, 'News and Announcements', 'Official announcements and news', 1);
 
 -- SubForums fixtures
 INSERT INTO SubForums (subforum_id, name, description, forum_id) VALUES (1, 'Sub Forum 1', 'First Sub Forum', 1);
