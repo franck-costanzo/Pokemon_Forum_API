@@ -15,7 +15,7 @@ using static Org.BouncyCastle.Math.EC.ECCurve;
 namespace Pokemon_Forum_API.Controllers
 {
     [ApiController]
-    [Route("/subForums")]
+    [Route("/subforums")]
     public class SubForumsController : ControllerBase
     {
         string connectionString = Utils.ConnectionString;

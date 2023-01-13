@@ -43,10 +43,10 @@ namespace Pokemon_Forum_API.Services
                         string name = reader.GetString(1);
                         string description = reader.GetString(2);
                         var forum = new Forums(forum_id, name, description);
-                        var tempForum = await GetAllSubForumsByForumId(connString, forum_id);
+                        /*var tempForum = await GetAllSubForumsByForumId(connString, forum_id);
                         forum.subforums = tempForum.subforums;
                         tempForum = await GetAllThreadsByForumId(connString, forum_id);
-                        forum.threads = tempForum.threads;
+                        forum.threads = tempForum.threads;*/
                         forums.Add(forum);
                     }
                 }
@@ -79,10 +79,10 @@ namespace Pokemon_Forum_API.Services
                         string name = reader.GetString(1);
                         string description = reader.GetString(2);
                         var forum = new Forums(forum_id, name, description);
-                        var tempForum = await GetAllSubForumsByForumId(connString, forum_id);
+                        /*var tempForum = await GetAllSubForumsByForumId(connString, forum_id);
                         forum.subforums = tempForum.subforums;
                         tempForum = await GetAllThreadsByForumId(connString, forum_id);
-                        forum.threads = tempForum.threads;
+                        forum.threads = tempForum.threads;*/
                         return forum;
                     }
                 }
@@ -142,7 +142,7 @@ namespace Pokemon_Forum_API.Services
                 try
                 {
                     string sqlQuery = "UPDATE forums SET name = @name," +
-                                                      " description =  @description," +
+                                                      " description =  @description" +
                                                       " WHERE forum_id = @forum_id;";
                     using (MySqlConnection conn = new MySqlConnection(connString))
                     using (MySqlCommand cmd = new MySqlCommand(sqlQuery, conn))
