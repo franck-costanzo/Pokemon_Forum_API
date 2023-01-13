@@ -112,8 +112,8 @@ namespace Pokemon_Forum_API.Controllers
         }
 
 
-        [HttpGet("{id}/users")]
-        public async Task<ActionResult<List<Threads>>> GetAllThreadsByTopicId(int id)
+        [HttpGet("{id}/forums")]
+        public async Task<ActionResult<List<Threads>>> GetAllForumsByTopicId(int id)
         {
             var threads = await topicService.GetForumsByTopicId(connectionString, id);
             if (threads == null)
