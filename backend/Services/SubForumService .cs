@@ -46,9 +46,9 @@ namespace Pokemon_Forum_API.Services
                         string description = reader.GetString(2);
                         int forum_id = reader.GetInt32(3);
                         var subForum = new SubForums(subForum_id, name, description, forum_id);
-                        var tempSubForum = await GetAllThreadsBySubForumId(connString, subForum_id);
+                        /*var tempSubForum = await GetAllThreadsBySubForumId(connString, subForum_id);
                         subForum.threads = tempSubForum.threads;
-                        subForum.forum = await forumService.GetForumById(connString, forum_id);
+                        subForum.forum = await forumService.GetForumById(connString, forum_id);*/
                         subForums.Add(subForum);
                     }
                 }
@@ -82,9 +82,9 @@ namespace Pokemon_Forum_API.Services
                         string description = reader.GetString(2);
                         int forum_id = reader.GetInt32(3);
                         var subForum = new SubForums(subForum_id, name, description, forum_id);
-                        var tempSubForum = await GetAllThreadsBySubForumId(connString, subForum_id);
+                       /* var tempSubForum = await GetAllThreadsBySubForumId(connString, subForum_id);
                         subForum.threads = tempSubForum.threads;
-                        subForum.forum = await forumService.GetForumById(connString, forum_id);
+                        subForum.forum = await forumService.GetForumById(connString, forum_id);*/
                         return subForum;
                     }
                 }
