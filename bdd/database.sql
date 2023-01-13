@@ -60,7 +60,7 @@ CREATE TABLE Threads (
   thread_id INT AUTO_INCREMENT NOT NULL,
   title VARCHAR(255) NOT NULL,
   create_date DATE NOT NULL,
-  last_post_date DATE NOT NULL,
+  last_post_date DATE,
   user_id INT NOT NULL,
   forum_id INT NULL,
   subforum_id INT NULL,

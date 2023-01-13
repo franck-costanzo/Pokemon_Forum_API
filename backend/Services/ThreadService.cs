@@ -5,6 +5,7 @@ using Pokemon_Forum_API.Services;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Xml;
 using utils;
 
 namespace Pokemon_Forum_API.Services
@@ -41,22 +42,22 @@ namespace Pokemon_Forum_API.Services
                         int thread_id = reader.GetInt32(0);
                         string title = reader.GetString(1);
                         DateTime create_date = reader.GetDateTime(2);
-                        DateTime last_post_date = reader.GetDateTime(3);
+                        DateTime? last_post_date = reader.IsDBNull(3) ? null : reader.GetDateTime(3);
                         int user_id = reader.GetInt32(4);
-                        int? forum_id = reader.GetInt32(5);
-                        int? subforum_id = reader.GetInt32(6);
+                        int? forum_id = reader.IsDBNull(5) ? null : reader.GetInt32(5);
+                        int? subforum_id = reader.IsDBNull(6) ? null : reader.GetInt32(6);
                         var thread = new Threads(thread_id, title, create_date, last_post_date, user_id, forum_id, subforum_id);
-                        var tempThread = await GetAllPostsByThreadId(connString, thread_id);
+                        /*var tempThread = await GetAllPostsByThreadId(connString, thread_id);
                         thread.posts = tempThread.posts;
-                        thread.user = await userService.GetUserById(connString, user_id);
-                        if(forum_id!= null)
+                        thread.user = await userService.GetUserById(connString, user_id);*/
+                        /*if(forum_id!= null)
                         {
                             thread.forum = await forumService.GetForumById(connString, (int)forum_id);
                         }
                         if(subforum_id != null)
                         {
                             thread.subforum = await subForumService.GetSubForumById(connString, (int)subforum_id);
-                        }
+                        }*/
                         threads.Add(thread);
                     }
                 }
@@ -88,12 +89,12 @@ namespace Pokemon_Forum_API.Services
                         int thread_id = reader.GetInt32(0);
                         string title = reader.GetString(1);
                         DateTime create_date = reader.GetDateTime(2);
-                        DateTime last_post_date = reader.GetDateTime(3);
+                        DateTime? last_post_date = reader.IsDBNull(3) ? null : reader.GetDateTime(3);
                         int user_id = reader.GetInt32(4);
-                        int? forum_id = reader.GetInt32(5);
-                        int? subforum_id = reader.GetInt32(6);
+                        int? forum_id = reader.IsDBNull(5) ? null : reader.GetInt32(5);
+                        int? subforum_id = reader.IsDBNull(6) ? null : reader.GetInt32(6);
                         var thread = new Threads(thread_id, title, create_date, last_post_date, user_id, forum_id, subforum_id);
-                        var tempThread = await GetAllPostsByThreadId(connString, thread_id);
+                        /*var tempThread = await GetAllPostsByThreadId(connString, thread_id);
                         thread.posts = tempThread.posts;
                         thread.user = await userService.GetUserById(connString, user_id);
                         if (forum_id != null)
@@ -103,7 +104,7 @@ namespace Pokemon_Forum_API.Services
                         if (subforum_id != null)
                         {
                             thread.subforum = await subForumService.GetSubForumById(connString, (int)subforum_id);
-                        }
+                        }*/
                         return thread;
                     }
                 }
@@ -121,6 +122,7 @@ namespace Pokemon_Forum_API.Services
         /// <returns></returns>
         public async Task<Threads> CreateThread(string connString, ThreadDto thread)
         {
+            DateTime now = DateTime.Now;
             try
             {
 
@@ -136,8 +138,8 @@ namespace Pokemon_Forum_API.Services
                     {
 
                         cmd.Parameters.Add("@title", MySqlDbType.VarChar).Value = thread.title;
-                        cmd.Parameters.Add("@create_date", MySqlDbType.DateTime).Value = thread.create_date;
-                        cmd.Parameters.Add("@last_post_date", MySqlDbType.DateTime).Value = thread.last_post_date;
+                        cmd.Parameters.Add("@create_date", MySqlDbType.DateTime).Value = now;
+                        cmd.Parameters.Add("@last_post_date", MySqlDbType.DateTime).Value = DBNull.Value;
                         cmd.Parameters.Add("@user_id", MySqlDbType.Int32).Value = thread.user_id;
                         cmd.Parameters.Add("@forum_id", MySqlDbType.Int32).Value = thread.forum_id;
                         cmd.Parameters.Add("@subforum_id", MySqlDbType.Int32).Value = thread.subforum_id;
@@ -172,8 +174,8 @@ namespace Pokemon_Forum_API.Services
                     string sqlQuery = "UPDATE threads SET title = @title," +
                                                       " create_date =  @create_date," +
                                                       " last_post_date =  @last_post_date," +
-                                                      " user_id = @user_id " +
-                                                      " forum_id = @forum_id " +
+                                                      " user_id = @user_id, " +
+                                                      " forum_id = @forum_id, " +
                                                       " subforum_id = @subforum_id " +
                                                       " WHERE thread_id = @thread_id;";
                     using (MySqlConnection conn = new MySqlConnection(connString))
@@ -269,8 +271,8 @@ namespace Pokemon_Forum_API.Services
                         int post_id = reader.GetInt32(0);
                         string content = reader.GetString(1);
                         DateTime create_date = reader.GetDateTime(2);
-                        int thread_id = reader.GetInt32(4);
-                        int user_id = reader.GetInt32(5);
+                        int thread_id = reader.GetInt32(3);
+                        int user_id = reader.GetInt32(4);
                         list.Add(new Posts(post_id, content, create_date, thread_id, user_id));
                     }
                 }

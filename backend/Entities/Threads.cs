@@ -14,7 +14,7 @@ namespace Pokemon_Forum_API.Entities
         public int thread_id { get; set; }
         public string title { get; set; }
         public DateTime create_date { get; set; }
-        public DateTime last_post_date { get; set; }
+        public DateTime? last_post_date { get; set; }
 
         public int user_id { get; set; }
         public Users user { get; set; }
@@ -31,7 +31,7 @@ namespace Pokemon_Forum_API.Entities
 
         #region Constructor
 
-        public Threads(int thread_id, string title, DateTime create_date, DateTime last_post_date, int user_id, int? forum_id, int? subforum_id)
+        public Threads(int thread_id, string title, DateTime create_date, DateTime? last_post_date, int user_id, int? forum_id, int? subforum_id)
         {
             this.thread_id = thread_id;
             this.title = title;
@@ -46,7 +46,7 @@ namespace Pokemon_Forum_API.Entities
         {
         }
 
-        public Threads(string title, DateTime create_date, DateTime last_post_date, int user_id, int? forum_id, int? subforum_id)
+        public Threads(string title, DateTime create_date, DateTime? last_post_date, int user_id, int? forum_id, int? subforum_id)
         {
             this.title = title;
             this.create_date = create_date;
