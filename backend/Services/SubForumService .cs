@@ -28,33 +28,39 @@ namespace Pokemon_Forum_API.Services
         /// <returns></returns>
         public async Task<List<SubForums>> GetAllSubForums(string connString)
         {
-
-            List<SubForums> subForums = new List<SubForums>();
-
-            using (MySqlConnection conn = new MySqlConnection(connString))
-            using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM subforums", conn))
+            try
             {
-                await conn.OpenAsync();
+                List<SubForums> subForums = new List<SubForums>();
 
-                using (var reader = await cmd.ExecuteReaderAsync())
+                using (MySqlConnection conn = new MySqlConnection(connString))
+                using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM subforums", conn))
                 {
+                    await conn.OpenAsync();
 
-                    while (await reader.ReadAsync())
+                    using (var reader = await cmd.ExecuteReaderAsync())
                     {
-                        int subForum_id = reader.GetInt32(0);
-                        string name = reader.GetString(1);
-                        string description = reader.GetString(2);
-                        int forum_id = reader.GetInt32(3);
-                        var subForum = new SubForums(subForum_id, name, description, forum_id);
-                        /*var tempSubForum = await GetAllThreadsBySubForumId(connString, subForum_id);
-                        subForum.threads = tempSubForum.threads;
-                        subForum.forum = await forumService.GetForumById(connString, forum_id);*/
-                        subForums.Add(subForum);
-                    }
-                }
 
+                        while (await reader.ReadAsync())
+                        {
+                            int subForum_id = reader.GetInt32(0);
+                            string name = reader.GetString(1);
+                            string description = reader.GetString(2);
+                            int forum_id = reader.GetInt32(3);
+                            var subForum = new SubForums(subForum_id, name, description, forum_id);
+                            /*var tempSubForum = await GetAllThreadsBySubForumId(connString, subForum_id);
+                            subForum.threads = tempSubForum.threads;
+                            subForum.forum = await forumService.GetForumById(connString, forum_id);*/
+                            subForums.Add(subForum);
+                        }
+                    }
+
+                }
+                return subForums;
             }
-            return subForums;
+            catch(Exception ex)
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -65,33 +71,40 @@ namespace Pokemon_Forum_API.Services
         /// <returns></returns>
         public async Task<SubForums> GetSubForumById(string connString, int _id)
         {
-
-            using (MySqlConnection conn = new MySqlConnection(connString))
-            using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM subforums where subforum_id=@subforum_id", conn))
+            try
             {
-                await conn.OpenAsync();
-                cmd.Parameters.AddWithValue("@subForum_id", _id);
-
-                using (var reader = await cmd.ExecuteReaderAsync())
+                using (MySqlConnection conn = new MySqlConnection(connString))
+                using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM subforums where subforum_id=@subforum_id", conn))
                 {
+                    await conn.OpenAsync();
+                    cmd.Parameters.AddWithValue("@subForum_id", _id);
 
-                    while (await reader.ReadAsync())
+                    using (var reader = await cmd.ExecuteReaderAsync())
                     {
-                        int subForum_id = reader.GetInt32(0);
-                        string name = reader.GetString(1);
-                        string description = reader.GetString(2);
-                        int forum_id = reader.GetInt32(3);
-                        var subForum = new SubForums(subForum_id, name, description, forum_id);
-                       /* var tempSubForum = await GetAllThreadsBySubForumId(connString, subForum_id);
-                        subForum.threads = tempSubForum.threads;
-                        subForum.forum = await forumService.GetForumById(connString, forum_id);*/
-                        return subForum;
+
+                        while (await reader.ReadAsync())
+                        {
+                            int subForum_id = reader.GetInt32(0);
+                            string name = reader.GetString(1);
+                            string description = reader.GetString(2);
+                            int forum_id = reader.GetInt32(3);
+                            var subForum = new SubForums(subForum_id, name, description, forum_id);
+                           /* var tempSubForum = await GetAllThreadsBySubForumId(connString, subForum_id);
+                            subForum.threads = tempSubForum.threads;
+                            subForum.forum = await forumService.GetForumById(connString, forum_id);*/
+                            return subForum;
+                        }
                     }
+
                 }
 
             }
+            catch(Exception ex)
+            {
+                return null;
+            }
 
-            return new SubForums();
+            return null;
         }
 
         /// <summary>
@@ -125,8 +138,7 @@ namespace Pokemon_Forum_API.Services
             }
             catch (Exception ex)
             {
-                // Handle other exceptions
-                return new SubForums();
+                return null;
             }
         }
 
@@ -163,12 +175,12 @@ namespace Pokemon_Forum_API.Services
                 }
                 catch (Exception ex)
                 {
-                    return new SubForums();
+                    return null;
                 }
             }
             else
             {
-                return new SubForums();
+                return null;
             }
 
         }
@@ -202,12 +214,12 @@ namespace Pokemon_Forum_API.Services
                 }
                 catch (Exception ex)
                 {
-                    return new SubForums();
+                    return null;
                 }
             }
             else
             {
-                return new SubForums();
+                return null;
             }
         }
 
@@ -221,34 +233,43 @@ namespace Pokemon_Forum_API.Services
         /// <returns></returns>
         public async Task<SubForums> GetAllThreadsBySubForumId(string connString, int _id)
         {
-            List<Threads> list = new List<Threads>();
-            SubForums subForum = await GetSubForumById(connString, _id);
-            using (MySqlConnection conn = new MySqlConnection(connString))
-            using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM threads where subforum_id=@subforum_id", conn))
+            try
             {
-                await conn.OpenAsync();
-                cmd.Parameters.AddWithValue("@subForum_id", _id);
-
-                using (var reader = await cmd.ExecuteReaderAsync())
+                List<Threads> list = new List<Threads>();
+                SubForums subForum = await GetSubForumById(connString, _id);
+                using (MySqlConnection conn = new MySqlConnection(connString))
+                using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM threads where subforum_id=@subforum_id", conn))
                 {
+                    await conn.OpenAsync();
+                    cmd.Parameters.AddWithValue("@subForum_id", _id);
 
-                    while (await reader.ReadAsync())
+                    using (var reader = await cmd.ExecuteReaderAsync())
                     {
-                        int thread_id = reader.GetInt32(0);
-                        string title = reader.GetString(1);
-                        DateTime create_date = reader.GetDateTime(2);
-                        DateTime last_post_date = reader.GetDateTime(3);
-                        int user_id = reader.GetInt32(4);
-                        int? subForum_id = reader.GetInt32(5);
-                        int? subsubForum_id = reader.GetInt32(6);
-                        list.Add(new Threads(thread_id, title, create_date, last_post_date, user_id, subForum_id, subsubForum_id));
+
+                        while (await reader.ReadAsync())
+                        {
+                            int thread_id = reader.GetInt32(0);
+                            string title = reader.GetString(1);
+                            DateTime create_date = reader.GetDateTime(2);
+                            DateTime last_post_date = reader.GetDateTime(3);
+                            int user_id = reader.GetInt32(4);
+                            int? subForum_id = reader.GetInt32(5);
+                            int? subsubForum_id = reader.GetInt32(6);
+                            list.Add(new Threads(thread_id, title, create_date, last_post_date, user_id, subForum_id, subsubForum_id));
+                        }
                     }
+
                 }
+                subForum.threads = list;
 
+                return subForum;
             }
-            subForum.threads = list;
+            catch(Exception ex)
+            {
+                return null;
+            }
 
-            return new SubForums();
+            return null;
         }
     }
 }

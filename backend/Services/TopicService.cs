@@ -26,25 +26,31 @@ namespace Pokemon_Forum_API.Services
         {
             
             List<Topics> topics = new List<Topics>();
-            
-            using (MySqlConnection conn = new MySqlConnection(connString))
-            using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM topics", conn))
+            try
             {
-                await conn.OpenAsync();
-
-                using (var reader = await cmd.ExecuteReaderAsync())
+                using (MySqlConnection conn = new MySqlConnection(connString))
+                using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM topics", conn))
                 {
-                    
-                    while (await reader.ReadAsync())
+                    await conn.OpenAsync();
+
+                    using (var reader = await cmd.ExecuteReaderAsync())
                     {
-                        int topic_id = reader.GetInt32(0);
-                        string name = reader.GetString(1);
-                        topics.Add(new Topics(topic_id, name));
+                    
+                        while (await reader.ReadAsync())
+                        {
+                            int topic_id = reader.GetInt32(0);
+                            string name = reader.GetString(1);
+                            topics.Add(new Topics(topic_id, name));
+                        }
                     }
-                }
                 
+                }
+                return topics;
             }
-            return topics;
+            catch(Exception ex)
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -55,27 +61,33 @@ namespace Pokemon_Forum_API.Services
         /// <returns></returns>
         public async Task<Topics> GetTopicById(string connString, int _id)
         {
-
-            using (MySqlConnection conn = new MySqlConnection(connString))
-            using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM topics where topic_id=@topic_id", conn))
+            try
             {
-                await conn.OpenAsync();
-                cmd.Parameters.AddWithValue("@topic_id", _id);
-
-                using (var reader = await cmd.ExecuteReaderAsync())
+                using (MySqlConnection conn = new MySqlConnection(connString))
+                using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM topics where topic_id=@topic_id", conn))
                 {
+                    await conn.OpenAsync();
+                    cmd.Parameters.AddWithValue("@topic_id", _id);
 
-                    while (await reader.ReadAsync())
+                    using (var reader = await cmd.ExecuteReaderAsync())
                     {
-                        int topic_id = reader.GetInt32(0);
-                        string name = reader.GetString(1);
-                        return new Topics(topic_id, name);
-                    }
-                }
 
+                        while (await reader.ReadAsync())
+                        {
+                            int topic_id = reader.GetInt32(0);
+                            string name = reader.GetString(1);
+                            return new Topics(topic_id, name);
+                        }
+                    }
+
+                }
+            }
+            catch(Exception ex)
+            {
+                return null;
             }
 
-            return new Topics();
+            return null;
         }
 
         /// <summary>
@@ -106,7 +118,7 @@ namespace Pokemon_Forum_API.Services
             catch (Exception ex)
             {
                 // Handle other exceptions
-                return new Topics();
+                return null;
             }
         }
 
@@ -139,12 +151,12 @@ namespace Pokemon_Forum_API.Services
                 }
                 catch (Exception ex)
                 {
-                    return new Topics();
+                    return null;
                 }
             }
             else
             {
-                return new Topics();
+                return null;
             }
             
         }
@@ -178,12 +190,12 @@ namespace Pokemon_Forum_API.Services
                 }
                 catch (Exception ex)
                 {
-                    return new Topics();
+                    return null;
                 }
             }
             else
             {
-                return new Topics();
+                return null;
             }
         }
 
@@ -198,24 +210,32 @@ namespace Pokemon_Forum_API.Services
         {
             List<Forums> forums = new List<Forums>();
 
-            using (MySqlConnection conn = new MySqlConnection(connString))
-            using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM forums WHERE topic_id = @topic_id", conn))
+            try
             {
-                await conn.OpenAsync();
-                cmd.Parameters.AddWithValue("@topic_id", topic_id);
-
-                using (var reader = await cmd.ExecuteReaderAsync())
+                using (MySqlConnection conn = new MySqlConnection(connString))
+                using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM forums WHERE topic_id = @topic_id", conn))
                 {
-                    while (await reader.ReadAsync())
+                    await conn.OpenAsync();
+                    cmd.Parameters.AddWithValue("@topic_id", topic_id);
+
+                    using (var reader = await cmd.ExecuteReaderAsync())
                     {
-                        int id = reader.GetInt32(0);
-                        string name = reader.GetString(1);
-                        string description = reader.GetString(2);
-                        forums.Add(new Forums(id, name, description));
+                        while (await reader.ReadAsync())
+                        {
+                            int id = reader.GetInt32(0);
+                            string name = reader.GetString(1);
+                            string description = reader.GetString(2);
+                            forums.Add(new Forums(id, name, description));
+                        }
                     }
                 }
+                return forums;
+
             }
-            return forums;
+            catch(Exception ex)
+            {
+                return null;
+            }
         }
 
     }

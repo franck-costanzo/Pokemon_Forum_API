@@ -27,33 +27,42 @@ namespace Pokemon_Forum_API.Services
             
             List<Posts> posts = new List<Posts>();
 
-            using (MySqlConnection conn = new MySqlConnection(connString))
-            using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM posts", conn))
+            try
             {
-                await conn.OpenAsync();
-
-                using (var reader = await cmd.ExecuteReaderAsync())
+                using (MySqlConnection conn = new MySqlConnection(connString))
+                using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM posts", conn))
                 {
+                    await conn.OpenAsync();
 
-                    while (await reader.ReadAsync())
+                    using (var reader = await cmd.ExecuteReaderAsync())
                     {
-                        int post_id = reader.GetInt32(0);
-                        string content = reader.GetString(1);
-                        DateTime create_date = reader.GetDateTime(2);
-                        int thread_id = reader.GetInt32(3);
-                        int user_id = reader.GetInt32(4);
-                        var thread = new Posts(post_id, content, create_date, thread_id, user_id);
-                        /*var tempPost = await GetAllLikesByPostId(connString, post_id);
-                        thread.likes = tempPost.likes;*/
-                        /*thread.user = await userService.GetUserById(connString, user_id);
-                        thread.thread = await threadService.GetThreadById(connString, thread_id);*/
+
+                        while (await reader.ReadAsync())
+                        {
+                            int post_id = reader.GetInt32(0);
+                            string content = reader.GetString(1);
+                            DateTime create_date = reader.GetDateTime(2);
+                            int thread_id = reader.GetInt32(3);
+                            int user_id = reader.GetInt32(4);
+                            var thread = new Posts(post_id, content, create_date, thread_id, user_id);
+                            /*var tempPost = await GetAllLikesByPostId(connString, post_id);
+                            thread.likes = tempPost.likes;*/
+                            /*thread.user = await userService.GetUserById(connString, user_id);
+                            thread.thread = await threadService.GetThreadById(connString, thread_id);*/
                         
-                        posts.Add(thread);
+                            posts.Add(thread);
+                        }
                     }
+
                 }
+                
+                return posts;
 
             }
-            return posts;
+            catch(Exception ex)
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -64,36 +73,42 @@ namespace Pokemon_Forum_API.Services
         /// <returns></returns>
         public async Task<Posts> GetPostById(string connString, int _id)
         {
-
-            using (MySqlConnection conn = new MySqlConnection(connString))
-            using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM posts where post_id=@post_id", conn))
+            try
             {
-                await conn.OpenAsync();
-                cmd.Parameters.AddWithValue("@post_id", _id);
-
-                using (var reader = await cmd.ExecuteReaderAsync())
+                using (MySqlConnection conn = new MySqlConnection(connString))
+                using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM posts where post_id=@post_id", conn))
                 {
+                    await conn.OpenAsync();
+                    cmd.Parameters.AddWithValue("@post_id", _id);
 
-                    while (await reader.ReadAsync())
+                    using (var reader = await cmd.ExecuteReaderAsync())
                     {
-                        int post_id = reader.GetInt32(0);
-                        string content = reader.GetString(1);
-                        DateTime create_date = reader.GetDateTime(2);
-                        int thread_id = reader.GetInt32(3);
-                        int user_id = reader.GetInt32(4);
-                        var thread = new Posts(post_id, content, create_date, thread_id, user_id);
-                       /* var tempPost = await GetAllLikesByPostId(connString, post_id);
-                        thread.likes = tempPost.likes;
-                        thread.user = await userService.GetUserById(connString, user_id);
-                        thread.thread = await threadService.GetThreadById(connString, thread_id);*/
 
-                        return thread;
+                        while (await reader.ReadAsync())
+                        {
+                            int post_id = reader.GetInt32(0);
+                            string content = reader.GetString(1);
+                            DateTime create_date = reader.GetDateTime(2);
+                            int thread_id = reader.GetInt32(3);
+                            int user_id = reader.GetInt32(4);
+                            var thread = new Posts(post_id, content, create_date, thread_id, user_id);
+                           /* var tempPost = await GetAllLikesByPostId(connString, post_id);
+                            thread.likes = tempPost.likes;
+                            thread.user = await userService.GetUserById(connString, user_id);
+                            thread.thread = await threadService.GetThreadById(connString, thread_id);*/
+
+                            return thread;
+                        }
                     }
-                }
 
+                }
+            }
+            catch(Exception ex)
+            {
+                return null;
             }
 
-            return new Posts();
+            return null;
         }
 
         /// <summary>
@@ -130,7 +145,7 @@ namespace Pokemon_Forum_API.Services
             catch (Exception ex)
             {
                 // Handle other exceptions
-                return new Posts();
+                return null;
             }
         }
 
@@ -169,12 +184,12 @@ namespace Pokemon_Forum_API.Services
                 }
                 catch (Exception ex)
                 {
-                    return new Posts();
+                    return null;
                 }
             }
             else
             {
-                return new Posts();
+                return null;
             }
 
         }
@@ -208,12 +223,12 @@ namespace Pokemon_Forum_API.Services
                 }
                 catch (Exception ex)
                 {
-                    return new Posts();
+                    return null;
                 }
             }
             else
             {
-                return new Posts();
+                return null;
             }
         }
 
@@ -227,30 +242,37 @@ namespace Pokemon_Forum_API.Services
         /// <returns></returns>
         public async Task<Posts> GetAllLikesByPostId(string connString, int _id)
         {
-            List<Likes> list = new List<Likes>();
-            Posts post = await GetPostById(connString, _id);
-            using (MySqlConnection conn = new MySqlConnection(connString))
-            using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM likes where post_id=@post_id", conn))
+            try
             {
-                await conn.OpenAsync();
-                cmd.Parameters.AddWithValue("@post_id", _id);
-
-                using (var reader = await cmd.ExecuteReaderAsync())
+                List<Likes> list = new List<Likes>();
+                Posts post = await GetPostById(connString, _id);
+                using (MySqlConnection conn = new MySqlConnection(connString))
+                using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM likes where post_id=@post_id", conn))
                 {
+                    await conn.OpenAsync();
+                    cmd.Parameters.AddWithValue("@post_id", _id);
 
-                    while (await reader.ReadAsync())
+                    using (var reader = await cmd.ExecuteReaderAsync())
                     {
-                        int like_id = reader.GetInt32(0);
-                        int post_id = reader.GetInt32(1);
-                        int user_id = reader.GetInt32(2);
-                        list.Add(new Likes(like_id, post_id, user_id));
+
+                        while (await reader.ReadAsync())
+                        {
+                            int like_id = reader.GetInt32(0);
+                            int post_id = reader.GetInt32(1);
+                            int user_id = reader.GetInt32(2);
+                            list.Add(new Likes(like_id, post_id, user_id));
+                        }
                     }
+
                 }
+                post.likes = list;
 
+                return post;
             }
-            post.likes = list;
-
-            return post;
+            catch(Exception ex)
+            {
+                return null;
+            }
         }
 
     }
