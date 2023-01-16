@@ -24,32 +24,41 @@ namespace Pokemon_Forum_API.Services
         /// <returns></returns>
         public async Task<Likes> GetLikeById(string connString, int _id)
         {
-
-            using (MySqlConnection conn = new MySqlConnection(connString))
-            using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM likes where like_id=@like_id", conn))
+            try
             {
-                await conn.OpenAsync();
-                cmd.Parameters.AddWithValue("@like_id", _id);
-
-                using (var reader = await cmd.ExecuteReaderAsync())
+                using (MySqlConnection conn = new MySqlConnection(connString))
+                using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM likes where like_id=@like_id", conn))
                 {
+                    await conn.OpenAsync();
+                    cmd.Parameters.AddWithValue("@like_id", _id);
 
-                    while (await reader.ReadAsync())
+                    using (var reader = await cmd.ExecuteReaderAsync())
                     {
-                        int like_id = reader.GetInt32(0);
-                        int post_id = reader.GetInt32(1);
-                        int user_id = reader.GetInt32(2);
-                        var like = new Likes(like_id, post_id, user_id);
-                        like.user = await userService.GetUserById(connString, user_id);
-                        like.post = await postService.GetPostById(connString, post_id);
 
-                        return like;
+                        while (await reader.ReadAsync())
+                        {
+                            int like_id = reader.GetInt32(0);
+                            int post_id = reader.GetInt32(1);
+                            int user_id = reader.GetInt32(2);
+                            var like = new Likes(like_id, post_id, user_id);
+                            like.user = await userService.GetUserById(connString, user_id);
+                            like.post = await postService.GetPostById(connString, post_id);
+
+                            return like;
+                        }
                     }
+
                 }
 
+                
+
+            }
+            catch(Exception ex)
+            {
+                return null;
             }
 
-            return new Likes();
+            return null;
         }
 
         /// <summary>
@@ -83,7 +92,7 @@ namespace Pokemon_Forum_API.Services
             catch (Exception ex)
             {
                 // Handle other exceptions
-                return new Likes();
+                return null;
             }
         }
 
@@ -117,12 +126,12 @@ namespace Pokemon_Forum_API.Services
                 }
                 catch (Exception ex)
                 {
-                    return new Likes();
+                    return null;
                 }
             }
             else
             {
-                return new Likes();
+                return null;
             }
         }
 

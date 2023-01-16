@@ -26,30 +26,37 @@ namespace Pokemon_Forum_API.Services
         {
             
             List<Users> users = new List<Users>();
-            
-            using (MySqlConnection conn = new MySqlConnection(connString))
-            using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM users", conn))
+            try
             {
-                await conn.OpenAsync();
-
-                using (var reader = await cmd.ExecuteReaderAsync())
+                using (MySqlConnection conn = new MySqlConnection(connString))
+                using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM users", conn))
                 {
-                    
-                    while (await reader.ReadAsync())
+                    await conn.OpenAsync();
+
+                    using (var reader = await cmd.ExecuteReaderAsync())
                     {
-                        int id = reader.GetInt32(0);
-                        string username = reader.GetString(1);
-                        string password = reader.GetString(2);
-                        string email = reader.GetString(3);
-                        DateTime join_date = reader.GetDateTime(4);
-                        int role_id = reader.GetInt32(5);
-                        bool isBanned = reader.GetBoolean(6);
-                        users.Add(new Users(id, username, "Password is encrypted", email, join_date, role_id, isBanned));
+                    
+                        while (await reader.ReadAsync())
+                        {
+                            int id = reader.GetInt32(0);
+                            string username = reader.GetString(1);
+                            string password = reader.GetString(2);
+                            string email = reader.GetString(3);
+                            DateTime join_date = reader.GetDateTime(4);
+                            int role_id = reader.GetInt32(5);
+                            bool isBanned = reader.GetBoolean(6);
+                            users.Add(new Users(id, username, "Password is encrypted", email, join_date, role_id, isBanned));
+                        }
                     }
-                }
                 
+                }
+                return users;
+
             }
-            return users;
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -63,31 +70,39 @@ namespace Pokemon_Forum_API.Services
 
             Users user = new Users();
 
-            using (MySqlConnection conn = new MySqlConnection(connString))
-            using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM users where user_id=@user_id", conn))
+            try
             {
-                await conn.OpenAsync();
-                cmd.Parameters.AddWithValue("@user_id", _id);
-
-                using (var reader = await cmd.ExecuteReaderAsync())
+                using (MySqlConnection conn = new MySqlConnection(connString))
+                using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM users where user_id=@user_id", conn))
                 {
+                    await conn.OpenAsync();
+                    cmd.Parameters.AddWithValue("@user_id", _id);
 
-                    while (await reader.ReadAsync())
+                    using (var reader = await cmd.ExecuteReaderAsync())
                     {
-                        int id = reader.GetInt32(0);
-                        string username = reader.GetString(1);
-                        string password = reader.GetString(2);
-                        string email = reader.GetString(3);
-                        DateTime join_date = reader.GetDateTime(4);
-                        int role_id = reader.GetInt32(5);
-                        bool isBanned = reader.GetBoolean(6);
-                        return user = new Users(id, username, password, email, join_date, role_id, isBanned);
+
+                        while (await reader.ReadAsync())
+                        {
+                            int id = reader.GetInt32(0);
+                            string username = reader.GetString(1);
+                            string password = reader.GetString(2);
+                            string email = reader.GetString(3);
+                            DateTime join_date = reader.GetDateTime(4);
+                            int role_id = reader.GetInt32(5);
+                            bool isBanned = reader.GetBoolean(6);
+                            return user = new Users(id, username, password, email, join_date, role_id, isBanned);
+                        }
                     }
+
                 }
 
-            }
+                return user;
 
-            return user;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -124,7 +139,7 @@ namespace Pokemon_Forum_API.Services
             catch (Exception ex)
             {
                 // Handle other exceptions
-                return new Users();
+                return null;
             }
         }
 
@@ -161,12 +176,12 @@ namespace Pokemon_Forum_API.Services
                 }
                 catch (Exception ex)
                 {
-                    return new Users();
+                    return null;
                 }
             }
             else
             {
-                return new Users();
+                return null;
             }
             
         }
@@ -200,12 +215,12 @@ namespace Pokemon_Forum_API.Services
                 }
                 catch (Exception ex)
                 {
-                    return new Users();
+                    return null;
                 }
             }
             else
             {
-                return new Users();
+                return null;
             }
         }
 
@@ -288,30 +303,39 @@ namespace Pokemon_Forum_API.Services
         /// <returns></returns>
         public async Task<List<Threads>> GetThreadsByUserId(string connString, int user_id)
         {
-            List<Threads> threads = new List<Threads>();
-
-            using (MySqlConnection conn = new MySqlConnection(connString))
-            using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM Threads WHERE user_id = @user_id", conn))
+            try
             {
-                await conn.OpenAsync();
-                cmd.Parameters.AddWithValue("@user_id", user_id);
 
-                using (var reader = await cmd.ExecuteReaderAsync())
+                List<Threads> threads = new List<Threads>();
+
+
+                using (MySqlConnection conn = new MySqlConnection(connString))
+                using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM Threads WHERE user_id = @user_id", conn))
                 {
-                    while (await reader.ReadAsync())
+                    await conn.OpenAsync();
+                    cmd.Parameters.AddWithValue("@user_id", user_id);
+
+                    using (var reader = await cmd.ExecuteReaderAsync())
                     {
-                        int thread_id = reader.GetInt32(0);
-                        string title = reader.GetString(1);
-                        DateTime create_date = reader.GetDateTime(2);
-                        DateTime last_post_date = reader.GetDateTime(3);
-                        int userId = reader.GetInt32(4);
-                        int? forum_id = reader.IsDBNull(5) ? (int?)null : reader.GetInt32(5);
-                        int? subforum_id = reader.IsDBNull(6) ? (int?)null : reader.GetInt32(6);
-                        threads.Add(new Threads(thread_id, title, create_date, last_post_date, userId, forum_id, subforum_id));
+                        while (await reader.ReadAsync())
+                        {
+                            int thread_id = reader.GetInt32(0);
+                            string title = reader.GetString(1);
+                            DateTime create_date = reader.GetDateTime(2);
+                            DateTime last_post_date = reader.GetDateTime(3);
+                            int userId = reader.GetInt32(4);
+                            int? forum_id = reader.IsDBNull(5) ? (int?)null : reader.GetInt32(5);
+                            int? subforum_id = reader.IsDBNull(6) ? (int?)null : reader.GetInt32(6);
+                            threads.Add(new Threads(thread_id, title, create_date, last_post_date, userId, forum_id, subforum_id));
+                        }
                     }
                 }
+                return threads;
             }
-            return threads;
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -322,28 +346,36 @@ namespace Pokemon_Forum_API.Services
         /// <returns></returns>
         public async Task<List<Posts>> GetPostsByUserId(string connString, int user_id)
         {
-            List<Posts> posts = new List<Posts>();
-
-            using (MySqlConnection conn = new MySqlConnection(connString))
-            using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM Posts WHERE user_id = @user_id", conn))
+            try
             {
-                await conn.OpenAsync();
-                cmd.Parameters.AddWithValue("@user_id", user_id);
 
-                using (var reader = await cmd.ExecuteReaderAsync())
+                List<Posts> posts = new List<Posts>();
+
+                using (MySqlConnection conn = new MySqlConnection(connString))
+                using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM Posts WHERE user_id = @user_id", conn))
                 {
-                    while (await reader.ReadAsync())
+                    await conn.OpenAsync();
+                    cmd.Parameters.AddWithValue("@user_id", user_id);
+
+                    using (var reader = await cmd.ExecuteReaderAsync())
                     {
-                        int post_id = reader.GetInt32(0);
-                        string content = reader.GetString(1);
-                        DateTime create_date = reader.GetDateTime(2);
-                        int thread_id = reader.GetInt32(3);
-                        int userId = reader.GetInt32(4);
-                        posts.Add(new Posts(post_id, content, create_date, thread_id, userId));
+                        while (await reader.ReadAsync())
+                        {
+                            int post_id = reader.GetInt32(0);
+                            string content = reader.GetString(1);
+                            DateTime create_date = reader.GetDateTime(2);
+                            int thread_id = reader.GetInt32(3);
+                            int userId = reader.GetInt32(4);
+                            posts.Add(new Posts(post_id, content, create_date, thread_id, userId));
+                        }
                     }
                 }
+                return posts;
             }
-            return posts;
+            catch (Exception ex)
+            { 
+                return null; 
+            }
         }
 
     }

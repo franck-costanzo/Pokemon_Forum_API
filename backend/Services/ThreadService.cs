@@ -29,41 +29,49 @@ namespace Pokemon_Forum_API.Services
             
             List<Threads> threads = new List<Threads>();
 
-            using (MySqlConnection conn = new MySqlConnection(connString))
-            using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM threads", conn))
+            try
             {
-                await conn.OpenAsync();
 
-                using (var reader = await cmd.ExecuteReaderAsync())
+                using (MySqlConnection conn = new MySqlConnection(connString))
+                using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM threads", conn))
                 {
+                    await conn.OpenAsync();
 
-                    while (await reader.ReadAsync())
+                    using (var reader = await cmd.ExecuteReaderAsync())
                     {
-                        int thread_id = reader.GetInt32(0);
-                        string title = reader.GetString(1);
-                        DateTime create_date = reader.GetDateTime(2);
-                        DateTime? last_post_date = reader.IsDBNull(3) ? null : reader.GetDateTime(3);
-                        int user_id = reader.GetInt32(4);
-                        int? forum_id = reader.IsDBNull(5) ? null : reader.GetInt32(5);
-                        int? subforum_id = reader.IsDBNull(6) ? null : reader.GetInt32(6);
-                        var thread = new Threads(thread_id, title, create_date, last_post_date, user_id, forum_id, subforum_id);
-                        /*var tempThread = await GetAllPostsByThreadId(connString, thread_id);
-                        thread.posts = tempThread.posts;
-                        thread.user = await userService.GetUserById(connString, user_id);*/
-                        /*if(forum_id!= null)
-                        {
-                            thread.forum = await forumService.GetForumById(connString, (int)forum_id);
-                        }
-                        if(subforum_id != null)
-                        {
-                            thread.subforum = await subForumService.GetSubForumById(connString, (int)subforum_id);
-                        }*/
-                        threads.Add(thread);
-                    }
-                }
 
+                        while (await reader.ReadAsync())
+                        {
+                            int thread_id = reader.GetInt32(0);
+                            string title = reader.GetString(1);
+                            DateTime create_date = reader.GetDateTime(2);
+                            DateTime? last_post_date = reader.IsDBNull(3) ? null : reader.GetDateTime(3);
+                            int user_id = reader.GetInt32(4);
+                            int? forum_id = reader.IsDBNull(5) ? null : reader.GetInt32(5);
+                            int? subforum_id = reader.IsDBNull(6) ? null : reader.GetInt32(6);
+                            var thread = new Threads(thread_id, title, create_date, last_post_date, user_id, forum_id, subforum_id);
+                            /*var tempThread = await GetAllPostsByThreadId(connString, thread_id);
+                            thread.posts = tempThread.posts;
+                            thread.user = await userService.GetUserById(connString, user_id);*/
+                            /*if(forum_id!= null)
+                            {
+                                thread.forum = await forumService.GetForumById(connString, (int)forum_id);
+                            }
+                            if(subforum_id != null)
+                            {
+                                thread.subforum = await subForumService.GetSubForumById(connString, (int)subforum_id);
+                            }*/
+                            threads.Add(thread);
+                        }
+                    }
+
+                }
+                return threads;
             }
-            return threads;
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -74,44 +82,51 @@ namespace Pokemon_Forum_API.Services
         /// <returns></returns>
         public async Task<Threads> GetThreadById(string connString, int _id)
         {
-
-            using (MySqlConnection conn = new MySqlConnection(connString))
-            using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM threads where thread_id=@thread_id", conn))
+            try
             {
-                await conn.OpenAsync();
-                cmd.Parameters.AddWithValue("@thread_id", _id);
 
-                using (var reader = await cmd.ExecuteReaderAsync())
+                using (MySqlConnection conn = new MySqlConnection(connString))
+                using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM threads where thread_id=@thread_id", conn))
                 {
+                    await conn.OpenAsync();
+                    cmd.Parameters.AddWithValue("@thread_id", _id);
 
-                    while (await reader.ReadAsync())
+                    using (var reader = await cmd.ExecuteReaderAsync())
                     {
-                        int thread_id = reader.GetInt32(0);
-                        string title = reader.GetString(1);
-                        DateTime create_date = reader.GetDateTime(2);
-                        DateTime? last_post_date = reader.IsDBNull(3) ? null : reader.GetDateTime(3);
-                        int user_id = reader.GetInt32(4);
-                        int? forum_id = reader.IsDBNull(5) ? null : reader.GetInt32(5);
-                        int? subforum_id = reader.IsDBNull(6) ? null : reader.GetInt32(6);
-                        var thread = new Threads(thread_id, title, create_date, last_post_date, user_id, forum_id, subforum_id);
-                        /*var tempThread = await GetAllPostsByThreadId(connString, thread_id);
-                        thread.posts = tempThread.posts;
-                        thread.user = await userService.GetUserById(connString, user_id);
-                        if (forum_id != null)
-                        {
-                            thread.forum = await forumService.GetForumById(connString, (int)forum_id);
-                        }
-                        if (subforum_id != null)
-                        {
-                            thread.subforum = await subForumService.GetSubForumById(connString, (int)subforum_id);
-                        }*/
-                        return thread;
-                    }
-                }
 
+                        while (await reader.ReadAsync())
+                        {
+                            int thread_id = reader.GetInt32(0);
+                            string title = reader.GetString(1);
+                            DateTime create_date = reader.GetDateTime(2);
+                            DateTime? last_post_date = reader.IsDBNull(3) ? null : reader.GetDateTime(3);
+                            int user_id = reader.GetInt32(4);
+                            int? forum_id = reader.IsDBNull(5) ? null : reader.GetInt32(5);
+                            int? subforum_id = reader.IsDBNull(6) ? null : reader.GetInt32(6);
+                            var thread = new Threads(thread_id, title, create_date, last_post_date, user_id, forum_id, subforum_id);
+                            /*var tempThread = await GetAllPostsByThreadId(connString, thread_id);
+                            thread.posts = tempThread.posts;
+                            thread.user = await userService.GetUserById(connString, user_id);
+                            if (forum_id != null)
+                            {
+                                thread.forum = await forumService.GetForumById(connString, (int)forum_id);
+                            }
+                            if (subforum_id != null)
+                            {
+                                thread.subforum = await subForumService.GetSubForumById(connString, (int)subforum_id);
+                            }*/
+                            return thread;
+                        }
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
             }
 
-            return new Threads();
+            return null;
         }
 
         /// <summary>
@@ -152,8 +167,7 @@ namespace Pokemon_Forum_API.Services
             }
             catch (Exception ex)
             {
-                // Handle other exceptions
-                return new Threads();
+                return null;
             }
         }
 
@@ -197,12 +211,12 @@ namespace Pokemon_Forum_API.Services
                 }
                 catch (Exception ex)
                 {
-                    return new Threads();
+                    return null;
                 }
             }
             else
             {
-                return new Threads();
+                return null;
             }
 
         }
@@ -236,12 +250,12 @@ namespace Pokemon_Forum_API.Services
                 }
                 catch (Exception ex)
                 {
-                    return new Threads();
+                    return null;
                 }
             }
             else
             {
-                return new Threads();
+                return null;
             }
         }
 
@@ -255,32 +269,40 @@ namespace Pokemon_Forum_API.Services
         /// <returns></returns>
         public async Task<Threads> GetAllPostsByThreadId(string connString, int _id)
         {
-            List<Posts> list = new List<Posts>();
-            Threads thread = await GetThreadById(connString, _id);
-            using (MySqlConnection conn = new MySqlConnection(connString))
-            using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM posts where thread_id=@thread_id", conn))
+            try
             {
-                await conn.OpenAsync();
-                cmd.Parameters.AddWithValue("@thread_id", _id);
-
-                using (var reader = await cmd.ExecuteReaderAsync())
+                List<Posts> list = new List<Posts>();
+                Threads thread = await GetThreadById(connString, _id);
+                using (MySqlConnection conn = new MySqlConnection(connString))
+                using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM posts where thread_id=@thread_id", conn))
                 {
+                    await conn.OpenAsync();
+                    cmd.Parameters.AddWithValue("@thread_id", _id);
 
-                    while (await reader.ReadAsync())
+                    using (var reader = await cmd.ExecuteReaderAsync())
                     {
-                        int post_id = reader.GetInt32(0);
-                        string content = reader.GetString(1);
-                        DateTime create_date = reader.GetDateTime(2);
-                        int thread_id = reader.GetInt32(3);
-                        int user_id = reader.GetInt32(4);
-                        list.Add(new Posts(post_id, content, create_date, thread_id, user_id));
+
+                        while (await reader.ReadAsync())
+                        {
+                            int post_id = reader.GetInt32(0);
+                            string content = reader.GetString(1);
+                            DateTime create_date = reader.GetDateTime(2);
+                            int thread_id = reader.GetInt32(3);
+                            int user_id = reader.GetInt32(4);
+                            list.Add(new Posts(post_id, content, create_date, thread_id, user_id));
+                        }
                     }
+
                 }
+                thread.posts = list;
+
+                return thread;
 
             }
-            thread.posts = list;
-
-            return thread;
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
     }

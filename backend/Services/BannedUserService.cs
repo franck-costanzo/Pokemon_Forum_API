@@ -26,36 +26,43 @@ namespace Pokemon_Forum_API.Services
         /// <returns></returns>
         public async Task<List<BannedUsers>> GetAllBannedUsers(string connString)
         {
-
-            List<BannedUsers> bannedUsers = new List<BannedUsers>();
-
-            using (MySqlConnection conn = new MySqlConnection(connString))
-            using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM bannedusers", conn))
+            try
             {
-                await conn.OpenAsync();
+                List<BannedUsers> bannedUsers = new List<BannedUsers>();
 
-                using (var reader = await cmd.ExecuteReaderAsync())
+                using (MySqlConnection conn = new MySqlConnection(connString))
+                using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM bannedusers", conn))
                 {
+                    await conn.OpenAsync();
 
-                    while (await reader.ReadAsync())
+                    using (var reader = await cmd.ExecuteReaderAsync())
                     {
-                        int banned_user_id = reader.GetInt32(0);
-                        int user_id = reader.GetInt32(1);
-                        int banned_by_user_id = reader.GetInt32(2);
-                        DateTime ban_start_date = reader.GetDateTime(3);
-                        DateTime ban_end_date = reader.GetDateTime(4);
-                        string reason = reader.GetString(5);
-                        var tempUser = new BannedUsers(banned_user_id, user_id, banned_by_user_id, ban_start_date, ban_end_date, reason);
-                        tempUser.user = await userService.GetUserById(connectionString, user_id);
-                        tempUser.user.password = "Password way encrypted";
-                        tempUser.bannedbyuser = await userService.GetUserById(connectionString, banned_by_user_id);
-                        tempUser.bannedbyuser.password = "Password way encrypted";
-                        bannedUsers.Add(tempUser);
-                    }
-                }
 
+                        while (await reader.ReadAsync())
+                        {
+                            int banned_user_id = reader.GetInt32(0);
+                            int user_id = reader.GetInt32(1);
+                            int banned_by_user_id = reader.GetInt32(2);
+                            DateTime ban_start_date = reader.GetDateTime(3);
+                            DateTime ban_end_date = reader.GetDateTime(4);
+                            string reason = reader.GetString(5);
+                            var tempUser = new BannedUsers(banned_user_id, user_id, banned_by_user_id, ban_start_date, ban_end_date, reason);
+                            tempUser.user = await userService.GetUserById(connectionString, user_id);
+                            tempUser.user.password = "Password way encrypted";
+                            tempUser.bannedbyuser = await userService.GetUserById(connectionString, banned_by_user_id);
+                            tempUser.bannedbyuser.password = "Password way encrypted";
+                            bannedUsers.Add(tempUser);
+                        }
+                    }
+
+                }
+                return bannedUsers;
             }
-            return bannedUsers;
+            catch(Exception ex)
+            {
+                return null;
+            }
+            
         }
 
         /// <summary>
@@ -66,36 +73,43 @@ namespace Pokemon_Forum_API.Services
         /// <returns></returns>
         public async Task<BannedUsers> GetBannedUserById(string connString, int _id)
         {
-
-            using (MySqlConnection conn = new MySqlConnection(connString))
-            using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM bannedusers where banned_user_id=@banned_user_id", conn))
+            try
             {
-                await conn.OpenAsync();
-                cmd.Parameters.AddWithValue("@banned_user_id", _id);
 
-                using (var reader = await cmd.ExecuteReaderAsync())
+                using (MySqlConnection conn = new MySqlConnection(connString))
+                using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM bannedusers where banned_user_id=@banned_user_id", conn))
                 {
+                    await conn.OpenAsync();
+                    cmd.Parameters.AddWithValue("@banned_user_id", _id);
 
-                    while (await reader.ReadAsync())
+                    using (var reader = await cmd.ExecuteReaderAsync())
                     {
-                        int banned_user_id = reader.GetInt32(0);
-                        int user_id = reader.GetInt32(1);
-                        int banned_by_user_id = reader.GetInt32(2);
-                        DateTime ban_start_date = reader.GetDateTime(3);
-                        DateTime ban_end_date = reader.GetDateTime(4);
-                        string reason = reader.GetString(5);
-                        var tempUser = new BannedUsers(banned_user_id, user_id, banned_by_user_id, ban_start_date, ban_end_date, reason);
-                        tempUser.user = await userService.GetUserById(connectionString, user_id);
-                        tempUser.user.password = "Password way encrypted";
-                        tempUser.bannedbyuser = await userService.GetUserById(connectionString, banned_by_user_id);
-                        tempUser.bannedbyuser.password = "Password way encrypted";
-                        return tempUser;
-                    }
-                }
 
+                        while (await reader.ReadAsync())
+                        {
+                            int banned_user_id = reader.GetInt32(0);
+                            int user_id = reader.GetInt32(1);
+                            int banned_by_user_id = reader.GetInt32(2);
+                            DateTime ban_start_date = reader.GetDateTime(3);
+                            DateTime ban_end_date = reader.GetDateTime(4);
+                            string reason = reader.GetString(5);
+                            var tempUser = new BannedUsers(banned_user_id, user_id, banned_by_user_id, ban_start_date, ban_end_date, reason);
+                            tempUser.user = await userService.GetUserById(connectionString, user_id);
+                            tempUser.user.password = "Password way encrypted";
+                            tempUser.bannedbyuser = await userService.GetUserById(connectionString, banned_by_user_id);
+                            tempUser.bannedbyuser.password = "Password way encrypted";
+                            return tempUser;
+                        }
+                    }
+
+                }
+            }
+            catch(Exception ex) 
+            {
+                return null;
             }
 
-            return new BannedUsers();
+            return null;
         }
 
         /// <summary>
@@ -132,7 +146,7 @@ namespace Pokemon_Forum_API.Services
             catch (Exception ex)
             {
                 // Handle other exceptions
-                return new BannedUsers();
+                return null; 
             }
         }
 
@@ -174,12 +188,12 @@ namespace Pokemon_Forum_API.Services
                 }
                 catch (Exception ex)
                 {
-                    return new BannedUsers();
+                    return null; ;
                 }
             }
             else
             {
-                return new BannedUsers();
+                return null; 
             }
 
         }
@@ -213,12 +227,12 @@ namespace Pokemon_Forum_API.Services
                 }
                 catch (Exception ex)
                 {
-                    return new BannedUsers();
+                    return null;
                 }
             }
             else
             {
-                return new BannedUsers();
+                return null;
             }
         }
     }

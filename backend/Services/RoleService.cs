@@ -24,28 +24,34 @@ namespace Pokemon_Forum_API.Services
         /// <returns></returns>
         public async Task<List<Roles>> GetAllRoles(string connString)
         {
-            
-            List<Roles> roles = new List<Roles>();
-            
-            using (MySqlConnection conn = new MySqlConnection(connString))
-            using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM roles", conn))
+            try
             {
-                await conn.OpenAsync();
-
-                using (var reader = await cmd.ExecuteReaderAsync())
+                List<Roles> roles = new List<Roles>();
+            
+                using (MySqlConnection conn = new MySqlConnection(connString))
+                using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM roles", conn))
                 {
-                    
-                    while (await reader.ReadAsync())
+                    await conn.OpenAsync();
+
+                    using (var reader = await cmd.ExecuteReaderAsync())
                     {
-                        int role_id = reader.GetInt32(0);
-                        string name = reader.GetString(1);
-                        string description = reader.GetString(2);
-                        roles.Add(new Roles(role_id, name, description));
+                    
+                        while (await reader.ReadAsync())
+                        {
+                            int role_id = reader.GetInt32(0);
+                            string name = reader.GetString(1);
+                            string description = reader.GetString(2);
+                            roles.Add(new Roles(role_id, name, description));
+                        }
                     }
-                }
                 
+                }
+                return roles;
             }
-            return roles;
+            catch(Exception ex)
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -56,28 +62,34 @@ namespace Pokemon_Forum_API.Services
         /// <returns></returns>
         public async Task<Roles> GetRoleById(string connString, int _id)
         {
-
-            using (MySqlConnection conn = new MySqlConnection(connString))
-            using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM roles where role_id=@role_id", conn))
+            try
             {
-                await conn.OpenAsync();
-                cmd.Parameters.AddWithValue("@role_id", _id);
-
-                using (var reader = await cmd.ExecuteReaderAsync())
+                using (MySqlConnection conn = new MySqlConnection(connString))
+                using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM roles where role_id=@role_id", conn))
                 {
+                    await conn.OpenAsync();
+                    cmd.Parameters.AddWithValue("@role_id", _id);
 
-                    while (await reader.ReadAsync())
+                    using (var reader = await cmd.ExecuteReaderAsync())
                     {
-                        int role_id = reader.GetInt32(0);
-                        string name = reader.GetString(1);
-                        string description = reader.GetString(2);
-                        return new Roles(role_id, name, description);
-                    }
-                }
 
+                        while (await reader.ReadAsync())
+                        {
+                            int role_id = reader.GetInt32(0);
+                            string name = reader.GetString(1);
+                            string description = reader.GetString(2);
+                            return new Roles(role_id, name, description);
+                        }
+                    }
+
+                }
+            }
+            catch(Exception ex)
+            {
+                return null;
             }
 
-            return new Roles();
+            return null;
         }
 
         /// <summary>
@@ -109,7 +121,7 @@ namespace Pokemon_Forum_API.Services
             catch (Exception ex)
             {
                 // Handle other exceptions
-                return new Roles();
+                return null;
             }
         }
 
@@ -144,12 +156,12 @@ namespace Pokemon_Forum_API.Services
                 }
                 catch (Exception ex)
                 {
-                    return new Roles();
+                    return null;
                 }
             }
             else
             {
-                return new Roles();
+                return null;
             }
             
         }
@@ -183,12 +195,12 @@ namespace Pokemon_Forum_API.Services
                 }
                 catch (Exception ex)
                 {
-                    return new Roles();
+                    return null;
                 }
             }
             else
             {
-                return new Roles();
+                return null;
             }
         }
 
@@ -202,29 +214,37 @@ namespace Pokemon_Forum_API.Services
         public async Task<List<Users>> GetUsersByRoleId(string connString, int role_id)
         {
             List<Users> users = new List<Users>();
-
-            using (MySqlConnection conn = new MySqlConnection(connString))
-            using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM users WHERE role_id = @role_id", conn))
-            {
-                await conn.OpenAsync();
-                cmd.Parameters.AddWithValue("@role_id", role_id);
-
-                using (var reader = await cmd.ExecuteReaderAsync())
+            try 
+            { 
+                using (MySqlConnection conn = new MySqlConnection(connString))
+                using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM users WHERE role_id = @role_id", conn))
                 {
-                    while (await reader.ReadAsync())
+                    await conn.OpenAsync();
+                    cmd.Parameters.AddWithValue("@role_id", role_id);
+
+                    using (var reader = await cmd.ExecuteReaderAsync())
                     {
-                        int id = reader.GetInt32(0);
-                        string username = reader.GetString(1);
-                        string password = reader.GetString(2);
-                        string email = reader.GetString(3);
-                        DateTime join_date = reader.GetDateTime(4);
-                        int _role_id = reader.GetInt32(5);
-                        bool isBanned = reader.GetBoolean(6);
-                        users.Add(new Users(id, username, "Password is encrypted", email, join_date, _role_id, isBanned));
+                        while (await reader.ReadAsync())
+                        {
+                            int id = reader.GetInt32(0);
+                            string username = reader.GetString(1);
+                            string password = reader.GetString(2);
+                            string email = reader.GetString(3);
+                            DateTime join_date = reader.GetDateTime(4);
+                            int _role_id = reader.GetInt32(5);
+                            bool isBanned = reader.GetBoolean(6);
+                            users.Add(new Users(id, username, "Password is encrypted", email, join_date, _role_id, isBanned));
+                        }
                     }
                 }
+
+                return users;
+            
             }
-            return users;
+            catch(Exception ex)
+            {
+                return null;
+            }
         }
 
     }
