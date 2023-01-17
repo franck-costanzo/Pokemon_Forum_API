@@ -1,1 +1,0 @@
-C:\Users\Admin\Desktop\DevEnv\frontend\Smogon_MAUIapp\Smogon_MAUIapp.csproj;x64
