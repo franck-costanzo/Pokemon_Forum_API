@@ -6,9 +6,35 @@
     xmlns:local="clr-namespace:Smogon_MAUIapp"
     Shell.FlyoutBehavior="Disabled">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:Pages.MainPage}"
-        Route="MainPage" />
+
+    <!--Main Page-->
+    <TabBar>
+
+        <Tab Icon="Resources/navbar/smogon.png">
+            <ShellContent
+                Title="Home"
+                ContentTemplate="{DataTemplate local:Pages.MainPage}"
+                Route="MainPage" />            
+        </Tab>
+
+        <Tab Icon="Resources/Images/search.png">
+            <ShellContent
+            Title="Login"
+            ContentTemplate="{DataTemplate local:Pages.Search}"
+            Route="Login" />
+        </Tab>
+
+        <Tab Icon="Resources/Images/snorlax.png">
+            <ShellContent
+                Title="Login"
+                ContentTemplate="{DataTemplate local:Pages.Profile}"
+                Route="Login" />
+        </Tab>
+
+        <Tab Icon="Resources/Images/showdown.png">
+
+        </Tab>
+
+    </TabBar>
 
 </Shell>

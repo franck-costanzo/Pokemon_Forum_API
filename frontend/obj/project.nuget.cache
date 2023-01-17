@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "ycTm+NBUrK+EoJDs7f8nSE+qXsOZPuqklQtthSbeweyOPYlQm+TS12myd0E0srR8KcTXjHZtY8ntsshcqiKRUA==",
+  "dgSpecHash": "3PmS3DK+EsW9wiVsfEqmJXqedfqUq1mV9uNzk5yDFcuFxnxM+rELuv8wiZal7l6LSLSkeDf6xFFq9rog//+9Uw==",
   "success": true,
   "projectFilePath": "C:\\Users\\Admin\\Desktop\\DevEnv\\frontend\\Smogon_MAUIapp.csproj",
   "expectedPackageFiles": [
@@ -123,8 +123,8 @@
     "C:\\Users\\Admin\\.nuget\\packages\\microsoft.maui.core.ref.ios\\6.0.548\\microsoft.maui.core.ref.ios.6.0.548.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\microsoft.ios.ref\\16.1.228\\microsoft.ios.ref.16.1.228.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\microsoft.maui.controls.ref.ios\\6.0.548\\microsoft.maui.controls.ref.ios.6.0.548.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\microsoft.ios.runtime.ios-arm64\\16.1.228\\microsoft.ios.runtime.ios-arm64.16.1.228.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\microsoft.maui.essentials.runtime.ios\\6.0.548\\microsoft.maui.essentials.runtime.ios.6.0.548.nupkg.sha512",
-    "C:\\Users\\Admin\\.nuget\\packages\\microsoft.ios.runtime.iossimulator-x64\\16.1.228\\microsoft.ios.runtime.iossimulator-x64.16.1.228.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\microsoft.maui.core.runtime.ios\\6.0.548\\microsoft.maui.core.runtime.ios.6.0.548.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\microsoft.maui.controls.ref.maccatalyst\\6.0.548\\microsoft.maui.controls.ref.maccatalyst.6.0.548.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\microsoft.maccatalyst.runtime.maccatalyst-x64\\16.1.228\\microsoft.maccatalyst.runtime.maccatalyst-x64.16.1.228.nupkg.sha512",

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Smogon_MAUIapp.Pages.Login"
+             Title="Login">
+    
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Label Grid.Row="1" HorizontalTextAlignment="Center" FontSize="20"
+                   Text="Log In" FontAttributes="Bold"/>
+            <Entry Grid.Row="2" 
+                   x:Name="usernameInput" Placeholder="Username"
+                  MaxLength="20"
+                  />
+        <Entry Grid.Row="3" IsPassword="true" 
+                  x:Name="passwordInput" Placeholder="Password"
+                  MaxLength="20"
+                  />
+            <Button Grid.Row="4" Text="Log in"
+                Clicked="Button_Clicked"/>
+        </Grid>
+        
+
+</ContentPage>

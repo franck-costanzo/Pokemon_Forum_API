@@ -3,8 +3,6 @@
 	<PropertyGroup>
 		<TargetFrameworks>net6.0-android;net6.0-ios;net6.0-maccatalyst</TargetFrameworks>
 		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net6.0-windows10.0.19041.0</TargetFrameworks>
-		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
-		<!-- <TargetFrameworks>$(TargetFrameworks);net6.0-tizen</TargetFrameworks> -->
 		<OutputType>Exe</OutputType>
 		<RootNamespace>Smogon_MAUIapp</RootNamespace>
 		<UseMaui>true</UseMaui>
@@ -12,7 +10,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 
 		<!-- Display name -->
-		<ApplicationTitle>Smogon_MAUIapp</ApplicationTitle>
+		<ApplicationTitle>Smogon Forum</ApplicationTitle>
 
 		<!-- App Identifier -->
 		<ApplicationId>com.companyname.smogon_mauiapp</ApplicationId>
@@ -45,12 +43,13 @@
 		<MauiIcon Include="Resources\AppIcon\appicon.ico" />
 		<MauiIcon Include="Resources\AppIcon\appiconfg.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
 
-		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
+		<!-- Splash Screen -->	
+
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
 		<MauiImage Update="Resources\Images\dotnet_bot.svg" BaseSize="168,208" />
+		<MauiImage Update="Resources\Images\logo.svg" BaseSize="64,64" Color="#6363B0" />
 
 		<!-- Custom Fonts -->
 		<MauiFont Include="Resources\Fonts\*" />
@@ -60,13 +59,50 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiImage Remove="Resources\Images\splash.svg" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <None Remove="Resources\AppIcon\appicon.ico" />
 	  <None Remove="Resources\AppIcon\appiconfg.svg" />
+	  <None Remove="Resources\Fonts\Roboto-Bold.ttf" />
+	  <None Remove="Resources\Fonts\Roboto-Regular.ttf" />
+	  <None Remove="Resources\Images\load.gif" />
 	  <None Remove="Resources\Images\logo.svg" />
+	  <None Remove="Resources\Images\splash.svg" />
+	  <None Remove="Resources\navbar\search.png" />
+	  <None Remove="Resources\navbar\showdown.png" />
+	  <None Remove="Resources\navbar\smogon.png" />
+	  <None Remove="Resources\navbar\snorlax.png" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <MauiIcon Include="Resources\Icons\logo.ico" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiImage Include="Resources\navbar\search.png" />
+	  <MauiImage Include="Resources\navbar\showdown.png" />
+	  <MauiImage Include="Resources\navbar\smogon.png" />
+	  <MauiImage Include="Resources\navbar\snorlax.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<MauiSplashScreen Include="Resources\Images\splash.svg" Color="#6363B0" />
+	</ItemGroup>
+
+
+
+	<ItemGroup>
+	  <MauiXaml Update="Pages\Login.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\Profile.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\Search.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
 
 </Project>

@@ -6,6 +6,8 @@
   <array>
 	<string>OpenSans-Regular.ttf</string>
 	<string>OpenSans-Semibold.ttf</string>
+	<string>Roboto-Bold.ttf</string>
+	<string>Roboto-Regular.ttf</string>
   </array>
   <key>UILaunchStoryboardName</key>
   <string>MauiSplash</string>

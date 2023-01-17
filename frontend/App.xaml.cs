@@ -1,4 +1,6 @@
-﻿namespace Smogon_MAUIapp;
+﻿using Smogon_MAUIapp.Pages;
+
+namespace Smogon_MAUIapp;
 
 public partial class App : Application
 {
@@ -6,6 +8,6 @@ public partial class App : Application
 	{
 		InitializeComponent();
 
-		MainPage = new AppShell();
+		MainPage = new Loading();
 	}
 }
