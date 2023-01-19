@@ -1,0 +1,24 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "restored": true,
+      "restoreTime": "2023-01-19T13:55:34.7048733Z"
+    },
+    "secrets1": {
+      "restored": true,
+      "restoreTime": "2023-01-19T13:55:11.1780585Z"
+    }
+  },
+  "parameters": {
+    "mssql1.subscriptionId": {
+      "Name": "mssql1.subscriptionId",
+      "Type": "subscription",
+      "Value": "6f40945e-b859-458f-bed5-9b31abfd080b"
+    },
+    "mssql1.resourceGroupName": {
+      "Name": "mssql1.resourceGroupName",
+      "Type": "resourceGroup",
+      "Value": "SmogonApp"
+    }
+  }
+}

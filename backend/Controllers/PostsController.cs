@@ -18,7 +18,8 @@ namespace Pokemon_Forum_API.Controllers
     [Route("/posts")]
     public class PostsController : ControllerBase
     {
-        string connectionString = Utils.ConnectionString;
+        //string connectionString = Utils.ConnectionString;
+        string connectionString = Tools.Tools.connectionString;
         PostService postService = new PostService();
 
         public PostsController(){}

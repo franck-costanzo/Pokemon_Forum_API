@@ -1,21 +1,16 @@
-﻿using Microsoft.IdentityModel.Tokens;
-using MySql.Data.MySqlClient;
+﻿using Microsoft.Data.SqlClient;
 using Pokemon_Forum_API.DTO.SubForumDTO;
 using Pokemon_Forum_API.Entities;
-using Pokemon_Forum_API.Services;
 using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
+using System.Data;
 using System.Threading.Tasks;
-using utils;
 
 namespace Pokemon_Forum_API.Services
 {
     public class SubForumService
     {
-        string connectionString = Utils.ConnectionString;
+        string connectionString = Tools.Tools.connectionString;
 
         UserService userService = new UserService();
         ForumService forumService = new ForumService();
@@ -32,8 +27,8 @@ namespace Pokemon_Forum_API.Services
             {
                 List<SubForums> subForums = new List<SubForums>();
 
-                using (MySqlConnection conn = new MySqlConnection(connString))
-                using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM subforums", conn))
+                using (SqlConnection conn = new SqlConnection(connString))
+                using (SqlCommand cmd = new SqlCommand("SELECT * FROM subforums", conn))
                 {
                     await conn.OpenAsync();
 
@@ -73,8 +68,8 @@ namespace Pokemon_Forum_API.Services
         {
             try
             {
-                using (MySqlConnection conn = new MySqlConnection(connString))
-                using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM subforums where subforum_id=@subforum_id", conn))
+                using (SqlConnection conn = new SqlConnection(connString))
+                using (SqlCommand cmd = new SqlCommand("SELECT * FROM subforums where subforum_id=@subforum_id", conn))
                 {
                     await conn.OpenAsync();
                     cmd.Parameters.AddWithValue("@subForum_id", _id);
@@ -121,15 +116,15 @@ namespace Pokemon_Forum_API.Services
                 string sqlQuery = "INSERT INTO subforums (name, description, forum_id) " +
                                                    "VALUES (@name, @description, @forum_id);";
 
-                using (MySqlConnection conn = new MySqlConnection(connString))
+                using (SqlConnection conn = new SqlConnection(connString))
                 {
                     await conn.OpenAsync();
-                    using (MySqlCommand cmd = new MySqlCommand(sqlQuery, conn))
+                    using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
                     {
 
-                        cmd.Parameters.Add("@name", MySqlDbType.VarChar).Value = subForum.name;
-                        cmd.Parameters.Add("@description", MySqlDbType.VarChar).Value = subForum.description;
-                        cmd.Parameters.Add("@forum_id", MySqlDbType.Int32).Value = subForum.forum_id;
+                        cmd.Parameters.Add("@name", SqlDbType.VarChar).Value = subForum.name;
+                        cmd.Parameters.Add("@description", SqlDbType.VarChar).Value = subForum.description;
+                        cmd.Parameters.Add("@forum_id", SqlDbType.Int).Value = subForum.forum_id;
 
                         await cmd.ExecuteNonQueryAsync();
                     }
@@ -160,14 +155,14 @@ namespace Pokemon_Forum_API.Services
                                                       " description =  @description," +
                                                       " forum_id = @forum_id " +
                                                       " WHERE subforum_id = @subforum_id;";
-                    using (MySqlConnection conn = new MySqlConnection(connString))
-                    using (MySqlCommand cmd = new MySqlCommand(sqlQuery, conn))
+                    using (SqlConnection conn = new SqlConnection(connString))
+                    using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
                     {
                         await conn.OpenAsync();
-                        cmd.Parameters.Add("@name", MySqlDbType.VarChar).Value = subForum.name;
-                        cmd.Parameters.Add("@description", MySqlDbType.VarChar).Value = subForum.description;
-                        cmd.Parameters.Add("@forum_id", MySqlDbType.Int32).Value = subForum.forum_id;
-                        cmd.Parameters.Add("@subforum_id", MySqlDbType.Int32).Value = id;
+                        cmd.Parameters.Add("@name", SqlDbType.VarChar).Value = subForum.name;
+                        cmd.Parameters.Add("@description", SqlDbType.VarChar).Value = subForum.description;
+                        cmd.Parameters.Add("@forum_id", SqlDbType.Int).Value = subForum.forum_id;
+                        cmd.Parameters.Add("@subforum_id", SqlDbType.Int).Value = id;
                         await cmd.ExecuteNonQueryAsync();
                         return new SubForums(id, subForum.name, subForum.description, subForum.forum_id);
 
@@ -200,8 +195,8 @@ namespace Pokemon_Forum_API.Services
                 try
                 {
                     string sqlQuery = "DELETE FROM subForums WHERE subForum_id = @subForum_id;";
-                    using (MySqlConnection conn = new MySqlConnection(connString))
-                    using (MySqlCommand cmd = new MySqlCommand(sqlQuery, conn))
+                    using (SqlConnection conn = new SqlConnection(connString))
+                    using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
                     {
 
                         await conn.OpenAsync();
@@ -237,8 +232,8 @@ namespace Pokemon_Forum_API.Services
             {
                 List<Threads> list = new List<Threads>();
                 SubForums subForum = await GetSubForumById(connString, _id);
-                using (MySqlConnection conn = new MySqlConnection(connString))
-                using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM threads where subforum_id=@subforum_id", conn))
+                using (SqlConnection conn = new SqlConnection(connString))
+                using (SqlCommand cmd = new SqlCommand("SELECT * FROM threads where subforum_id=@subforum_id", conn))
                 {
                     await conn.OpenAsync();
                     cmd.Parameters.AddWithValue("@subForum_id", _id);

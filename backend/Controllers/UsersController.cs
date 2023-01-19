@@ -18,7 +18,8 @@ namespace Pokemon_Forum_API.Controllers
     [Route("/users")]
     public class UsersController : ControllerBase
     {
-        string connectionString = Utils.ConnectionString;
+        string connectionString = Tools.Tools.connectionString;
+        //string connectionString = Utils.ConnectionString;
         //string connectionString = @"Server=127.0.0.1;User ID=root;Password=;Database=smogon_forum;";
         UserService userService = new UserService();
 

@@ -1,20 +1,20 @@
-﻿using Microsoft.IdentityModel.Tokens;
-using MySql.Data.MySqlClient;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.IdentityModel.Tokens;
 using Pokemon_Forum_API.DTO.UserDTO;
 using Pokemon_Forum_API.Entities;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using utils;
 
 namespace Pokemon_Forum_API.Services
 {
     public class UserService
     {
-        string connectionString = Utils.ConnectionString;
+        string connectionString = Tools.Tools.connectionString;
         public UserService() {}
 
         /// <summary>
@@ -28,8 +28,8 @@ namespace Pokemon_Forum_API.Services
             List<Users> users = new List<Users>();
             try
             {
-                using (MySqlConnection conn = new MySqlConnection(connString))
-                using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM users", conn))
+                using (SqlConnection conn = new SqlConnection(connString))
+                using (SqlCommand cmd = new SqlCommand("SELECT * FROM users", conn))
                 {
                     await conn.OpenAsync();
 
@@ -72,8 +72,8 @@ namespace Pokemon_Forum_API.Services
 
             try
             {
-                using (MySqlConnection conn = new MySqlConnection(connString))
-                using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM users where user_id=@user_id", conn))
+                using (SqlConnection conn = new SqlConnection(connString))
+                using (SqlCommand cmd = new SqlCommand("SELECT * FROM users where user_id=@user_id", conn))
                 {
                     await conn.OpenAsync();
                     cmd.Parameters.AddWithValue("@user_id", _id);
@@ -119,17 +119,17 @@ namespace Pokemon_Forum_API.Services
 
                 string sqlQuery = "INSERT INTO Users(username, password, email, join_date, role_id, isBanned) VALUES(@username, @password, @email, @join_date, @role_id, @isBanned);";
                 DateTime now = DateTime.Now;
-                using (MySqlConnection conn = new MySqlConnection(connString))
+                using (SqlConnection conn = new SqlConnection(connString))
                 {
                     await conn.OpenAsync();
-                    using (MySqlCommand cmd = new MySqlCommand(sqlQuery, conn))
+                    using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
                     {
-                        cmd.Parameters.Add("@username", MySqlDbType.VarChar).Value = user.username;
-                        cmd.Parameters.Add("@password", MySqlDbType.VarChar).Value = BCrypt.Net.BCrypt.HashPassword(user.password);
-                        cmd.Parameters.Add("@email", MySqlDbType.VarChar).Value = user.email;
-                        cmd.Parameters.Add("@join_date", MySqlDbType.DateTime).Value = now;
-                        cmd.Parameters.Add("@role_id", MySqlDbType.Int32).Value = 3;
-                        cmd.Parameters.Add("@isBanned", MySqlDbType.Bit).Value = false;
+                        cmd.Parameters.Add("@username", SqlDbType.VarChar).Value = user.username;
+                        cmd.Parameters.Add("@password", SqlDbType.VarChar).Value = BCrypt.Net.BCrypt.HashPassword(user.password);
+                        cmd.Parameters.Add("@email", SqlDbType.VarChar).Value = user.email;
+                        cmd.Parameters.Add("@join_date", SqlDbType.DateTime).Value = now;
+                        cmd.Parameters.Add("@role_id", SqlDbType.Int).Value = 3;
+                        cmd.Parameters.Add("@isBanned", SqlDbType.Bit).Value = false;
 
                         await cmd.ExecuteNonQueryAsync();
                     }
@@ -161,14 +161,14 @@ namespace Pokemon_Forum_API.Services
                                                       " password =  @password," +
                                                       " email = @email" +
                                                       " WHERE user_id = @user_id;";
-                    using (MySqlConnection conn = new MySqlConnection(connString))
-                    using (MySqlCommand cmd = new MySqlCommand(sqlQuery, conn))
+                    using (SqlConnection conn = new SqlConnection(connString))
+                    using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
                     {
                         await conn.OpenAsync();
-                        cmd.Parameters.Add("@username", MySqlDbType.VarChar).Value = user.username;
-                        cmd.Parameters.Add("@password", MySqlDbType.VarChar).Value = BCrypt.Net.BCrypt.HashPassword(user.password);
-                        cmd.Parameters.Add("@email", MySqlDbType.VarChar).Value = user.email;
-                        cmd.Parameters.Add("@user_id", MySqlDbType.Int32).Value = id;
+                        cmd.Parameters.Add("@username", SqlDbType.VarChar).Value = user.username;
+                        cmd.Parameters.Add("@password", SqlDbType.VarChar).Value = BCrypt.Net.BCrypt.HashPassword(user.password);
+                        cmd.Parameters.Add("@email", SqlDbType.VarChar).Value = user.email;
+                        cmd.Parameters.Add("@user_id", SqlDbType.Int).Value = id;
                         await cmd.ExecuteNonQueryAsync();
                         return new Users(id, user.username, user.email);
 
@@ -201,8 +201,8 @@ namespace Pokemon_Forum_API.Services
                 try
                 {
                     string sqlQuery = "DELETE FROM users WHERE user_id = @user_id;";
-                    using (MySqlConnection conn = new MySqlConnection(connString))
-                    using (MySqlCommand cmd = new MySqlCommand(sqlQuery, conn))
+                    using (SqlConnection conn = new SqlConnection(connString))
+                    using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
                     {
 
                         await conn.OpenAsync();
@@ -237,8 +237,8 @@ namespace Pokemon_Forum_API.Services
 
             try
             {
-                using (MySqlConnection conn = new MySqlConnection(connString))
-                using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM users where username=@username", conn))
+                using (SqlConnection conn = new SqlConnection(connString))
+                using (SqlCommand cmd = new SqlCommand("SELECT * FROM users where username=@username", conn))
                 {
                     await conn.OpenAsync();
                     cmd.Parameters.AddWithValue("@username", _username);
@@ -309,8 +309,8 @@ namespace Pokemon_Forum_API.Services
                 List<Threads> threads = new List<Threads>();
 
 
-                using (MySqlConnection conn = new MySqlConnection(connString))
-                using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM Threads WHERE user_id = @user_id", conn))
+                using (SqlConnection conn = new SqlConnection(connString))
+                using (SqlCommand cmd = new SqlCommand("SELECT * FROM Threads WHERE user_id = @user_id", conn))
                 {
                     await conn.OpenAsync();
                     cmd.Parameters.AddWithValue("@user_id", user_id);
@@ -351,8 +351,8 @@ namespace Pokemon_Forum_API.Services
 
                 List<Posts> posts = new List<Posts>();
 
-                using (MySqlConnection conn = new MySqlConnection(connString))
-                using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM Posts WHERE user_id = @user_id", conn))
+                using (SqlConnection conn = new SqlConnection(connString))
+                using (SqlCommand cmd = new SqlCommand("SELECT * FROM Posts WHERE user_id = @user_id", conn))
                 {
                     await conn.OpenAsync();
                     cmd.Parameters.AddWithValue("@user_id", user_id);

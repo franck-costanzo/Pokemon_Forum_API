@@ -1,20 +1,16 @@
-﻿using Microsoft.IdentityModel.Tokens;
-using MySql.Data.MySqlClient;
+﻿using Microsoft.Data.SqlClient;
 using Pokemon_Forum_API.DTO.RoleDTO;
 using Pokemon_Forum_API.Entities;
 using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
+using System.Data;
 using System.Threading.Tasks;
-using utils;
 
 namespace Pokemon_Forum_API.Services
 {
     public class RoleService
     {
-        string connectionString = Utils.ConnectionString;
+        string connectionString = Tools.Tools.connectionString;
         public RoleService() {}
 
         /// <summary>
@@ -28,8 +24,8 @@ namespace Pokemon_Forum_API.Services
             {
                 List<Roles> roles = new List<Roles>();
             
-                using (MySqlConnection conn = new MySqlConnection(connString))
-                using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM roles", conn))
+                using (SqlConnection conn = new SqlConnection(connString))
+                using (SqlCommand cmd = new SqlCommand("SELECT * FROM roles", conn))
                 {
                     await conn.OpenAsync();
 
@@ -64,8 +60,8 @@ namespace Pokemon_Forum_API.Services
         {
             try
             {
-                using (MySqlConnection conn = new MySqlConnection(connString))
-                using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM roles where role_id=@role_id", conn))
+                using (SqlConnection conn = new SqlConnection(connString))
+                using (SqlCommand cmd = new SqlCommand("SELECT * FROM roles where role_id=@role_id", conn))
                 {
                     await conn.OpenAsync();
                     cmd.Parameters.AddWithValue("@role_id", _id);
@@ -105,13 +101,13 @@ namespace Pokemon_Forum_API.Services
 
                 string sqlQuery = "INSERT INTO Roles(name, description) VALUES(@name, @description);";
                 DateTime now = DateTime.Now;
-                using (MySqlConnection conn = new MySqlConnection(connString))
+                using (SqlConnection conn = new SqlConnection(connString))
                 {
                     await conn.OpenAsync();
-                    using (MySqlCommand cmd = new MySqlCommand(sqlQuery, conn))
+                    using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
                     {
-                        cmd.Parameters.Add("@name", MySqlDbType.VarChar).Value = role.name;
-                        cmd.Parameters.Add("@description", MySqlDbType.VarChar).Value = role.description;
+                        cmd.Parameters.Add("@name", SqlDbType.VarChar).Value = role.name;
+                        cmd.Parameters.Add("@description", SqlDbType.VarChar).Value = role.description;
 
                         await cmd.ExecuteNonQueryAsync();
                     }
@@ -142,13 +138,13 @@ namespace Pokemon_Forum_API.Services
                     string sqlQuery = "UPDATE roles SET name = @name," +
                                                       " description =  @description" +
                                                       " WHERE role_id = @role_id;";
-                    using (MySqlConnection conn = new MySqlConnection(connString))
-                    using (MySqlCommand cmd = new MySqlCommand(sqlQuery, conn))
+                    using (SqlConnection conn = new SqlConnection(connString))
+                    using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
                     {
                         await conn.OpenAsync();
-                        cmd.Parameters.Add("@name", MySqlDbType.VarChar).Value = role.name;
-                        cmd.Parameters.Add("@description", MySqlDbType.VarChar).Value = role.description;
-                        cmd.Parameters.Add("@role_id", MySqlDbType.Int32).Value = id;
+                        cmd.Parameters.Add("@name", SqlDbType.VarChar).Value = role.name;
+                        cmd.Parameters.Add("@description", SqlDbType.VarChar).Value = role.description;
+                        cmd.Parameters.Add("@role_id", SqlDbType.Int).Value = id;
                         await cmd.ExecuteNonQueryAsync();
                         return new Roles(id, role.name, role.description);
 
@@ -181,8 +177,8 @@ namespace Pokemon_Forum_API.Services
                 try
                 {
                     string sqlQuery = "DELETE FROM roles WHERE role_id = @role_id;";
-                    using (MySqlConnection conn = new MySqlConnection(connString))
-                    using (MySqlCommand cmd = new MySqlCommand(sqlQuery, conn))
+                    using (SqlConnection conn = new SqlConnection(connString))
+                    using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
                     {
 
                         await conn.OpenAsync();
@@ -216,8 +212,8 @@ namespace Pokemon_Forum_API.Services
             List<Users> users = new List<Users>();
             try 
             { 
-                using (MySqlConnection conn = new MySqlConnection(connString))
-                using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM users WHERE role_id = @role_id", conn))
+                using (SqlConnection conn = new SqlConnection(connString))
+                using (SqlCommand cmd = new SqlCommand("SELECT * FROM users WHERE role_id = @role_id", conn))
                 {
                     await conn.OpenAsync();
                     cmd.Parameters.AddWithValue("@role_id", role_id);

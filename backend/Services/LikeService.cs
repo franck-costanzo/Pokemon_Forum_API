@@ -1,16 +1,15 @@
-﻿using MySql.Data.MySqlClient;
+﻿using Microsoft.Data.SqlClient;
 using Pokemon_Forum_API.DTO.LikeDTO;
 using Pokemon_Forum_API.Entities;
 using System;
-using System.Collections.Generic;
+using System.Data;
 using System.Threading.Tasks;
-using utils;
 
 namespace Pokemon_Forum_API.Services
 {
     public class LikeService
     {
-        string connectionString = Utils.ConnectionString;
+        string connectionString = Tools.Tools.connectionString;
 
         UserService userService = new UserService();
         PostService postService = new PostService();
@@ -26,8 +25,8 @@ namespace Pokemon_Forum_API.Services
         {
             try
             {
-                using (MySqlConnection conn = new MySqlConnection(connString))
-                using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM likes where like_id=@like_id", conn))
+                using (SqlConnection conn = new SqlConnection(connString))
+                using (SqlCommand cmd = new SqlCommand("SELECT * FROM likes where like_id=@like_id", conn))
                 {
                     await conn.OpenAsync();
                     cmd.Parameters.AddWithValue("@like_id", _id);
@@ -75,14 +74,14 @@ namespace Pokemon_Forum_API.Services
                 string sqlQuery = "INSERT INTO likes (post_id, user_id) " +
                                                    "VALUES (@post_id, @user_id);";
 
-                using (MySqlConnection conn = new MySqlConnection(connString))
+                using (SqlConnection conn = new SqlConnection(connString))
                 {
                     await conn.OpenAsync();
-                    using (MySqlCommand cmd = new MySqlCommand(sqlQuery, conn))
+                    using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
                     {
 
-                        cmd.Parameters.Add("@post_id", MySqlDbType.Int32).Value = like.post_id;
-                        cmd.Parameters.Add("@user_id", MySqlDbType.Int32).Value = like.user_id;
+                        cmd.Parameters.Add("@post_id", SqlDbType.Int).Value = like.post_id;
+                        cmd.Parameters.Add("@user_id", SqlDbType.Int).Value = like.user_id;
 
                         await cmd.ExecuteNonQueryAsync();
                     }
@@ -112,8 +111,8 @@ namespace Pokemon_Forum_API.Services
                 try
                 {
                     string sqlQuery = "DELETE FROM likes WHERE like_id = @like_id;";
-                    using (MySqlConnection conn = new MySqlConnection(connString))
-                    using (MySqlCommand cmd = new MySqlCommand(sqlQuery, conn))
+                    using (SqlConnection conn = new SqlConnection(connString))
+                    using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
                     {
 
                         await conn.OpenAsync();

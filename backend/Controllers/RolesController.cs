@@ -18,7 +18,8 @@ namespace Pokemon_Forum_API.Controllers
     [Route("/roles")]
     public class RolesController : ControllerBase
     {
-        string connectionString = Utils.ConnectionString;
+        //string connectionString = Utils.ConnectionString;
+        string connectionString = Tools.Tools.connectionString;
         RoleService roleService = new RoleService();
 
         public RolesController(){}

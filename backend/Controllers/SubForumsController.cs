@@ -18,7 +18,8 @@ namespace Pokemon_Forum_API.Controllers
     [Route("/subforums")]
     public class SubForumsController : ControllerBase
     {
-        string connectionString = Utils.ConnectionString;
+        //string connectionString = Utils.ConnectionString;
+        string connectionString = Tools.Tools.connectionString;
         SubForumService subForumService = new SubForumService();
 
         public SubForumsController(){}

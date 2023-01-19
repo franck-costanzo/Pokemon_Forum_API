@@ -1,0 +1,8 @@
+DROp TABle [dbo].[BannedUsers]
+drop table [dbo].[Posts]
+drop table [dbo].[Threads]
+drop table [dbo].[SubForums]
+drop table [dbo].[Forums]
+drop table  [dbo].[Topics]
+drop table [dbo].[Users]
+drop table [dbo].[Roles]

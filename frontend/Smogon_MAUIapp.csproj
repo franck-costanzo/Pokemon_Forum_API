@@ -91,10 +91,30 @@
 		<MauiSplashScreen Include="Resources\Images\splash.svg" Color="#6363B0" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+	  <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.25.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Pages\Create.xaml.cs">
+	    <DependentUpon>Create.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Pages\showdown.xaml.cs">
+	    <DependentUpon>showdown.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
 
 
 	<ItemGroup>
+	  <MauiXaml Update="Pages\Create.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Pages\Login.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\showdown.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\Profile.xaml">
@@ -104,5 +124,6 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
+
 
 </Project>

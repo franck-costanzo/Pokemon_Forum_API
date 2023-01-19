@@ -18,7 +18,7 @@ namespace Pokemon_Forum_API.Controllers
     [Route("/bannedusers")]
     public class BannedUsersController : ControllerBase
     {
-        string connectionString = Utils.ConnectionString;
+        string connectionString = Tools.Tools.connectionString;
         BannedUserService bannedUserService = new BannedUserService();
 
         public BannedUsersController(){}

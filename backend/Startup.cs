@@ -32,6 +32,7 @@ namespace Pokemon_Forum_API
             services.AddControllers();
             services.AddHttpContextAccessor();
 
+
             // Add JWT authentication
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>

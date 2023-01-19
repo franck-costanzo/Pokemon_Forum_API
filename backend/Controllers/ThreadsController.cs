@@ -18,7 +18,8 @@ namespace Pokemon_Forum_API.Controllers
     [Route("/threads")]
     public class ThreadsController : ControllerBase
     {
-        string connectionString = Utils.ConnectionString;
+        //string connectionString = Utils.ConnectionString;
+        string connectionString = Tools.Tools.connectionString;
         ThreadService threadService = new ThreadService();
 
         public ThreadsController(){}

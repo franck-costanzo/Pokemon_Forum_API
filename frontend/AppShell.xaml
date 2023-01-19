@@ -14,7 +14,7 @@
             <ShellContent
                 Title="Home"
                 ContentTemplate="{DataTemplate local:Pages.MainPage}"
-                Route="MainPage" />            
+                Route="MainPage"/>
         </Tab>
 
         <Tab Icon="Resources/Images/search.png">

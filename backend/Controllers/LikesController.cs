@@ -18,7 +18,8 @@ namespace Pokemon_Forum_API.Controllers
     [Route("/likes")]
     public class LikesController : ControllerBase
     {
-        string connectionString = Utils.ConnectionString;
+        //string connectionString = Utils.ConnectionString;
+        string connectionString = Tools.Tools.connectionString;
         LikeService likeService = new LikeService();
 
         public LikesController(){}

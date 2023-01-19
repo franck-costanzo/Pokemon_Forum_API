@@ -1,4 +1,7 @@
-﻿namespace Smogon_MAUIapp;
+﻿using Smogon_MAUIapp.Entities;
+using Smogon_MAUIapp.Pages;
+
+namespace Smogon_MAUIapp;
 
 public static class MauiProgram
 {
@@ -15,6 +18,6 @@ public static class MauiProgram
 				fonts.AddFont("Roboto-Bold.ttf", "RobotoBold");
 			});
 
-		return builder.Build();
+        return builder.Build();
 	}
 }

@@ -1,21 +1,16 @@
-﻿using Microsoft.IdentityModel.Tokens;
-using MySql.Data.MySqlClient;
+﻿using Microsoft.Data.SqlClient;
 using Pokemon_Forum_API.DTO.BannedUserDTO;
 using Pokemon_Forum_API.Entities;
 using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
+using System.Data;
 using System.Threading.Tasks;
-using utils;
 
 namespace Pokemon_Forum_API.Services
 {
     public class BannedUserService
     {
-        string connectionString = Utils.ConnectionString;
-
+        string connectionString = Tools.Tools.connectionString;
         UserService userService = new UserService();
         public BannedUserService() { }
 
@@ -30,8 +25,8 @@ namespace Pokemon_Forum_API.Services
             {
                 List<BannedUsers> bannedUsers = new List<BannedUsers>();
 
-                using (MySqlConnection conn = new MySqlConnection(connString))
-                using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM bannedusers", conn))
+                using (SqlConnection conn = new SqlConnection(connString))
+                using (SqlCommand cmd = new SqlCommand("SELECT * FROM bannedusers", conn))
                 {
                     await conn.OpenAsync();
 
@@ -76,8 +71,8 @@ namespace Pokemon_Forum_API.Services
             try
             {
 
-                using (MySqlConnection conn = new MySqlConnection(connString))
-                using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM bannedusers where banned_user_id=@banned_user_id", conn))
+                using (SqlConnection conn = new SqlConnection(connString))
+                using (SqlCommand cmd = new SqlCommand("SELECT * FROM bannedusers where banned_user_id=@banned_user_id", conn))
                 {
                     await conn.OpenAsync();
                     cmd.Parameters.AddWithValue("@banned_user_id", _id);
@@ -126,16 +121,16 @@ namespace Pokemon_Forum_API.Services
                 string sqlQuery = "INSERT INTO BannedUsers (user_id, banned_by_user_id, ban_start_date, ban_end_date, reason) " +
                                                    "VALUES (@user_id, @banned_by_user_id, @ban_start_date, @ban_end_date, @reason);";
                 DateTime now = DateTime.Now;
-                using (MySqlConnection conn = new MySqlConnection(connString))
+                using (SqlConnection conn = new SqlConnection(connString))
                 {
                     await conn.OpenAsync();
-                    using (MySqlCommand cmd = new MySqlCommand(sqlQuery, conn))
+                    using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
                     {
-                        cmd.Parameters.Add("@user_id", MySqlDbType.Int32).Value = bannedUser.user_id;
-                        cmd.Parameters.Add("@banned_by_user_id", MySqlDbType.Int32).Value = bannedUser.banned_by_user_id;
-                        cmd.Parameters.Add("@ban_start_date", MySqlDbType.DateTime).Value = now;
-                        cmd.Parameters.Add("@ban_end_date", MySqlDbType.DateTime).Value = bannedUser.ban_end_date;
-                        cmd.Parameters.Add("@reason", MySqlDbType.VarChar).Value = bannedUser.reason;
+                        cmd.Parameters.Add("@user_id", SqlDbType.Int).Value = bannedUser.user_id;
+                        cmd.Parameters.Add("@banned_by_user_id", SqlDbType.Int).Value = bannedUser.banned_by_user_id;
+                        cmd.Parameters.Add("@ban_start_date", SqlDbType.DateTime).Value = now;
+                        cmd.Parameters.Add("@ban_end_date", SqlDbType.DateTime).Value = bannedUser.ban_end_date;
+                        cmd.Parameters.Add("@reason", SqlDbType.VarChar).Value = bannedUser.reason;
 
                         await cmd.ExecuteNonQueryAsync();
                     }
@@ -170,16 +165,16 @@ namespace Pokemon_Forum_API.Services
                                                       " ban_end_date =  @ban_end_date," +
                                                       " reason =  @reason," +
                                                       " WHERE banned_user_id = @banned_user_id;";
-                    using (MySqlConnection conn = new MySqlConnection(connString))
-                    using (MySqlCommand cmd = new MySqlCommand(sqlQuery, conn))
+                    using (SqlConnection conn = new SqlConnection(connString))
+                    using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
                     {
                         await conn.OpenAsync();
-                        cmd.Parameters.Add("@user_id", MySqlDbType.Int32).Value = bannedUser.user_id;
-                        cmd.Parameters.Add("@banned_by_user_id", MySqlDbType.Int32).Value = bannedUser.banned_by_user_id;
-                        cmd.Parameters.Add("@ban_start_date", MySqlDbType.DateTime).Value = bannedUser.ban_start_date;
-                        cmd.Parameters.Add("@ban_end_date", MySqlDbType.DateTime).Value = bannedUser.ban_end_date;
-                        cmd.Parameters.Add("@reason", MySqlDbType.VarChar).Value = bannedUser.reason;
-                        cmd.Parameters.Add("@banned_user_id", MySqlDbType.Int32).Value = id;
+                        cmd.Parameters.Add("@user_id", SqlDbType.Int).Value = bannedUser.user_id;
+                        cmd.Parameters.Add("@banned_by_user_id", SqlDbType.Int).Value = bannedUser.banned_by_user_id;
+                        cmd.Parameters.Add("@ban_start_date", SqlDbType.DateTime).Value = bannedUser.ban_start_date;
+                        cmd.Parameters.Add("@ban_end_date", SqlDbType.DateTime).Value = bannedUser.ban_end_date;
+                        cmd.Parameters.Add("@reason", SqlDbType.VarChar).Value = bannedUser.reason;
+                        cmd.Parameters.Add("@banned_user_id", SqlDbType.Int).Value = id;
                         await cmd.ExecuteNonQueryAsync();
                         return new BannedUsers(id, bannedUser.user_id, bannedUser.banned_by_user_id,
                             bannedUser.ban_start_date, bannedUser.ban_end_date, bannedUser.reason);
@@ -213,8 +208,8 @@ namespace Pokemon_Forum_API.Services
                 try
                 {
                     string sqlQuery = "DELETE FROM bannedUsers WHERE bannedUser_id = @bannedUser_id;";
-                    using (MySqlConnection conn = new MySqlConnection(connString))
-                    using (MySqlCommand cmd = new MySqlCommand(sqlQuery, conn))
+                    using (SqlConnection conn = new SqlConnection(connString))
+                    using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
                     {
 
                         await conn.OpenAsync();
