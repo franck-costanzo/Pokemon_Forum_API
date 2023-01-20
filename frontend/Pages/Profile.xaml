@@ -2,11 +2,50 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Smogon_MAUIapp.Pages.Profile"
-             Title="Profile">
+             Title="                         Profile">
     <VerticalStackLayout>
-        <Label 
-            Text="Welcome to Profile page!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Label Grid.Row="0" BackgroundColor="#6363B0" HeightRequest="150"/>
+
+
+
+            <Frame Grid.Row="1" Margin="0, -125, 0, 0"
+                   BorderColor="White"
+                   CornerRadius="100"
+                   HeightRequest="150"
+                   WidthRequest="150"
+                   IsClippedToBounds="True"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center">
+                <Border Background="#FFFFFF" WidthRequest="148" HeightRequest="148"
+                        StrokeShape="Ellipse">
+                    <Image Source="Resources/Images/domokun.png"
+                            Aspect="AspectFill"
+                            HeightRequest="148"
+                            WidthRequest="148"/>
+                </Border>                
+            </Frame>
+            <Label Grid.Row ="3" Text="Domo-Kun" 
+                   HorizontalTextAlignment="Center" 
+                   FontSize="30" FontAttributes="Bold"/>
+            <Label Grid.Row="4"/>
+            <Label Grid.Row ="5" Text="Last Posts" TextColor="#094ABA"
+                   HorizontalTextAlignment="Center" 
+                   FontSize="20" FontAttributes="Bold"/>
+            <ListView Grid.Row ="5" Margin="20">
+
+            </ListView>
+        </Grid>
     </VerticalStackLayout>
 </ContentPage>

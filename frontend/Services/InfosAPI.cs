@@ -9,7 +9,7 @@ namespace Smogon_MAUIapp.Services
 {
     public class InfosAPI
     {
-        protected string baseUrl = "https://127.0.0.1:5001";      
+        protected string baseUrl = "https://smogonapi.azurewebsites.net/";
 
     }
 }

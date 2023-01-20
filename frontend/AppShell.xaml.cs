@@ -7,9 +7,11 @@ public partial class AppShell : Shell
 {
     public AppShell()
 	{
-		InitializeComponent();
-        Routing.RegisterRoute("main", typeof(MainPage));
-        Routing.RegisterRoute("search", typeof(Search));
-        Routing.RegisterRoute("profile", typeof(Profile));
+        Routing.RegisterRoute("Home", typeof(MainPage));
+        Routing.RegisterRoute("Search", typeof(Search));
+        Routing.RegisterRoute("Profile", typeof(Profile));
+        Routing.RegisterRoute("ShowDown", typeof(Showdown));
+
+        InitializeComponent();
     }
 }

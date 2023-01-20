@@ -11,28 +11,33 @@
     <TabBar>
 
         <Tab Icon="Resources/navbar/smogon.png">
-            <ShellContent
+            <ShellContent 
                 Title="Home"
-                ContentTemplate="{DataTemplate local:Pages.MainPage}"
-                Route="MainPage"/>
+                ContentTemplate="{DataTemplate local:Pages.MainPage}" 
+                Route="MainPage">
+            </ShellContent>
         </Tab>
 
         <Tab Icon="Resources/Images/search.png">
-            <ShellContent
-            Title="Login"
-            ContentTemplate="{DataTemplate local:Pages.Search}"
-            Route="Login" />
+            <ShellContent 
+                Title="Search"
+                ContentTemplate="{DataTemplate local:Pages.Search}" 
+                Route="Search">
+            </ShellContent>
         </Tab>
 
         <Tab Icon="Resources/Images/snorlax.png">
-            <ShellContent
-                Title="Login"
-                ContentTemplate="{DataTemplate local:Pages.Profile}"
-                Route="Login" />
+            <ShellContent 
+                Title="Profile"
+                ContentTemplate="{DataTemplate local:Pages.Profile}" 
+                Route="Profile" />
         </Tab>
 
         <Tab Icon="Resources/Images/showdown.png">
-
+            <ShellContent 
+                Title="Profile"
+                ContentTemplate="{DataTemplate local:Pages.Showdown}" 
+                Route="Profile" />
         </Tab>
 
     </TabBar>

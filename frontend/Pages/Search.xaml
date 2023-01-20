@@ -2,11 +2,22 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Smogon_MAUIapp.Pages.Search"
-             Title="Search">
+             Title="                        Search">
     <VerticalStackLayout>
-        <Label 
-            Text="Welcome to Search Page!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="1*"/>
+
+            </Grid.ColumnDefinitions>
+            <Entry Grid.Column="0" 
+                    x:Name="searchInput" Placeholder="Search"/>
+            <ImageButton Grid.Column="1" 
+                         Source="Resources/Images/search.png" 
+                         HeightRequest="50" Margin="-20,0,0,0"
+                         HorizontalOptions="Center"
+                         VerticalOptions="Center" />
+        </Grid>
     </VerticalStackLayout>
 </ContentPage>

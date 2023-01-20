@@ -36,8 +36,22 @@ namespace Smogon_MAUIapp.Services
         {
             try
             {
+
+                Dictionary<int, Task<List<Forums>>> taskDictionary = new Dictionary<int, Task<List<Forums>>>();
                 var json = await client.GetStringAsync("topics");
+
                 var topicsList = JsonConvert.DeserializeObject<List<Topics>>(json);
+
+                foreach (var item in topicsList)
+                {
+                    taskDictionary.Add(item.topic_id, Task.Run(() => this.GetForumsByTopicId(item.topic_id)));
+                }
+                Task.WhenAll(taskDictionary.Values).Wait();
+
+                foreach (var topic in topicsList)
+                {
+                    topic.forums = taskDictionary[topic.topic_id].Result;
+                }
 
                 return topicsList;
             }

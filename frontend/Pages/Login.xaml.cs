@@ -9,8 +9,9 @@ public partial class Login : ContentPage
 
     private void LoginUser(object sender, EventArgs e)
 	{
+        //Application.Current.MainPage = new Loading();
         Application.Current.MainPage = new AppShell();
-	}
+    }
 
     private async void PasswordForgottenAsync(object sender, EventArgs e)
     {

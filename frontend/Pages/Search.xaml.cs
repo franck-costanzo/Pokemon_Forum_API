@@ -6,4 +6,14 @@ public partial class Search : ContentPage
 	{
 		InitializeComponent();
 	}
+
+    private void ClickSearch(object sender, EventArgs e)
+    {
+
+    }
+
+    private void ImageButton_Clicked(object sender, EventArgs e)
+    {
+
+    }
 }
