@@ -2,12 +2,34 @@
 using Smogon_MAUIapp.Entities;
 using Smogon_MAUIapp.Services;
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace Smogon_MAUIapp.Pages;
 
 public partial class MainPage : ContentPage
 {
-    List<Topics> topics = new List<Topics>();
+    #region PropertyChanged
+    public event PropertyChangedEventHandler PropertyChanged;
+
+    public void OnPropertyChanged([CallerMemberName] string name = "") =>
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+    #endregion
+
+    private List<Topics> _topics;
+
+    public List<Topics> __topics
+    {
+        get => _topics;
+        set
+        {
+            if (_topics != value)
+            {
+                _topics = value;
+                OnPropertyChanged(); // reports this property
+            }
+        }
+    }
+    private List<Topics> topics = new List<Topics>();
 
     public MainPage()
     {   
