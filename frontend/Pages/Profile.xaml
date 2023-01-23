@@ -46,13 +46,14 @@
                    FontSize="20" FontAttributes="Bold"/>
 
             <ListView ItemsSource="{Binding user.posts}" VerticalScrollBarVisibility="Never"
-                          Grid.Row ="5" 
-                          Margin="20 , 50, 20, 20" MinimumHeightRequest="125"
-                          RowHeight="75" VerticalOptions="EndAndExpand">
+                      SeparatorVisibility="None" SelectionMode="None"
+                      Grid.Row ="5" 
+                      Margin="20 , 50, 20, 20" HasUnevenRows="True"
+                      RowHeight="75" VerticalOptions="EndAndExpand">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <ViewCell>
-                            <Grid>
+                        <ViewCell Tapped="ViewCell_Tapped">
+                            <Grid Margin="0,0,0,10">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="3*" />
                                     <RowDefinition Height="1*" />

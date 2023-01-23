@@ -1,4 +1,5 @@
 using Smogon_MAUIapp.Entities;
+using Smogon_MAUIapp.Tools;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -7,6 +8,8 @@ namespace Smogon_MAUIapp.Pages;
 
 public partial class Profile : ContentPage
 {
+    #region Properties
+
     public Users user
     {
         get => _user;
@@ -20,7 +23,7 @@ public partial class Profile : ContentPage
         }
     }
 
-	private Users _user = new Users(
+    private Users _user = new Users(
         0, "Domo-Kun", "domokun@smogon.io", DateTime.Now, 3, false,
         new List<Posts> {
             new Posts(12, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
@@ -46,17 +49,30 @@ public partial class Profile : ContentPage
                           "a lobortis orci.", DateTime.Now, 25, 0) }
         );
 
-	public Profile()
+    #endregion
+
+    #region Constructor
+
+    public Profile()
 	{
 		InitializeComponent();
         this.BindingContext = this;
     }
 
+    #endregion
+
+    #region Methods
+    private void ViewCell_Tapped(object sender, EventArgs e)
+    {
+
+    }
 
     #region PropertyChanged
     public event PropertyChangedEventHandler PropertyChanged;
 
     public void OnPropertyChanged([CallerMemberName] string name = "") =>
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+    #endregion    
+
     #endregion
 }
