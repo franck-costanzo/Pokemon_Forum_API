@@ -110,6 +110,7 @@ namespace Pokemon_Forum_API.Services
             return null;
         }
 
+
         /// <summary>
         /// Method to create a post
         /// </summary>

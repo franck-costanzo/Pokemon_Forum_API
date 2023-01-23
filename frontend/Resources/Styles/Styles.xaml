@@ -128,6 +128,12 @@
                 </VisualStateGroup>
             </VisualStateGroupList>
         </Setter>
+
+        <Style.Triggers>
+            <EventTrigger Event="Unfocused">
+                <local:UnFocusTriggerAction />
+            </EventTrigger>
+        </Style.Triggers>
     </Style>
 
     <Style TargetType="Frame">
