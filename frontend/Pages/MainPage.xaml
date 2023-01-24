@@ -50,7 +50,7 @@
                                     
                                     <ListView.ItemTemplate>
                                         <DataTemplate>
-                                            <ViewCell>
+                                            <ViewCell Tapped="ViewCell_Tapped">
                                                 <Grid Padding="10">
                                                     <Grid.RowDefinitions>
                                                         <RowDefinition Height="2*" />

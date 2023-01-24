@@ -16,26 +16,36 @@
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
 
-            <Label Grid.Row="0" BackgroundColor="#6363B0" HeightRequest="150"/>
+            <Grid Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" HeightRequest="175"  BackgroundColor="#6363B0"
+                       Text="Profile" FontAttributes="Bold" TextColor="White" FontSize="20"
+                       Padding="20"
+                       HorizontalTextAlignment="Center" VerticalTextAlignment="Start"/>
 
-            <Frame Grid.Row="1" Margin="0, -125, 0, 0"
-                   BorderColor="White"
-                   CornerRadius="100"
-                   HeightRequest="150"
-                   WidthRequest="150"
-                   IsClippedToBounds="True"
-                   HorizontalOptions="Center"
-                   VerticalOptions="Center">
-                <Border Background="#FFFFFF" WidthRequest="148" HeightRequest="148"
-                        StrokeShape="Ellipse">
-                    <Image Source="Resources/Images/domokun.png"
-                            Aspect="AspectFill"
-                            HeightRequest="148"
-                            WidthRequest="148"/>
-                </Border>                
-            </Frame>
+                <Frame Grid.Row="1" Margin="0, -110, 0, 0"
+                       BorderColor="White"
+                       CornerRadius="100"
+                       HeightRequest="150"
+                       WidthRequest="150"
+                       IsClippedToBounds="True"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center">
+                    <Border Background="#FFFFFF" WidthRequest="148" HeightRequest="148"
+                            StrokeShape="Ellipse">
+                        <Image Source="Resources/Images/domokun.png"
+                                Aspect="AspectFill"
+                                HeightRequest="148"
+                                WidthRequest="148"/>
+                    </Border>
+                </Frame>
+            </Grid>
 
             <Label Grid.Row ="3" Text="{Binding user.username}" 
                    HorizontalTextAlignment="Center" 

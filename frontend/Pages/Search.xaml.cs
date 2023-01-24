@@ -1,5 +1,7 @@
+using Microsoft.Maui.Platform;
 using Pokemon_Forum_API.Services;
 using Smogon_MAUIapp.Entities;
+using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
@@ -9,28 +11,16 @@ public partial class Search : ContentPage
 {
     #region Properties
 
-    private List<Posts> _postsList;
-    public List<Posts> postsList
-    {
-        get => postsList;
-        set
-        {
-            if (_postsList != value)
-            {
-                _postsList = value;
-                OnPropertyChanged();
-            }
-        }
-    }
+    private List<Posts> postsList = new List<Posts>();
 
     #endregion
 
     #region Constructor
 
     public Search()
-	{
-		InitializeComponent();
-	}
+    {
+        InitializeComponent();
+    }
 
     #endregion
 
@@ -43,21 +33,55 @@ public partial class Search : ContentPage
 
     private async void Button_Clicked(object sender, EventArgs e)
     {
-        SearchService searchService = new SearchService();
-        if (searchInput.Text.Length == 0)
+        try
+        {
+            searchList.ItemsSource = null;
+#if ANDROID
+            if (Platform.CurrentActivity.CurrentFocus != null)
+                Platform.CurrentActivity.HideKeyboard(Platform.CurrentActivity.CurrentFocus);
+#endif
+            if (searchInput.Text.Length == 0)
+            {
+                throw new ArgumentNullException("Search String is empty");
+            }
+            else
+            {
+                loadingImage.IsVisible = true;
+                pokeball.RelRotateTo(360, 2000);
+                pokeball.Rotation = 10;
+
+                var aTask = Task.Run(async () => {
+                    SearchService searchService = new SearchService();
+                
+                        postsList = await searchService.SearchPosts(searchInput.Text);
+
+                });
+
+                await Task.WhenAll(aTask);
+
+                loadingImage.IsVisible = false;
+                if (postsList != null)
+                {
+                    searchList.ItemsSource = postsList;
+                }
+                else
+                {
+                    throw new InvalidOperationException("There is no result for your search");                    
+                }
+
+            }
+
+        }
+        catch (ArgumentNullException ex) 
         {
             await DisplayAlert("Search Error", "You have to enter text in order to search for posts", "OK");
         }
-        else
+        catch(InvalidOperationException ex)
         {
-            var posts = await searchService.SearchPosts(searchInput.Text);
-            if (posts != null)
-            {
-                searchList.ItemsSource = posts;
-            }
-            
+            await DisplayAlert("Search", "There is no result for your search", "OK");
         }
     }
+
 
     #region PropertyChanged
     public event PropertyChangedEventHandler PropertyChanged;

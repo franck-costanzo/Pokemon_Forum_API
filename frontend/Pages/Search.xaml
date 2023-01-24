@@ -5,6 +5,13 @@
              Title="                        Search">
     <VerticalStackLayout>
 
+        <Label  
+                BackgroundColor="#6363B0"
+                Text="Search" FontAttributes="Bold" TextColor="White" FontSize="20"
+                Padding="15"
+                HorizontalTextAlignment="Center" VerticalTextAlignment="Start" 
+            />
+
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="3*"/>
@@ -15,6 +22,11 @@
                     x:Name="searchInput" Placeholder="Search"/>
             <Button Grid.Column="1" Text="Search" WidthRequest="75" HeightRequest="40" Clicked="Button_Clicked" Margin="0,0, 20,0"/>
         </Grid>
+
+        <StackLayout x:Name="loadingImage" IsVisible="False">
+            <Image x:Name="pokeball" Source="Resources/Images/load.gif" IsAnimationPlaying="True" HeightRequest="100"/>
+            <Label Text="Loading..." HorizontalTextAlignment="Center"/>
+        </StackLayout>
 
         <ListView x:Name="searchList" VerticalScrollBarVisibility="Never"
                       SeparatorVisibility="None" SelectionMode="None"

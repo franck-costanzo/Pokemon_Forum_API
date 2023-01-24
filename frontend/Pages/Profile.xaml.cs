@@ -62,9 +62,9 @@ public partial class Profile : ContentPage
     #endregion
 
     #region Methods
-    private void ViewCell_Tapped(object sender, EventArgs e)
+    private async void ViewCell_Tapped(object sender, EventArgs e)
     {
-
+        await Shell.Current.GoToAsync("//Forum");
     }
 
     #region PropertyChanged

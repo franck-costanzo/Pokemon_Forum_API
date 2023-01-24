@@ -10,34 +10,43 @@
     <!--Main Page-->
     <TabBar>
 
-        <Tab Icon="Resources/navbar/smogon.png">
+        <Tab Icon="Resources/navbar/smogon.png" Shell.NavBarIsVisible="False">
             <ShellContent 
-                Title="Home"
+                NavigationPage.HasNavigationBar="False"
                 ContentTemplate="{DataTemplate local:Pages.MainPage}" 
                 Route="MainPage">
             </ShellContent>
+            <ShellContent
+                NavigationPage.HasNavigationBar="False"
+                ContentTemplate="{DataTemplate local:Pages.Forum}"
+                Route="Forum"/>
+            <ShellContent
+                NavigationPage.HasNavigationBar="False"
+                ContentTemplate="{DataTemplate local:Pages.SubForum}"
+                Route="SubForum"/>
+            <ShellContent
+                NavigationPage.HasNavigationBar="False"
+                ContentTemplate="{DataTemplate local:Pages.Thread}"
+                Route="Thread"/>
         </Tab>
 
-        <Tab Icon="Resources/Images/search.png">
-            <ShellContent 
-                Title="Search"
+        <Tab Icon="Resources/Images/search.png" Shell.NavBarIsVisible="False">
+            <ShellContent
                 ContentTemplate="{DataTemplate local:Pages.Search}" 
                 Route="Search">
             </ShellContent>
         </Tab>
 
-        <Tab Icon="Resources/Images/snorlax.png">
-            <ShellContent 
-                Title="Profile"
+        <Tab Icon="Resources/Images/snorlax.png" Shell.NavBarIsVisible="False">
+            <ShellContent
                 ContentTemplate="{DataTemplate local:Pages.Profile}" 
                 Route="Profile" />
         </Tab>
 
-        <Tab Icon="Resources/Images/showdown.png">
-            <ShellContent 
-                Title="Profile"
+        <Tab Icon="Resources/Images/showdown.png" Shell.NavBarIsVisible="False">
+            <ShellContent
                 ContentTemplate="{DataTemplate local:Pages.Showdown}" 
-                Route="Profile" />
+                Route="Showdown" />
         </Tab>
 
     </TabBar>

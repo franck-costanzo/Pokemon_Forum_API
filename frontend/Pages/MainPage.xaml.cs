@@ -99,6 +99,11 @@ public partial class MainPage : ContentPage
         DisplayAlert("Introduction to Smogon", SmogonIntroduction, "OK");
     }
 
+    private async void ViewCell_Tapped(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync("//Forum");
+    }
+
     #region PropertyChanged
     public event PropertyChangedEventHandler PropertyChanged;
 

@@ -105,6 +105,9 @@
 	  <Compile Update="Pages\Forum.xaml.cs">
 	    <DependentUpon>Forum.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Pages\MainPage.xaml.cs">
+	    <DependentUpon>MainPage.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Pages\showdown.xaml.cs">
 	    <DependentUpon>showdown.xaml</DependentUpon>
 	  </Compile>
@@ -129,6 +132,12 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\Search.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\SubForum.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\Thread.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
