@@ -101,10 +101,17 @@ namespace Smogon_MAUIapp.Services
         /// <returns></returns>
         public async Task<Forums> GetAllSubForumsByForumId(int _id)
         {
-            var json = await client.GetStringAsync($"forums/{_id}/subforums");
-            var topic = JsonConvert.DeserializeObject<Forums>(json);
+            try
+            {
+                var json = await client.GetStringAsync($"forums/{_id}/subforums");
+                var topic = JsonConvert.DeserializeObject<Forums>(json);
 
-            return topic;
+                return topic;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -115,11 +122,19 @@ namespace Smogon_MAUIapp.Services
         /// <returns></returns>
         public async Task<List<Threads>> GetAllThreadsByForumId(int _id)
         {
-            var json = await client.GetStringAsync($"forums/{_id}/threads");
-            var forum = JsonConvert.DeserializeObject<Forums>(json);
-            var threads = forum.threads;
+            try
+            {
+                var json = await client.GetStringAsync($"forums/{_id}/threads");
+                var forum = JsonConvert.DeserializeObject<Forums>(json);
+                var threads = forum.threads;
 
-            return threads;
+                return threads;
+            }
+            catch
+            {
+                return null;
+            }
+            
         }
 
         

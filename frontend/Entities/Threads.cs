@@ -24,7 +24,6 @@ namespace Smogon_MAUIapp.Entities
 
         public int? subforum_id { get; set; }
         public SubForums subforum { get; set; }
-
         public List<Posts> posts { get; set; } = new List<Posts>();
 
         #endregion

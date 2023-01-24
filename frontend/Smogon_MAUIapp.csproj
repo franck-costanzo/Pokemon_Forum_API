@@ -102,6 +102,9 @@
 	  <Compile Update="Pages\Create.xaml.cs">
 	    <DependentUpon>Create.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Pages\CreateThread.xaml.cs">
+	    <DependentUpon>CreateThread.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Pages\Forum.xaml.cs">
 	    <DependentUpon>Forum.xaml</DependentUpon>
 	  </Compile>
@@ -117,6 +120,12 @@
 
 	<ItemGroup>
 	  <MauiXaml Update="Pages\Create.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\CreatePost.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\CreateThread.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\Login.xaml">

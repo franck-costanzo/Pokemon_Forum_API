@@ -9,6 +9,7 @@
     <ScrollView>
         
         <VerticalStackLayout>
+            
             <Frame Margin="20" Background="LightGrey">
                 <StackLayout>
                     <Label Text="Welcome to Smogon!" HorizontalOptions="CenterAndExpand"/>
@@ -31,7 +32,14 @@
                     </Label>
                 </StackLayout>
             </Frame>
-            
+
+            <StackLayout x:Name="loadingImage" 
+                     IsVisible="False" 
+                     VerticalOptions="CenterAndExpand" 
+                     HorizontalOptions="CenterAndExpand">
+                <Label Text="Loading..." HorizontalTextAlignment="Center"/>
+            </StackLayout>
+
             <ListView x:Name="mainPageView"
                       Margin="20" MinimumHeightRequest="1000" HasUnevenRows="True" 
                       VerticalScrollBarVisibility="Never">

@@ -6,7 +6,10 @@
              Shell.NavBarIsVisible="False">
     <VerticalStackLayout>
 
-        <Label x:Name="previousPage" TextColor="Blue" HorizontalOptions="Start">
+        <Label x:Name="previousPage" 
+               TextColor="Blue" FontAttributes="Bold" FontSize="16"
+               HorizontalOptions="Start" Margin="20, 10, 0, 0" 
+               IsVisible="false">
             <Label.GestureRecognizers>
                 <TapGestureRecognizer Tapped="PreviousPageLabel_Tapped"/>
             </Label.GestureRecognizers>
@@ -16,7 +19,6 @@
                      IsVisible="False" 
                      VerticalOptions="CenterAndExpand" 
                      HorizontalOptions="CenterAndExpand">
-            <Image x:Name="pokeball" Source="Resources/Images/load.gif" IsAnimationPlaying="True" HeightRequest="100"/>
             <Label Text="Loading..." HorizontalTextAlignment="Center"/>
         </StackLayout>
 

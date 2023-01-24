@@ -67,8 +67,7 @@ public partial class Profile : ContentPage
         var viewCell = sender as ViewCell;
         Posts post = viewCell.BindingContext as Posts;
         int id = post.post_id;
-        await Navigation.PushAsync(new Thread(id, true));
-        //await Shell.Current.GoToAsync("//Thread/");
+        await Navigation.PushAsync(new Thread(id, true, false));
     }
 
     #region PropertyChanged

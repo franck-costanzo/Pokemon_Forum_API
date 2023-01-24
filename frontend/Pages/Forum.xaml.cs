@@ -8,6 +8,8 @@ public partial class Forum : ContentPage
 {
     #region Properties
 
+    private Forums forum = new Forums();
+
     #endregion
 
     #region Constructor
@@ -23,21 +25,20 @@ public partial class Forum : ContentPage
     #region Methods
     private async void UpdateItemSource(int id)
     {
+
+        loadingImage.IsVisible = true;
         forumTitle.IsVisible= false;
         forumTitle.Text = "";
         subforumView.IsVisible= false;
         subforumView.ItemsSource = null;
         threadsView.IsVisible= false;
         threadsView.ItemsSource = null;
-        loadingImage.IsVisible= true;
         ForumService forumService = new ForumService();
-        Forums forum = new Forums();
+        
         List<Threads> threads = new List<Threads>();
 
         try
         {
-
-
             var aTask = Task.Run(async () => {
 
                 forum = await forumService.GetAllSubForumsByForumId(id);
@@ -53,11 +54,11 @@ public partial class Forum : ContentPage
 
                 if (forum.subforums != null)
                 {                    
-                    subforumView.ItemsSource = forum.subforums;
                     subforumView.IsVisible = true;                    
+                    subforumView.ItemsSource = forum.subforums;
                 }
 
-                var bTask = Task.Run(async () =>
+                /*var bTask = Task.Run(async () =>
                 {
                     threads = await forumService.GetAllThreadsByForumId(id);
                 });
@@ -66,9 +67,9 @@ public partial class Forum : ContentPage
 
                 if (threads != null)
                 {
-                    threadsView.ItemsSource = threads;
                     threadsView.IsVisible = true;
-                }
+                    threadsView.ItemsSource = threads;
+                }*/
 
                 loadingImage.IsVisible = false;
             }
@@ -95,7 +96,23 @@ public partial class Forum : ContentPage
         await Navigation.PushAsync(new MainPage());
     }
 
+
     #endregion
 
+    private async void SubForumTapped(object sender, EventArgs e)
+    {
+        var viewCell = sender as ViewCell;
+        SubForums subforum = viewCell.BindingContext as SubForums;
+        int id = subforum.subforum_id;
+        await Navigation.PushAsync(new SubForum(id));
+    }
 
+
+    private async void ThreadTapped(object sender, EventArgs e)
+    {
+        var viewCell = sender as ViewCell;
+        SubForums subforum = viewCell.BindingContext as SubForums;
+        int id = subforum.subforum_id;
+        await Navigation.PushAsync(new Thread(id, false, true));
+    }
 }
