@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Smogon_MAUIapp.Pages.Showdown"
              Title="                     ShowDown" >
-    <StackLayout>
-    </StackLayout>
+    <ScrollView>
+        <WebView Source="https://pokemonshowdown.com/" />
+    </ScrollView>
 </ContentPage>

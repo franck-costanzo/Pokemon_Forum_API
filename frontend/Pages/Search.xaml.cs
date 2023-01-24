@@ -68,5 +68,4 @@ public partial class Search : ContentPage
 
     #endregion
 
-
 }
