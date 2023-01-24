@@ -1,10 +1,40 @@
-﻿using Smogon_MAUIapp.DTO.ThreadDTO;
+﻿using Newtonsoft.Json;
+using Smogon_MAUIapp.DTO.ThreadDTO;
 using Smogon_MAUIapp.Entities;
 
 namespace Smogon_MAUIapp.Services
 {
     public class ThreadService : InfosAPI
     {
+        #region Properties
+
+        public string url
+        {
+            get
+            {
+                return base.baseUrl;
+            }
+            set
+            {
+                base.baseUrl = value;
+            }
+        }
+
+        private HttpClient client;
+
+        #endregion
+
+
+        #region Constructor
+
+        public ThreadService()
+        {
+            client = new HttpClient { BaseAddress = new Uri(url) };
+        }
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Method to get all threads from DB
@@ -26,7 +56,10 @@ namespace Smogon_MAUIapp.Services
         /// <returns></returns>
         public async Task<Threads> GetThreadById(int _id)
         {
-            return new Threads();
+            var json = await client.GetStringAsync($"threads/{_id}");
+            var thread = JsonConvert.DeserializeObject<Threads>(json);
+
+            return thread;
         }
 
         /// <summary>
@@ -71,10 +104,15 @@ namespace Smogon_MAUIapp.Services
         /// <param name="connString"></param>
         /// <param name="_id"></param>
         /// <returns></returns>
-        public async Task<Threads> GetAllPostsByThreadId(int _id)
+        public async Task<Threads> GetThreadWithPostByThreadId(int _id)
         {
-            return new Threads();
+            var json = await client.GetStringAsync($"threads/{_id}/posts");
+            var thread = JsonConvert.DeserializeObject<Threads>(json);
+
+            return thread;
         }
+
+        #endregion
 
     }
 }

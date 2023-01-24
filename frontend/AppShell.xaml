@@ -8,26 +8,14 @@
 
 
     <!--Main Page-->
-    <TabBar>
+    <TabBar >
 
-        <Tab Icon="Resources/navbar/smogon.png" Shell.NavBarIsVisible="False">
-            <ShellContent 
-                NavigationPage.HasNavigationBar="False"
+        <Tab Icon="Resources/navbar/smogon.png" Shell.NavBarIsVisible="False" >
+            <ShellContent
+                Shell.NavBarIsVisible="False"
                 ContentTemplate="{DataTemplate local:Pages.MainPage}" 
                 Route="MainPage">
             </ShellContent>
-            <ShellContent
-                NavigationPage.HasNavigationBar="False"
-                ContentTemplate="{DataTemplate local:Pages.Forum}"
-                Route="Forum"/>
-            <ShellContent
-                NavigationPage.HasNavigationBar="False"
-                ContentTemplate="{DataTemplate local:Pages.SubForum}"
-                Route="SubForum"/>
-            <ShellContent
-                NavigationPage.HasNavigationBar="False"
-                ContentTemplate="{DataTemplate local:Pages.Thread}"
-                Route="Thread"/>
         </Tab>
 
         <Tab Icon="Resources/Images/search.png" Shell.NavBarIsVisible="False">

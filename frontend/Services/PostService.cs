@@ -1,10 +1,38 @@
-﻿using Smogon_MAUIapp.DTO.PostDTO;
+﻿using Newtonsoft.Json;
+using Smogon_MAUIapp.DTO.PostDTO;
 using Smogon_MAUIapp.Entities;
 
 namespace Smogon_MAUIapp.Services
 {
     public class PostService : InfosAPI
     {
+        #region Properties
+
+        public string url
+        {
+            get
+            {
+                return base.baseUrl;
+            }
+            set
+            {
+                base.baseUrl = value;
+            }
+        }
+
+        private HttpClient client;
+
+        #endregion
+
+
+        #region Constructor
+
+        public PostService()
+        {
+            client = new HttpClient { BaseAddress = new Uri(url) };
+        }
+
+        #endregion
 
         /// <summary>
         /// Method to get all posts from DB
@@ -24,7 +52,10 @@ namespace Smogon_MAUIapp.Services
         /// <returns></returns>
         public async Task<Posts> GetPostById(int _id)
         {
-            return new Posts();
+            var json = await client.GetStringAsync($"posts/{_id}");
+            var post = JsonConvert.DeserializeObject<Posts>(json);
+
+            return post;
         }
 
         /// <summary>

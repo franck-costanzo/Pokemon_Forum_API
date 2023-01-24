@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:Smogon_MAUIapp.Tools"
              x:Class="Smogon_MAUIapp.Pages.MainPage"
-             Title="                        Home">
+             Title="                        Home"
+             Shell.NavBarIsVisible="False">
 
     <ScrollView>
         
@@ -31,7 +32,7 @@
                 </StackLayout>
             </Frame>
             
-            <ListView ItemsSource="{Binding topics}" 
+            <ListView x:Name="mainPageView"
                       Margin="20" MinimumHeightRequest="1000" HasUnevenRows="True" 
                       VerticalScrollBarVisibility="Never">
                 

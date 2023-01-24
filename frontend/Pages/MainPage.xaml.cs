@@ -10,7 +10,7 @@ public partial class MainPage : ContentPage
 {  
     #region Properties
 
-    private List<Topics> _topics = new List<Topics>
+    /*private List<Topics> _topics = new List<Topics>
     {
         new Topics("Sports")
         {
@@ -69,7 +69,7 @@ public partial class MainPage : ContentPage
                 OnPropertyChanged(); // reports this property
             }
         }
-    }
+    }*/
 
     public string SmogonIntroduction = Tools.LinkText.smogonIntroduction;
 
@@ -82,7 +82,7 @@ public partial class MainPage : ContentPage
     public MainPage()
     {   
         InitializeComponent();
-        this.BindingContext = this;
+        ChangeItemSource();
     }
 
     #endregion
@@ -101,7 +101,27 @@ public partial class MainPage : ContentPage
 
     private async void ViewCell_Tapped(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync("//Forum");
+        var viewCell = sender as ViewCell;
+        Forums forum = viewCell.BindingContext as Forums;
+        int id = forum.forum_id;
+        await Navigation.PushAsync(new Forum(id));
+    }
+
+    private async void ChangeItemSource()
+    {
+        TopicService topicService = new TopicService();
+        List<Topics> topics = new List<Topics>();
+        var aTask = Task.Run(async () =>
+        {
+            topics = await topicService.GetAllTopics();
+        });
+
+        await Task.WhenAll(aTask);
+
+        if (topics != null)
+        {
+            mainPageView.ItemsSource = topics;
+        }
     }
 
     #region PropertyChanged

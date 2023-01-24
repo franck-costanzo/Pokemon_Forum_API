@@ -26,13 +26,13 @@ public partial class Profile : ContentPage
     private Users _user = new Users(
         0, "Domo-Kun", "domokun@smogon.io", DateTime.Now, 3, false,
         new List<Posts> {
-            new Posts(12, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
+            new Posts(1, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
                           "Donec fringilla ligula eget odio interdum auctor. " +
                           "Phasellus dignissim metus ut urna vestibulum, nec imperdiet sem auctor. " +
                           "Donec felis est, tincidunt quis libero vel, scelerisque pharetra sem. " +
                           "Cras sed suscipit tortor, quis viverra dolor. Donec malesuada vehicula tempor. " +
                           "Duis consectetur erat nec feugiat vehicula. Aliquam sed maximus turpis, " +
-                          "a lobortis orci.", DateTime.Now, 24, 0),
+                          "a lobortis orci.", DateTime.Now, 1, 0),
             new Posts(13, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
                           "Donec fringilla ligula eget odio interdum auctor. " +
                           "Phasellus dignissim metus ut urna vestibulum, nec imperdiet sem auctor. " +
@@ -64,7 +64,11 @@ public partial class Profile : ContentPage
     #region Methods
     private async void ViewCell_Tapped(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync("//Forum");
+        var viewCell = sender as ViewCell;
+        Posts post = viewCell.BindingContext as Posts;
+        int id = post.post_id;
+        await Navigation.PushAsync(new Thread(id, true));
+        //await Shell.Current.GoToAsync("//Thread/");
     }
 
     #region PropertyChanged

@@ -1,10 +1,37 @@
-﻿using Smogon_MAUIapp.DTO.ForumDTO;
+﻿using Newtonsoft.Json;
+using Smogon_MAUIapp.DTO.ForumDTO;
 using Smogon_MAUIapp.Entities;
 
 namespace Smogon_MAUIapp.Services
 {
     public class ForumService : InfosAPI
     {
+        #region Properties
+
+        public string url
+        {
+            get
+            {
+                return base.baseUrl;
+            }
+            set
+            {
+                base.baseUrl = value;
+            }
+        }
+
+        private HttpClient client;
+
+        #endregion
+
+        #region Constructor
+
+        public ForumService()
+        {
+            client = new HttpClient { BaseAddress = new Uri(url) };
+        }
+
+        #endregion
 
         /// <summary>
         /// Method to get all forums from DB
@@ -23,7 +50,10 @@ namespace Smogon_MAUIapp.Services
         /// <returns></returns>
         public async Task<Forums> GetForumById(int _id)
         {
-            return new Forums();
+            var json = await client.GetStringAsync($"forums/{_id}");
+            var topic = JsonConvert.DeserializeObject<Forums>(json);
+
+            return topic;
 
         }
 
@@ -71,7 +101,10 @@ namespace Smogon_MAUIapp.Services
         /// <returns></returns>
         public async Task<Forums> GetAllSubForumsByForumId(int _id)
         {
-            return new Forums();
+            var json = await client.GetStringAsync($"forums/{_id}/subforums");
+            var topic = JsonConvert.DeserializeObject<Forums>(json);
+
+            return topic;
         }
 
         /// <summary>
@@ -80,9 +113,13 @@ namespace Smogon_MAUIapp.Services
         /// <param name="connString"></param>
         /// <param name="_id"></param>
         /// <returns></returns>
-        public async Task<Forums> GetAllThreadsByForumId(int _id)
+        public async Task<List<Threads>> GetAllThreadsByForumId(int _id)
         {
-            return new Forums();
+            var json = await client.GetStringAsync($"forums/{_id}/threads");
+            var forum = JsonConvert.DeserializeObject<Forums>(json);
+            var threads = forum.threads;
+
+            return threads;
         }
 
         

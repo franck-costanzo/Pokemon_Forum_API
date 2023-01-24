@@ -1,8 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Smogon_MAUIapp.DTO.TopicDTO;
 using Smogon_MAUIapp.Entities;
-using System.Text;
-using System.Text.Json.Serialization;
 
 namespace Smogon_MAUIapp.Services
 {
