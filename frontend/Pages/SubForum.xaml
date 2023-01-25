@@ -5,14 +5,11 @@
              Title="SubForum"
              Shell.NavBarIsVisible="False">
     <VerticalStackLayout>
-        
-        <Label x:Name="previousPage"
-               TextColor="Blue" FontAttributes="Bold" FontSize="16"
-               HorizontalOptions="Start" Margin="20, 10, 0, 0" >
-            <Label.GestureRecognizers>
-                <TapGestureRecognizer Tapped="PreviousPageTapped"/>
-            </Label.GestureRecognizers>
-        </Label>
+
+        <Button x:Name="previousPage" Clicked="PreviousPageClicked"
+                TextColor="Blue" FontAttributes="Bold" FontSize="20"
+                BackgroundColor="Transparent"
+                HorizontalOptions="Start" Margin="20, 15, 0, 0"  />
 
         <StackLayout x:Name="loadingImage" 
                      IsVisible="False" 
@@ -23,11 +20,14 @@
 
         <StackLayout Margin="20" >
 
-            <Button Text="Add a Thread" Clicked="CreateThread"/>
+            <Button HorizontalOptions="End" Text="+ Add a Thread" 
+                    Margin="0, 0, 0, 10"
+                    Clicked="CreateThread" WidthRequest="150"/>            
 
             <Label x:Name="subForumTitle" FontAttributes="Bold"
-                    HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
-                    Background="#6363B0" TextColor="White" HeightRequest="50"/>
+                   FontSize="18"
+                   HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
+                   Background="#8d8dcd" TextColor="White" HeightRequest="50"/>
 
             <ListView RowHeight="75" 
                       x:Name="threadsView" IsVisible="False"
@@ -50,15 +50,16 @@
                                                            Grid.Row="0" Grid.RowSpan="2"/>
 
                                 <Label Text="{Binding title}"
-                                        Margin="10, 0, 20, 0"
-                                        Grid.Row="0" Grid.Column="1"
+                                       FontSize="16"
+                                       Margin="10, 0, 20, 0"
+                                       Grid.Row="0" Grid.Column="1"
                                         FontAttributes="Bold"/>
 
                                 <Label Text="{Binding user_id}"
-                                        Margin="0, -10, 20, 0"
-                                        Grid.Row="1" Grid.Column="1"
-                                        FontAttributes="Italic" TextColor="LightGrey"
-                                        HorizontalTextAlignment="Center"/>
+                                       Margin="0, -10, 20, 0"
+                                       Grid.Row="1" Grid.Column="1"
+                                       FontAttributes="Italic" TextColor="LightGrey"
+                                       HorizontalTextAlignment="Center"/>
                             </Grid>
                         </ViewCell>
                     </DataTemplate>

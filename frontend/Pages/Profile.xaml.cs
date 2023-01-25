@@ -52,11 +52,16 @@ public partial class Profile : ContentPage
     #endregion
 
     #region Constructor
-
     public Profile()
+    {
+        InitializeComponent();
+    }
+    public Profile(int id)
 	{
 		InitializeComponent();
         this.BindingContext = this;
+        postsView.IsVisible = true;
+        lastPosts.IsVisible = true;
     }
 
     #endregion

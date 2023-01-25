@@ -1,4 +1,4 @@
-using Microsoft.Maui.ApplicationModel.Communication;
+﻿using Microsoft.Maui.ApplicationModel.Communication;
 using Smogon_MAUIapp.Entities;
 using Smogon_MAUIapp.Services;
 
@@ -20,6 +20,12 @@ public partial class SubForum : ContentPage
         UpdateItemSource(id);
     }
 
+
+
+    #endregion
+
+    #region Methods
+
     private async void UpdateItemSource(int id)
     {
         subForumTitle.IsVisible = false;
@@ -33,7 +39,7 @@ public partial class SubForum : ContentPage
 
         try
         {
-            
+
 
             var aTask = Task.Run(async () => {
 
@@ -52,7 +58,7 @@ public partial class SubForum : ContentPage
 
                 await Task.WhenAll(alphaTask);
 
-                previousPage.Text = forum.name;
+                previousPage.Text = "← " + forum.name;
                 subForumTitle.Text = subforum.name;
                 subForumTitle.IsVisible = true;
                 this.forumId = subforum.forum_id;
@@ -81,10 +87,7 @@ public partial class SubForum : ContentPage
         }
     }
 
-    #endregion
-
-    #region Methods
-    private async void PreviousPageTapped(object sender, EventArgs e)
+    private async void PreviousPageClicked(object sender, EventArgs e)
     {
         await Navigation.PushAsync(new Forum(forumId));
     }

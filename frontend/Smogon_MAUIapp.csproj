@@ -69,6 +69,7 @@
 	  <None Remove="Resources\Fonts\Roboto-Regular.ttf" />
 	  <None Remove="Resources\Images\chatBub.png" />
 	  <None Remove="Resources\Images\domokun.png" />
+	  <None Remove="Resources\Images\home.png" />
 	  <None Remove="Resources\Images\load.gif" />
 	  <None Remove="Resources\Images\logo.svg" />
 	  <None Remove="Resources\Images\splash.svg" />
@@ -94,6 +95,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <PackageReference Include="Markdig" Version="0.30.4" />
 	  <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
 	  <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.25.1" />
 	</ItemGroup>
@@ -110,6 +112,9 @@
 	  </Compile>
 	  <Compile Update="Pages\MainPage.xaml.cs">
 	    <DependentUpon>MainPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Pages\PokePaste.xaml.cs">
+	    <DependentUpon>PokePaste.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Pages\showdown.xaml.cs">
 	    <DependentUpon>showdown.xaml</DependentUpon>
@@ -132,6 +137,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\Forum.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\PokePaste.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\showdown.xaml">

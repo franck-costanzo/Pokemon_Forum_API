@@ -10,7 +10,7 @@
     <!--Main Page-->
     <TabBar >
 
-        <Tab Icon="Resources/navbar/smogon.png" Shell.NavBarIsVisible="False" >
+        <Tab Icon="Resources/navbar/home.png" Shell.NavBarIsVisible="False" >
             <ShellContent
                 Shell.NavBarIsVisible="False"
                 ContentTemplate="{DataTemplate local:Pages.MainPage}" 

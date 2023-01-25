@@ -91,14 +91,6 @@ public partial class Forum : ContentPage
 
     }
 
-    private async void PreviousPageTapped(object sender, EventArgs e)
-    {
-        await Navigation.PushAsync(new MainPage());
-    }
-
-
-    #endregion
-
     private async void SubForumTapped(object sender, EventArgs e)
     {
         var viewCell = sender as ViewCell;
@@ -115,4 +107,13 @@ public partial class Forum : ContentPage
         int id = subforum.subforum_id;
         await Navigation.PushAsync(new Thread(id, false, true));
     }
+
+    private async void PreviousPageClicked(object sender, EventArgs e)
+    {
+        await Navigation.PushAsync(new MainPage());
+    }
+
+    #endregion
+
+
 }

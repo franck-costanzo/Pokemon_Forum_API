@@ -1,7 +1,6 @@
 using Microsoft.Maui.Platform;
 using Pokemon_Forum_API.Services;
 using Smogon_MAUIapp.Entities;
-using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
@@ -47,8 +46,6 @@ public partial class Search : ContentPage
             else
             {
                 loadingImage.IsVisible = true;
-                pokeball.RelRotateTo(360, 2000);
-                pokeball.Rotation = 10;
 
                 var aTask = Task.Run(async () => {
                     SearchService searchService = new SearchService();

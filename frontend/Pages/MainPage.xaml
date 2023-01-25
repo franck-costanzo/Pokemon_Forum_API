@@ -51,8 +51,9 @@
                             <StackLayout Margin = "0,0,0,30">
 
                                 <Label Text="{Binding name}" FontAttributes="Bold"
+                                       FontSize="18"
                                        HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
-                                       Background="#6363B0" TextColor="White" HeightRequest="50"/>
+                                       Background="#8d8dcd" TextColor="White" HeightRequest="50"/>
 
                                 <ListView ItemsSource="{Binding forums}" RowHeight="75"
                                           VerticalScrollBarVisibility="Never">
@@ -74,6 +75,7 @@
                                                            Grid.Row="0" Grid.RowSpan="2"/>
                                                     
                                                     <Label Text="{Binding name}"
+                                                           FontSize="16"
                                                            Margin="10, 0, 20, 0"
                                                            Grid.Row="0" Grid.Column="1"
                                                            FontAttributes="Bold"/>

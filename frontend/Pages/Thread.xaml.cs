@@ -1,4 +1,4 @@
-using Smogon_MAUIapp.Entities;
+﻿using Smogon_MAUIapp.Entities;
 using Smogon_MAUIapp.Services;
 
 namespace Smogon_MAUIapp.Pages;
@@ -114,7 +114,7 @@ public partial class Thread : ContentPage
 
                     loadingImage.IsVisible = false;
                     previousPage.IsVisible = true;
-                    previousPage.Text = thread.forum.name;
+                    previousPage.Text = "← " + thread.forum.name;
                     threadView.IsVisible = true;
                     threadTitle.Text = thread.title;
                     myThread.ItemsSource = thread.posts;
@@ -132,7 +132,7 @@ public partial class Thread : ContentPage
 
                     loadingImage.IsVisible = false;
                     previousPage.IsVisible = true;
-                    previousPage.Text = thread.subforum.name;
+                    previousPage.Text = "← " + thread.subforum.name;
                     threadView.IsVisible = true;
                     threadTitle.Text = thread.title;
                     myThread.ItemsSource = thread.posts;
@@ -154,9 +154,9 @@ public partial class Thread : ContentPage
             }
         }
     }
-    private async void PreviousPageLabel_Tapped(object sender, EventArgs e)
+    private async void PreviousPageClicked(object sender, EventArgs e)
     {
-        if(IsFromForum)
+        if (IsFromForum)
         {
             await Navigation.PushAsync(new Forum(id));
         }
@@ -167,7 +167,12 @@ public partial class Thread : ContentPage
     }
 
 
+
     #endregion
 
-    
+    private async void CreatePost(object sender, EventArgs e)
+    {
+        var content = new CreatePost();
+        await Navigation.PushModalAsync(content);
+    }
 }

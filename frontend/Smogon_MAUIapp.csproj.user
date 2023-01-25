@@ -30,6 +30,9 @@
     <MauiXaml Update="Pages\Forum.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
+    <MauiXaml Update="Pages\PokePaste.xaml">
+      <SubType>Designer</SubType>
+    </MauiXaml>
     <MauiXaml Update="Pages\showdown.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
