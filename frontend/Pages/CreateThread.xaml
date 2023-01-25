@@ -3,10 +3,68 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Smogon_MAUIapp.Pages.CreateThread"
              Title="CreateThreadxaml">
-    <VerticalStackLayout>
-        <Label 
-            Text="Youpi! Thread"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    <ScrollView>
+        <StackLayout>
+            <Label Text="Add a Thread"  FontAttributes="Bold"
+                   FontSize="18"
+                   HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
+                   Background="#8d8dcd" TextColor="White" HeightRequest="50"/>
+
+            <Frame Margin="20" Background="LightGrey">
+                <StackLayout>
+                    <Label Text="If you want to implement teams use :" HorizontalOptions="CenterAndExpand"/>
+
+                    <Label Text="https://pokepast.es/" 
+                           TextColor="Blue" FontSize="16"
+                           HorizontalOptions="CenterAndExpand">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="PokepasteTapped"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+
+                    <Label Text="and don't forget you can use the showdown tab to generate teams you can paste in pokepaste !" 
+                           HorizontalOptions="CenterAndExpand"/>
+                </StackLayout>
+            </Frame>
+
+            <Label Text="Title :" Margin="20, 0"/>
+            <Border Margin="20, 0">
+                <Entry x:Name="titleEntry" Placeholder="Choose a Title" BackgroundColor="Transparent"/>
+            </Border>
+
+
+            <Border Margin="20, 10, 20, 20" MinimumHeightRequest="200" BackgroundColor="#B5B5FB">
+                <StackLayout>                
+                    <StackLayout Orientation="Horizontal" Margin="20,20,20,0">
+                    <Button x:Name="BoldButton" Margin="0" Padding="15"
+                                    Text="B" TextColor="Black" FontAttributes="Bold"
+                                    Clicked="BoldButton_Clicked" 
+                                    Background="LightGrey" CornerRadius="0"/>
+                    <Button x:Name="ItalicButton" Margin="0" Padding="15"
+                                    Text="I  " TextColor="Black" FontAttributes="Italic"                                 
+                                    Clicked="ItalicButton_Clicked"
+                                    Background="LightGrey" CornerRadius="0"/>
+                    <Button x:Name="LinkButton" Margin="0" Padding="15"                              
+                                    Text="Link"  TextColor="Black" FontAttributes="Bold" 
+                                    Clicked="LinkButton_Clicked"
+                                    Background="LightGrey" CornerRadius="0"/>
+                    <Button x:Name="imgButton" Margin="0" Padding="15"                              
+                                    Text="Img"  TextColor="Black" FontAttributes="Bold" 
+                                    Clicked="ImgButton_Clicked"
+                                    Background="LightGrey" CornerRadius="0"/>
+                </StackLayout>
+                    <Border MinimumHeightRequest="400" 
+                            Padding="5"
+                            Margin="5, 20, 5, 5">
+                        <Editor x:Name="MarkdownEditor" Keyboard="Text"
+                                
+                            Placeholder="Enter your response here"/>
+                    </Border>
+                </StackLayout>
+
+            </Border>
+            <Button x:Name="SaveButton" Text="Save" Clicked="SaveButton_Clicked"/>
+                
+        </StackLayout>
+    </ScrollView>
 </ContentPage>

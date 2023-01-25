@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:Tools="clr-namespace:Smogon_MAUIapp.Tools"
              x:Class="Smogon_MAUIapp.Pages.CreatePost"
              Title="CreatePost">
     <ScrollView>
@@ -28,27 +27,35 @@
                 </StackLayout>
             </Frame>
 
-            <StackLayout Orientation="Horizontal" Margin="20,20,20,0">
-                <Button x:Name="BoldButton" Margin="0" Padding="15"
-                                Text="B" TextColor="Black" FontAttributes="Bold"
-                                Clicked="BoldButton_Clicked" 
-                                Background="LightGrey" CornerRadius="0"/>
-                <Button x:Name="ItalicButton" Margin="0" Padding="15"
-                                Text="I  " TextColor="Black" FontAttributes="Italic"                                 
-                                Clicked="ItalicButton_Clicked"
-                                Background="LightGrey" CornerRadius="0"/>
-                <Button x:Name="LinkButton" Margin="0" Padding="15"                              
-                                Text="Link"  TextColor="Black" FontAttributes="Bold" 
-                                Clicked="LinkButton_Clicked"
-                                Background="LightGrey" CornerRadius="0"/>
-                <Button x:Name="imgButton" Margin="0" Padding="15"                              
-                                Text="Img"  TextColor="Black" FontAttributes="Bold" 
-                                Clicked="ImgButton_Clicked"
-                                Background="LightGrey" CornerRadius="0"/>
-            </StackLayout>
-            <Border Margin="20, 0, 20, 20" MinimumHeightRequest="450">
-                <Tools:MarkDownEditor x:Name="MarkdownEditor" Keyboard="Text"
-                    Placeholder="Enter your response here"/>
+            <Border Margin="20, 10, 20, 20" MinimumHeightRequest="200" BackgroundColor="#B5B5FB">
+                <StackLayout>
+                    <StackLayout Orientation="Horizontal" Margin="20,20,20,0">
+                        <Button x:Name="BoldButton" Margin="0" Padding="15"
+                                    Text="B" TextColor="Black" FontAttributes="Bold"
+                                    Clicked="BoldButton_Clicked" 
+                                    Background="LightGrey" CornerRadius="0"/>
+                        <Button x:Name="ItalicButton" Margin="0" Padding="15"
+                                    Text="I  " TextColor="Black" FontAttributes="Italic"                                 
+                                    Clicked="ItalicButton_Clicked"
+                                    Background="LightGrey" CornerRadius="0"/>
+                        <Button x:Name="LinkButton" Margin="0" Padding="15"                              
+                                    Text="Link"  TextColor="Black" FontAttributes="Bold" 
+                                    Clicked="LinkButton_Clicked"
+                                    Background="LightGrey" CornerRadius="0"/>
+                        <Button x:Name="imgButton" Margin="0" Padding="15"                              
+                                    Text="Img"  TextColor="Black" FontAttributes="Bold" 
+                                    Clicked="ImgButton_Clicked"
+                                    Background="LightGrey" CornerRadius="0"/>
+                    </StackLayout>
+                    <Border MinimumHeightRequest="400" 
+                            Padding="5"
+                            Margin="5, 20, 5, 5">
+                        <Editor x:Name="MarkdownEditor" Keyboard="Text"
+                                
+                            Placeholder="Enter your response here"/>
+                    </Border>
+                </StackLayout>
+
             </Border>
             <Button x:Name="SaveButton" Text="Save" Clicked="SaveButton_Clicked"/>
         </StackLayout>

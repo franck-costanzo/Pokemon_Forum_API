@@ -2,24 +2,45 @@ namespace Smogon_MAUIapp.Pages;
 
 public partial class CreatePost : ContentPage
 {
-    public string MarkdownText { get; set; }
-	
+    //TODO:
+    /*
+        - implementation de la methode pour sauvegarder
+        - aggrémenter le postService pour la création du post
+        - rajouter l'id du post et gérer l'id de l'utilisateur qui créé le post
+     */
+
+    #region Constructor
+
     public CreatePost()
 	{
 		InitializeComponent();
     }
 
-    private void SaveButton_Clicked(object sender, EventArgs e)
+    #endregion
+
+    #region Methods
+    private async void SaveButton_Clicked(object sender, EventArgs e)
     {
-        
+        if (String.IsNullOrEmpty(MarkdownEditor.Text))
+        {
+            await DisplayAlert("Post", "You need to write something to post your thread !", "OK");
+        }
+        else if (MarkdownEditor.Text.Length < 50)
+        {
+            await DisplayAlert("Post", "Your thread needs to be at least 50 letters long", "OK");
+        }
+        else
+        {
+            //TODO
+        }
     }
+
     private void BoldButton_Clicked(object sender, EventArgs e)
     {
         int length = MarkdownEditor.SelectionLength;
         int cursor = MarkdownEditor.CursorPosition;
         MarkdownEditor.Text = MarkdownEditor.Text.Insert(cursor, "**");
-
-        MarkdownEditor.Text = MarkdownEditor.Text.Insert(cursor + length +2, "**");
+        MarkdownEditor.Text = MarkdownEditor.Text.Insert(cursor + length + 2, "**");
     }
 
     private void ItalicButton_Clicked(object sender, EventArgs e)
@@ -51,4 +72,6 @@ public partial class CreatePost : ContentPage
     {
         await Navigation.PushModalAsync(new PokePaste());
     }
+
+    #endregion
 }
