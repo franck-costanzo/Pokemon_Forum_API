@@ -104,6 +104,33 @@ namespace Pokemon_Forum_API.Controllers
 
         }
 
+        [HttpPut("avatar/{id}")]
+        public async Task<IActionResult> UpdateUserAvatar(int id, UserDtoUpdateAvatar user)
+        {
+            try
+            {
+                var updatedUser = await userService.UpdateUserAvatar(connectionString, id, user);
+                if (updatedUser.username != null)
+                {
+                    dynamic response = new ExpandoObject();
+                    response.user_id = id;
+                    response.avatar_url = updatedUser.avatar_url;
+                    return Ok(response);
+                }
+                else
+                {
+                    return BadRequest("An error occurred while updating the user's avatar. Please check your request and try again.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("An error occurred while updating the user's avatar. Please check your request and try again.");
+
+            }
+
+
+        }
+
         [HttpDelete("{id}")]
         public async Task<ActionResult<Users>> DeleteUser(int id)
         {

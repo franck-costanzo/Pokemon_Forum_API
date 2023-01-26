@@ -43,9 +43,10 @@ namespace Pokemon_Forum_API.Services
                             string password = reader.GetString(2);
                             string email = reader.GetString(3);
                             DateTime join_date = reader.GetDateTime(4);
-                            int role_id = reader.GetInt32(5);
-                            bool isBanned = reader.GetBoolean(6);
-                            users.Add(new Users(id, username, "Password is encrypted", email, join_date, role_id, isBanned));
+                            string avatar_url = reader.GetString(5);
+                            int role_id = reader.GetInt32(6);
+                            bool isBanned = reader.GetBoolean(7);
+                            users.Add(new Users(id, username, "Password is encrypted", email, join_date, avatar_url,  role_id, isBanned));
                         }
                     }
                 
@@ -88,9 +89,10 @@ namespace Pokemon_Forum_API.Services
                             string password = reader.GetString(2);
                             string email = reader.GetString(3);
                             DateTime join_date = reader.GetDateTime(4);
-                            int role_id = reader.GetInt32(5);
-                            bool isBanned = reader.GetBoolean(6);
-                            return user = new Users(id, username, password, email, join_date, role_id, isBanned);
+                            string avatar_url = reader.GetString(5);
+                            int role_id = reader.GetInt32(6);
+                            bool isBanned = reader.GetBoolean(7);
+                            return user = new Users(id, username, password, email, join_date, avatar_url, role_id, isBanned);
                         }
                     }
 
@@ -187,6 +189,37 @@ namespace Pokemon_Forum_API.Services
         }
 
         /// <summary>
+        /// Update user avatar
+        /// </summary>
+        /// <param name="connString"></param>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public async Task<Users> UpdateUserAvatar(string connString, int id, UserDtoUpdateAvatar user)
+        {
+            
+            try
+            {
+                string sqlQuery = "UPDATE users SET avatar_url = @avatar_url" +
+                                                    " WHERE user_id = @user_id;";
+                using (SqlConnection conn = new SqlConnection(connString))
+                using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
+                {
+                    await conn.OpenAsync();
+                    cmd.Parameters.Add("@avatar_url", SqlDbType.VarChar).Value = user.avatar_url;
+                    cmd.Parameters.Add("@user_id", SqlDbType.Int).Value = id;
+                    await cmd.ExecuteNonQueryAsync();
+                    return new Users(id, user.avatar_url);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+
+        }
+
+        /// <summary>
         /// Method to delete a user by his ID
         /// </summary>
         /// <param name="connString"></param>
@@ -252,12 +285,13 @@ namespace Pokemon_Forum_API.Services
                             string password = reader.GetString(2);
                             string email = reader.GetString(3);
                             DateTime join_date = reader.GetDateTime(4);
-                            int role_id = reader.GetInt32(5);
-                            bool isBanned = reader.GetBoolean(6);
+                            string avatar_url = reader.GetString(5);
+                            int role_id = reader.GetInt32(6);
+                            bool isBanned = reader.GetBoolean(7);
 
                             if (BCrypt.Net.BCrypt.Verify(_password, password))
                             {
-                                user = new Users(id, username, password, email, join_date, role_id, isBanned);
+                                user = new Users(id, username, password, email, join_date, avatar_url, role_id, isBanned);
                             }
                             else
                             {
