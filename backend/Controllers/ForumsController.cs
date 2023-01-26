@@ -59,7 +59,6 @@ namespace Pokemon_Forum_API.Controllers
                     response.name = createdForum.name;
                     response.description = createdForum.description;
                     response.subforums = createdForum.subforums;
-                    response.threads= createdForum.threads;
                     return Ok(response);
                 }
                 else
@@ -86,7 +85,6 @@ namespace Pokemon_Forum_API.Controllers
                     response.name = updatedForum.name;
                     response.description = updatedForum.description;
                     response.subforums = updatedForum.subforums;
-                    response.threads = updatedForum.threads;
                     return Ok(response);
                 }
                 else
@@ -123,17 +121,6 @@ namespace Pokemon_Forum_API.Controllers
         public async Task<ActionResult<List<Threads>>> GetAllSubForumsByForumId(int id)
         {
             var threads = await forumService.GetAllSubForumsByForumId(connectionString, id);
-            if (threads == null)
-            {
-                return NotFound();
-            }
-            return Ok(threads);
-        }
-
-        [HttpGet("{id}/threads")]
-        public async Task<ActionResult<List<Threads>>> GetAllThreadsByForumId(int id)
-        {
-            var threads = await forumService.GetAllThreadsByForumId(connectionString, id);
             if (threads == null)
             {
                 return NotFound();

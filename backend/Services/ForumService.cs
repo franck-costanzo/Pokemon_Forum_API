@@ -253,53 +253,6 @@ namespace Pokemon_Forum_API.Services
             return null;
         }
 
-        /// <summary>
-        /// Method to get one forum by his ID from DB
-        /// </summary>
-        /// <param name="connString"></param>
-        /// <param name="_id"></param>
-        /// <returns></returns>
-        public async Task<Forums> GetAllThreadsByForumId(string connString, int _id)
-        {
-            try
-            {
-                List<Threads> list = new List<Threads>();
-                Forums forum = await GetForumById(connString, _id);
-                using (SqlConnection conn = new SqlConnection(connString))
-                using (SqlCommand cmd = new SqlCommand("SELECT * FROM threads where forum_id=@forum_id", conn))
-                {
-                    await conn.OpenAsync();
-                    cmd.Parameters.AddWithValue("@forum_id", _id);
-
-                    using (var reader = await cmd.ExecuteReaderAsync())
-                    {
-
-                        while (await reader.ReadAsync())
-                        {
-                            int thread_id = reader.GetInt32(0);
-                            string title = reader.GetString(1);
-                            DateTime create_date = reader.GetDateTime(2);
-                            DateTime last_post_date = reader.GetDateTime(3);
-                            int user_id = reader.GetInt32(4);
-                            int? forum_id = reader.GetInt32(5);
-                            int? subforum_id = reader.GetInt32(6);
-                            list.Add(new Threads(thread_id, title, create_date, last_post_date, user_id, forum_id, subforum_id));
-                        }
-                    }
-
-                }
-                forum.threads = list;
-
-                return forum;
-            }
-            catch (Exception ex) 
-            {
-                return null;
-            }
-
-            return null;
-        }
-
         
     }
 }

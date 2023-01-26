@@ -15,7 +15,6 @@ namespace Pokemon_Forum_API.Entities
         public string description { get; set; }
 
         public List<SubForums> subforums { get; set; } = new List<SubForums>();
-        public List<Threads> threads { get; set; } = new List<Threads>();
 
         #endregion
 
