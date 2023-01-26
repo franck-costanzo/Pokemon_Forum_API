@@ -27,7 +27,7 @@ CREATE TABLE Teams (
   link VARCHAR(255) NOT NULL,
   date_created DATE NOT NULL,
   user_id INT NOT NULL,
-  PRIMARY KEY (like_id),
+  PRIMARY KEY (team_id),
   CONSTRAINT FK_Teams_user_id_Users FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE
 );
 
@@ -88,10 +88,14 @@ CREATE TABLE Threads (
   create_date DATE NOT NULL,
   last_post_date DATE,
   user_id INT NOT NULL,
-  subforum_id INT NULL,
+  subforum_id INT NOT NULL,
   PRIMARY KEY (thread_id),
-  CONSTRAINT FK_Threads_user_id_Users FOREIGN KEY (user_id) REFERENCES Users (user_id) ON DELETE CASCADE,
-  CONSTRAINT FK_Threads_subforum_id_SubForums FOREIGN KEY (subforum_id) REFERENCES SubForums (subforum_id) ON DELETE CASCADE
+  CONSTRAINT FK_Threads_user_id_Users 
+  FOREIGN KEY (user_id) 
+  REFERENCES Users (user_id) ON DELETE CASCADE,
+  CONSTRAINT FK_Threads_subforum_id_SubForums 
+  FOREIGN KEY (subforum_id) 
+  REFERENCES SubForums (subforum_id) ON DELETE CASCADE
 );
 
 -- Posts table
@@ -102,8 +106,12 @@ CREATE TABLE Posts (
   thread_id INT NOT NULL,
   user_id INT NOT NULL,
   PRIMARY KEY (post_id),
-  CONSTRAINT FK_Posts_thread_id_Threads FOREIGN KEY (thread_id) REFERENCES Threads(thread_id) ON DELETE CASCADE,
-  CONSTRAINT FK_Posts_user_id_Users FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE NO ACTION
+  CONSTRAINT FK_Posts_thread_id_Threads 
+  FOREIGN KEY (thread_id) 
+  REFERENCES Threads(thread_id) ON DELETE CASCADE,
+  CONSTRAINT FK_Posts_user_id_Users 
+  FOREIGN KEY (user_id) 
+  REFERENCES Users(user_id) ON DELETE NO ACTION
 );
 
 -- Likes table
@@ -112,8 +120,12 @@ CREATE TABLE Likes (
   post_id INT NOT NULL,
   user_id INT NOT NULL,
   PRIMARY KEY (like_id),
-  CONSTRAINT FK_Likes_post_id_Posts FOREIGN KEY (post_id) REFERENCES Posts(post_id) ON DELETE CASCADE,
-  CONSTRAINT FK_Likes_user_id_Users FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE NO ACTION
+  CONSTRAINT FK_Likes_post_id_Posts 
+  FOREIGN KEY (post_id) 
+  REFERENCES Posts(post_id) ON DELETE CASCADE,
+  CONSTRAINT FK_Likes_user_id_Users 
+  FOREIGN KEY (user_id) 
+  REFERENCES Users(user_id) ON DELETE NO ACTION
 );
 
 -- Roles fixtures
@@ -197,51 +209,13 @@ VALUES
 (4, 'Advice on breeding a shiny Charmander', '2022-04-01', '2022-04-01', 4, 3),
 (5, 'Updates on my breeding project', '2022-05-01', '2022-05-01', 5, 4),
 (6, 'Discussion on the best move set for Gyarados', '2022-06-01', '2022-06-01', 6, 5),
-(7, 'Strategies for using specific Pokemon', '2022-07-01', '2022-07-01', 7, 6),
-(8, 'Upcoming tournaments in my area', '2022-08-01', '2022-08-01', 8, 7),
-(9, 'Tournament results and recap', '2022-09-01', '2022-09-01', 9, 8),
-(10, 'Looking for a clan to join', '2022-10-01', '2022-10-01', 10, 9),
-(11, 'Recruiting new members for our clan', '2022-11-01', '2022-11-01', 11, 10),
-(12, 'Team building strategies for beginners', '2022-12-01', '2022-12-01', 12, 11),
-(13, 'Sharing my team for feedback and critique', '2023-01-01', '2023-01-01', 13, 12);
-
--- Posts fixtures
-INSERT INTO Posts (post_id, content, create_date, thread_id, user_id)
-VALUES
-(1, 'Here is my new competitive team. Let me know what you think!', '2022-01-02', 1, 1),
-(2, 'Thanks for the feedback everyone, I made some changes to the team based on your suggestions.', '2022-01-03', 1, 1),
-(3, 'Here is my top performing team, let me know your thoughts.', '2022-02-02', 2, 2),
-(4, 'I've been using this team for a while now and it's been doing great.', '2022-02-03', 2, 2),
-(5, 'The current metagame is heavily focused on fast and powerful Pokemon.', '2022-03-02', 3, 3),
-(6, 'I think the key to success in this metagame is to have a well-rounded team.', '2022-03-03', 3, 3),
-(7, 'I ve had success breeding a shiny Charmander using the Masuda Method.', '2022-04-02', 4, 4),
-(8, 'It took me several months but it was worth it in the end.', '2022-04-03', 4, 4),
-(9, 'I ve had some successes and failures in my breeding project.', '2022-05-02', 5, 5),
-(10, 'I ll be sure to update with any new developments.', '2022-05-03', 5, 5),
-(11, 'I ve found that a physical move set with Waterfall and Stone Edge is the most effective for Gyarados.', '2022-06-02', 6, 6),
-(12, 'What do you guys think about using a mixed move set instead?', '2022-06-03', 6, 6),
-(13, 'In this thread, I ll be sharing strategies for using specific Pokemon.', '2022-07-02', 7, 7),
-(14, 'For example, using a Choice Band on a Scizor can be very effective.', '2022-07-03', 7, 7),
-(15, 'There are several upcoming tournaments in my area, anyone interested in joining?', '2022-08-02', 8, 8),
-(16, 'Here are the results and a recap of the last tournament I participated in.', '2022-09-02', 9, 9),
-(17, 'I ve been looking for a clan to join, any recommendations?', '2022-10-02', 10, 10),
-(18, 'We are currently recruiting new members for our clan, come join us!', '2022-11-02', 11, 11),
-(19, 'In this thread, I ll be sharing team building strategies for beginners.', '2022-12-02', 12, 12),
-(20, 'I ll also be sharing my team for feedback and critique.', '2023-01-02', 13, 13);
-
--- Likes fixtures
-INSERT INTO Likes (like_id, post_id, user_id)
-VALUES
-(1, 1, 2),
-(2, 2, 3),
-(3, 3, 4),
-(4, 4, 5),
-(5, 5, 6),
-(6, 6, 7),
-(7, 7, 8),
-(8, 8, 9),
-(9, 9, 10),
-(10, 10, 11);
+(7, 'Strategies for using specific Pokemon', '2022-07-01', '2022-07-01', 3, 6),
+(8, 'Upcoming tournaments in my area', '2022-08-01', '2022-08-01', 4, 7),
+(9, 'Tournament results and recap', '2022-09-01', '2022-09-01', 5, 8),
+(10, 'Looking for a clan to join', '2022-10-01', '2022-10-01', 6, 9),
+(11, 'Recruiting new members for our clan', '2022-11-01', '2022-11-01', 3, 10),
+(12, 'Team building strategies for beginners', '2022-12-01', '2022-12-01', 4, 11),
+(13, 'Sharing my team for feedback and critique', '2023-01-01', '2023-01-01', 5, 12);
 
 -- User_Moderates_SubForum fixtures
 INSERT INTO User_Moderates_SubForum (UMSF_id, user_id, subforum_id)
@@ -258,3 +232,41 @@ VALUES
 (10,2,10),
 (11,2,11),
 (12,2,12);
+
+-- Posts fixtures
+INSERT INTO Posts (post_id, content, create_date, thread_id, user_id)
+VALUES
+(1, 'Here is my new competitive team. Let me know what you think!', '2022-01-02', 1, 1),
+(2, 'Thanks for the feedback everyone, I made some changes to the team based on your suggestions.', '2022-01-03', 1, 1),
+(3, 'Here is my top performing team, let me know your thoughts.', '2022-02-02', 2, 2),
+(4, 'I ve been using this team for a while now and it s been doing great.', '2022-02-03', 2, 2),
+(5, 'The current metagame is heavily focused on fast and powerful Pokemon.', '2022-03-02', 3, 3),
+(6, 'I think the key to success in this metagame is to have a well-rounded team.', '2022-03-03', 3, 3),
+(7, 'I ve had success breeding a shiny Charmander using the Masuda Method.', '2022-04-02', 4, 4),
+(8, 'It took me several months but it was worth it in the end.', '2022-04-03', 4, 4),
+(9, 'I ve had some successes and failures in my breeding project.', '2022-05-02', 5, 5),
+(10, 'I ll be sure to update with any new developments.', '2022-05-03', 5, 5),
+(11, 'I ve found that a physical move set with Waterfall and Stone Edge is the most effective for Gyarados.', '2022-06-02', 6, 6),
+(12, 'What do you guys think about using a mixed move set instead?', '2022-06-03', 6, 6),
+(13, 'In this thread, I ll be sharing strategies for using specific Pokemon.', '2022-07-02', 7, 3),
+(14, 'For example, using a Choice Band on a Scizor can be very effective.', '2022-07-03', 7, 4),
+(15, 'There are several upcoming tournaments in my area, anyone interested in joining?', '2022-08-02', 8, 5),
+(16, 'Here are the results and a recap of the last tournament I participated in.', '2022-09-02', 9, 6),
+(17, 'I ve been looking for a clan to join, any recommendations?', '2022-10-02', 10, 3),
+(18, 'We are currently recruiting new members for our clan, come join us!', '2022-11-02', 11, 4),
+(19, 'In this thread, I ll be sharing team building strategies for beginners.', '2022-12-02', 12, 5),
+(20, 'I ll also be sharing my team for feedback and critique.', '2023-01-02', 13, 6);
+
+-- Likes fixtures
+INSERT INTO Likes (like_id, post_id, user_id)
+VALUES
+(1, 1, 2),
+(2, 2, 3),
+(3, 3, 4),
+(4, 4, 5),
+(5, 5, 6),
+(6, 6, 3),
+(7, 3, 4),
+(8, 2, 5),
+(9, 9, 6),
+(10, 10, 3);
