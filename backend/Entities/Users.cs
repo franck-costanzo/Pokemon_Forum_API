@@ -23,6 +23,8 @@ namespace Pokemon_Forum_API.Entities
         public string avatar_url {get; set; }
         public bool isBanned { get; set; }
         public int role_id { get; set; }
+        public List<Posts> posts { get; set; }
+        public List<Teams> teams { get; set; }
 
         #endregion
 

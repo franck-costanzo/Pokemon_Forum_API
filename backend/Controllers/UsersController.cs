@@ -49,6 +49,21 @@ namespace Pokemon_Forum_API.Controllers
             }
         }
 
+        [HttpGet("{id}/teamslastposts")]
+        public async Task<ActionResult<Users>> GetLast3PostsAndLast5TeamsByUserId(int id)
+        {
+            var user = await userService.GetLast3PostsAndLast5TeamsByUserId(connectionString, id);
+            if (user.username != null)
+            {
+                user.password = "Password is encrypted";
+                return Ok(user);
+            }
+            else
+            {
+                return BadRequest("An error occurred while getting user. Please check your request and try again.");
+            }
+        }
+
         [HttpPost]
         public async Task<ActionResult<Users>> PostUser(UserDtoCreate user)
         {

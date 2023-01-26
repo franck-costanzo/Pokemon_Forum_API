@@ -117,7 +117,7 @@ namespace Pokemon_Forum_API.Services
         /// <param name="connString"></param>
         /// <param name="post"></param>
         /// <returns></returns>
-        public async Task<Posts> CreatePost(string connString, PostDto post)
+        public async Task<Posts> CreatePost(string connString, TeamDto post)
         {
             DateTime now = DateTime.Now;
             try
@@ -156,7 +156,7 @@ namespace Pokemon_Forum_API.Services
         /// <param name="id"></param>
         /// <param name="post"></param>
         /// <returns></returns>
-        public async Task<Posts> UpdatePost(string connString, int id, PostDto post)
+        public async Task<Posts> UpdatePost(string connString, int id, TeamDto post)
         {
             var tempPost = await GetPostById(connectionString, id);
             if (tempPost != null)

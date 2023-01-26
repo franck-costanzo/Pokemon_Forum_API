@@ -412,5 +412,73 @@ namespace Pokemon_Forum_API.Services
             }
         }
 
+        public async Task<Users> GetLast3PostsAndLast5TeamsByUserId(string connString, int user_id)
+        {
+            try
+            {
+                Users user = await GetUserById(connString, user_id);
+
+                List<Teams> teams = new List<Teams>();
+                List<Posts> posts = new List<Posts>();
+
+                using (SqlConnection conn = new SqlConnection(connString))
+                using (SqlCommand cmd = new SqlCommand(
+                                                "SELECT TOP 3 * " +
+                                                "FROM Posts " +
+                                                "WHERE user_id = @user_id" +
+                                                "ORDER BY create_date DESC", conn))
+                {
+                    await conn.OpenAsync();
+                    cmd.Parameters.AddWithValue("@user_id", user_id);
+
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            int post_id = reader.GetInt32(0);
+                            string content = reader.GetString(1);
+                            DateTime create_date = reader.GetDateTime(2);
+                            int thread_id = reader.GetInt32(3);
+                            int userId = reader.GetInt32(4);
+                            posts.Add(new Posts(post_id, content, create_date, thread_id, userId));
+                        }
+                    }
+                }
+                user.posts = posts;
+
+                using (SqlConnection conn = new SqlConnection(connString))
+                using (SqlCommand cmd = new SqlCommand(
+                                                "SELECT TOP 5 *" +
+                                                " FROM Teams " +
+                                                "WHERE user_id = @user_id" +
+                                                "ORDER BY date_created DESC", conn))
+                {
+                    await conn.OpenAsync();
+                    cmd.Parameters.AddWithValue("@user_id", user_id);
+
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            int team_id = reader.GetInt32(0);
+                            string name = reader.GetString(1);
+                            string link = reader.GetString(2);
+                            DateTime create_date = reader.GetDateTime(3);
+                            int teamuser_id = reader.GetInt32(4);
+                            teams.Add(new Teams(team_id, name, link, create_date, teamuser_id));
+                        }
+                    }
+                }
+
+                user.teams = teams;
+
+                return user;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
     }
 }
