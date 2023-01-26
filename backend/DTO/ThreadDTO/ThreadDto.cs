@@ -19,8 +19,7 @@ namespace Pokemon_Forum_API.DTO.ThreadDTO
         [Required]
         public int user_id { get; set; }
 
-        public int? forum_id { get; set; }
-
-        public int? subforum_id { get; set; }
+        [Required]
+        public int subforum_id { get; set; }
     }
 }
