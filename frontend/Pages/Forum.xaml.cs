@@ -31,8 +31,6 @@ public partial class Forum : ContentPage
         forumTitle.Text = "";
         subforumView.IsVisible= false;
         subforumView.ItemsSource = null;
-        threadsView.IsVisible= false;
-        threadsView.ItemsSource = null;
         ForumService forumService = new ForumService();
         
         List<Threads> threads = new List<Threads>();
@@ -57,19 +55,6 @@ public partial class Forum : ContentPage
                     subforumView.IsVisible = true;                    
                     subforumView.ItemsSource = forum.subforums;
                 }
-
-                /*var bTask = Task.Run(async () =>
-                {
-                    threads = await forumService.GetAllThreadsByForumId(id);
-                });
-
-                await Task.WhenAll(bTask);
-
-                if (threads != null)
-                {
-                    threadsView.IsVisible = true;
-                    threadsView.ItemsSource = threads;
-                }*/
 
                 loadingImage.IsVisible = false;
             }

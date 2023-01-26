@@ -28,6 +28,7 @@ public partial class SubForum : ContentPage
 
     private async void UpdateItemSource(int id)
     {
+        postView.IsVisible = true;
         subForumTitle.IsVisible = false;
         subForumTitle.Text = "";
         threadsView.IsVisible = false;
@@ -58,7 +59,7 @@ public partial class SubForum : ContentPage
 
                 await Task.WhenAll(alphaTask);
 
-                previousPage.Text = "← " + forum.name;
+                previousPage.Text = forum.name;
                 subForumTitle.Text = subforum.name;
                 subForumTitle.IsVisible = true;
                 this.forumId = subforum.forum_id;

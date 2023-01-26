@@ -4,13 +4,9 @@
              x:Class="Smogon_MAUIapp.Pages.Login"
              Title="Login">
     <ScrollView>
-        <Grid>
+        <Grid >
             <Grid.RowDefinitions>
-                <RowDefinition Height="1*"></RowDefinition>
-                <RowDefinition Height="1*"></RowDefinition>
-                <RowDefinition Height="1*"></RowDefinition>
-                <RowDefinition Height="1*"></RowDefinition>
-                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="3*"></RowDefinition>
                 <RowDefinition Height="1*"></RowDefinition>
                 <RowDefinition Height="1*"></RowDefinition>
                 <RowDefinition Height="1*"></RowDefinition>
@@ -18,25 +14,45 @@
                 <RowDefinition Height="1*"></RowDefinition>
             </Grid.RowDefinitions>
 
-            <Label Grid.Row="1" HorizontalTextAlignment="Center" FontSize="30"
-                    Text="Log In" FontAttributes="Bold"/>
-            <Entry Grid.Row="2" 
+            <Grid Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" 
+                       HeightRequest="175"  BackgroundColor="#6363B0"
+                       Text="Login" FontAttributes="Bold" 
+                       TextColor="White" FontSize="30"
+                       Padding="20"
+                       HorizontalTextAlignment="Center" VerticalTextAlignment="Start"/>
+
+
+                <Image Grid.Row="1" Source="Resources/Images/banner.png"
+                       BackgroundColor="Transparent"
+                       Margin="0, -100, 0, 0"
+                       HeightRequest="148"
+                       WidthRequest="148"/>
+            </Grid>
+            
+            <Entry Grid.Row="1" 
                     x:Name="usernameInput" Placeholder="Username"
                     MaxLength="20"
                     />
-            <Entry Grid.Row="3" IsPassword="true" 
+            
+            <Entry Grid.Row="2" IsPassword="true" 
                     x:Name="passwordInput" Placeholder="Password"
                     MaxLength="20"
                     />
-            <Button Grid.Row="4" Text="Log in"
+            
+            <Button Grid.Row="3" Text="Log in"
                 Clicked="LoginUser"/>
             
-            <Button Grid.Row="5" Text="Forgot your password ?" 
+            <Button Grid.Row="4" Text="Forgot your password ?" 
                 BorderColor="Transparent" Background="Transparent"
                 FontAttributes="Bold" TextColor="#094ABA"
                 Clicked="PasswordForgottenAsync" />
 
-            <Button Grid.Row="6" Text="Not a member ? Sign up !" 
+            <Button Grid.Row="5" Text="Not a member ? Sign up !" 
                 BorderColor="Transparent" Background="Transparent"
                 FontAttributes="Bold" TextColor="#094ABA"
                 Clicked="CreateAccount" />

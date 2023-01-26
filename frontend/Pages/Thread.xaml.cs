@@ -114,7 +114,7 @@ public partial class Thread : ContentPage
 
                     loadingImage.IsVisible = false;
                     previousPage.IsVisible = true;
-                    previousPage.Text = "← " + thread.forum.name;
+                    previousPage.Text = thread.forum.name;
                     threadView.IsVisible = true;
                     threadTitle.Text = thread.title;
                     myThread.ItemsSource = thread.posts;
@@ -132,7 +132,7 @@ public partial class Thread : ContentPage
 
                     loadingImage.IsVisible = false;
                     previousPage.IsVisible = true;
-                    previousPage.Text = "← " + thread.subforum.name;
+                    previousPage.Text = thread.subforum.name;
                     threadView.IsVisible = true;
                     threadTitle.Text = thread.title;
                     myThread.ItemsSource = thread.posts;

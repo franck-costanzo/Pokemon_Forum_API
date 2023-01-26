@@ -59,6 +59,7 @@ public partial class Search : ContentPage
                 loadingImage.IsVisible = false;
                 if (postsList != null)
                 {
+                    pikachusearch.IsVisible = false;
                     searchList.ItemsSource = postsList;
                 }
                 else

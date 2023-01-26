@@ -2,15 +2,11 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Smogon_MAUIapp.Pages.Create"
-             Title="Login">
+             Title="Create">
     <ScrollView>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="1*"></RowDefinition>
-                <RowDefinition Height="1*"></RowDefinition>
-                <RowDefinition Height="1*"></RowDefinition>
-                <RowDefinition Height="1*"></RowDefinition>
-                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="3*"></RowDefinition>
                 <RowDefinition Height="1*"></RowDefinition>
                 <RowDefinition Height="1*"></RowDefinition>
                 <RowDefinition Height="1*"></RowDefinition>
@@ -18,24 +14,44 @@
                 <RowDefinition Height="1*"></RowDefinition>
             </Grid.RowDefinitions>
 
-            <Label Grid.Row="1" HorizontalTextAlignment="Center" FontSize="30"
-                   Text="Create Account" FontAttributes="Bold"/>
-            <Entry Grid.Row="2" 
+            <Grid Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" 
+                       HeightRequest="175"  BackgroundColor="#6363B0"
+                       Text="Register" FontAttributes="Bold" 
+                       TextColor="White" FontSize="30"
+                       Padding="20"
+                       HorizontalTextAlignment="Center" VerticalTextAlignment="Start"/>
+
+
+                <Image Grid.Row="1" Source="Resources/Images/banner.png"
+                       BackgroundColor="Transparent"
+                       Margin="0, -100, 0, 0"
+                       HeightRequest="148"
+                       WidthRequest="148"/>
+            </Grid>
+            
+            <Entry Grid.Row="1" VerticalTextAlignment="Center"
                    x:Name="usernameInput" Placeholder="Username"
                   MaxLength="20"
                   />
-            <Entry Grid.Row="3" IsPassword="true" 
+            <Entry Grid.Row="2" IsPassword="true" 
+                   VerticalTextAlignment="Center"
                   x:Name="passwordInput" Placeholder="Password"
                   MaxLength="20"
                   />
-            <Entry Grid.Row="4" IsPassword="true" 
-                  x:Name="repeatPasswordinput" Placeholder="Password"
-                  MaxLength="20"
+            <Entry Grid.Row="3" IsPassword="true"
+                   VerticalTextAlignment="Center"
+                   x:Name="repeatPasswordinput" Placeholder="Password"
+                   MaxLength="20"
                   />
-            <Button Grid.Row="5" Text="Log in"
+            <Button Grid.Row="4" Text="Register"
                 Clicked="CreateAccountAsync"/>
             
-            <Button Grid.Row="6" Text="Already a member ? Log in!"
+            <Button Grid.Row="5" Text="Already a member ? Log in!"
                     BorderColor="Transparent" Background="Transparent"
                     FontAttributes="Bold" TextColor="#094ABA"
                     Clicked="ReturnLogin"/>

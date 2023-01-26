@@ -53,12 +53,13 @@
                                     Clicked="ImgButton_Clicked"
                                     Background="LightGrey" CornerRadius="0"/>
                 </StackLayout>
-                    <Border MinimumHeightRequest="400" 
+                    <Border MinimumHeightRequest="180" 
                             Padding="5"
                             Margin="5, 20, 5, 5">
-                        <Editor x:Name="MarkdownEditor" Keyboard="Text"
-                                
-                            Placeholder="Enter your response here"/>
+                        <Editor x:Name="MarkdownEditor" 
+                                Keyboard="Text"
+                                AutoSize="TextChanges"
+                                Placeholder="Enter your response here"/>
                     </Border>
                 </StackLayout>
 
