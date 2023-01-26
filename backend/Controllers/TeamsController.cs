@@ -47,7 +47,7 @@ namespace Pokemon_Forum_API.Controllers
             }
         }
 
-        [HttpTeam]
+        [HttpPost]
         public async Task<ActionResult<Teams>> TeamTeam(TeamDto team)
         {
             try
@@ -105,18 +105,6 @@ namespace Pokemon_Forum_API.Controllers
                 return BadRequest("An error occurred while deleting the team. Please check your request and try again.");
             }
             
-        }
-
-
-        [HttpGet("{id}/likes")]
-        public async Task<ActionResult<List<Threads>>> GetAllThreadsByTeamId(int id)
-        {
-            var threads = await teamService.GetAllLikesByTeamId(connectionString, id);
-            if (threads == null)
-            {
-                return NotFound();
-            }
-            return Ok(threads);
         }
 
 

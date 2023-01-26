@@ -16,7 +16,7 @@ using static Org.BouncyCastle.Math.EC.ECCurve;
 namespace Pokemon_Forum_API.Controllers
 {
     [ApiController]
-    [Route("/posts")]
+    [Route("/umsf")]
     public class UMSFController : ControllerBase
     {
         //string connectionString = Utils.ConnectionString;

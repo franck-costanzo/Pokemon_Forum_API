@@ -227,9 +227,10 @@ namespace Pokemon_Forum_API.Services
                             string password = reader.GetString(2);
                             string email = reader.GetString(3);
                             DateTime join_date = reader.GetDateTime(4);
-                            int _role_id = reader.GetInt32(5);
-                            bool isBanned = reader.GetBoolean(6);
-                            users.Add(new Users(id, username, "Password is encrypted", email, join_date, _role_id, isBanned));
+                            string avatar_url = reader.GetString(5);
+                            int _role_id = reader.GetInt32(6);
+                            bool isBanned = reader.GetBoolean(7);
+                            users.Add(new Users(id, username, password, email, join_date, avatar_url, _role_id, isBanned));
                         }
                     }
                 }

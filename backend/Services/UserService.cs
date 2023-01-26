@@ -29,7 +29,7 @@ namespace Pokemon_Forum_API.Services
             try
             {
                 using (SqlConnection conn = new SqlConnection(connString))
-                using (SqlCommand cmd = new SqlCommand("SELECT * FROM users", conn))
+                using (SqlCommand cmd = new SqlCommand("SELECT * FROM Users", conn))
                 {
                     await conn.OpenAsync();
 
@@ -44,8 +44,8 @@ namespace Pokemon_Forum_API.Services
                             string email = reader.GetString(3);
                             DateTime join_date = reader.GetDateTime(4);
                             string avatar_url = reader.GetString(5);
-                            int role_id = reader.GetInt32(6);
-                            bool isBanned = reader.GetBoolean(7);
+                            bool isBanned = reader.GetBoolean(6);
+                            int role_id = reader.GetInt32(7);                            
                             users.Add(new Users(id, username, "Password is encrypted", email, join_date, avatar_url,  role_id, isBanned));
                         }
                     }
@@ -90,8 +90,8 @@ namespace Pokemon_Forum_API.Services
                             string email = reader.GetString(3);
                             DateTime join_date = reader.GetDateTime(4);
                             string avatar_url = reader.GetString(5);
-                            int role_id = reader.GetInt32(6);
-                            bool isBanned = reader.GetBoolean(7);
+                            bool isBanned = reader.GetBoolean(6);
+                            int role_id = reader.GetInt32(7);
                             return user = new Users(id, username, password, email, join_date, avatar_url, role_id, isBanned);
                         }
                     }
@@ -358,9 +358,8 @@ namespace Pokemon_Forum_API.Services
                             DateTime create_date = reader.GetDateTime(2);
                             DateTime last_post_date = reader.GetDateTime(3);
                             int userId = reader.GetInt32(4);
-                            int? forum_id = reader.IsDBNull(5) ? (int?)null : reader.GetInt32(5);
-                            int? subforum_id = reader.IsDBNull(6) ? (int?)null : reader.GetInt32(6);
-                            threads.Add(new Threads(thread_id, title, create_date, last_post_date, userId, forum_id, subforum_id));
+                            int subforum_id =  reader.GetInt32(5);
+                            threads.Add(new Threads(thread_id, title, create_date, last_post_date, userId, subforum_id));
                         }
                     }
                 }

@@ -29,7 +29,7 @@ namespace Pokemon_Forum_API.Controllers
         public async Task<ActionResult<List<Users>>> GetAllUsers()
         {
             var users = await userService.GetAllUsers(connectionString);
-            if (users.Count == 0)
+            if (users == null)
                 return BadRequest("An error occurred while getting all the users. Please check your request and try again.");
             return Ok(users);
         }

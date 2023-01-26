@@ -43,12 +43,7 @@ namespace Pokemon_Forum_API.Services
                             DateTime create_date = reader.GetDateTime(2);
                             int thread_id = reader.GetInt32(3);
                             int user_id = reader.GetInt32(4);
-                            var thread = new Posts(post_id, content, create_date, thread_id, user_id);
-                            /*var tempPost = await GetAllLikesByPostId(connString, post_id);
-                            thread.likes = tempPost.likes;*/
-                            /*thread.user = await userService.GetUserById(connString, user_id);
-                            thread.thread = await threadService.GetThreadById(connString, thread_id);*/
-                        
+                            var thread = new Posts(post_id, content, create_date, thread_id, user_id);                        
                             posts.Add(thread);
                         }
                     }
