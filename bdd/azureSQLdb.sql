@@ -242,3 +242,19 @@ VALUES
 (8, 8, 9),
 (9, 9, 10),
 (10, 10, 11);
+
+-- User_Moderates_SubForum fixtures
+INSERT INTO User_Moderates_SubForum (UMSF_id, user_id, subforum_id)
+VALUES
+(1,2,1),
+(2,2,2),
+(3,2,3),
+(4,2,4),
+(5,2,5),
+(6,2,6),
+(7,2,7),
+(8,2,8),
+(9,2,9),
+(10,2,10),
+(11,2,11),
+(12,2,12);
