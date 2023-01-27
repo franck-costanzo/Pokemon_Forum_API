@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Pokemon_Forum_API.DTO.PostDTO;
 using Pokemon_Forum_API.DTO.UMSFDTO;
 using Pokemon_Forum_API.Entities;
@@ -63,6 +64,7 @@ namespace Pokemon_Forum_API.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<User_Moderates_SubForum>> PostUMSF(UMSFDto uMSF)
         {
             try
@@ -84,6 +86,7 @@ namespace Pokemon_Forum_API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<ActionResult<User_Moderates_SubForum>> DeleteModeratorForSubforum(int id)
         {
             var deletedPost = await UMSFService.DeleteModeratorForSubforum(connectionString, id);

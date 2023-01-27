@@ -1,11 +1,14 @@
 ﻿using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Pokemon_Forum_API.DTO.UserDTO;
 using Pokemon_Forum_API.Entities;
+using Pokemon_Forum_API.Tools;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IdentityModel.Tokens.Jwt;
+using System.IO;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -43,7 +46,7 @@ namespace Pokemon_Forum_API.Services
                             string password = reader.GetString(2);
                             string email = reader.GetString(3);
                             DateTime join_date = reader.GetDateTime(4);
-                            string avatar_url = reader.GetString(5);
+                            string avatar_url = reader.IsDBNull(5) ? "no avatar" : reader.GetString(5);
                             bool isBanned = reader.GetBoolean(6);
                             int role_id = reader.GetInt32(7);                            
                             users.Add(new Users(id, username, "Password is encrypted", email, join_date, avatar_url,  role_id, isBanned));
@@ -108,6 +111,97 @@ namespace Pokemon_Forum_API.Services
         }
 
         /// <summary>
+        /// Method to get one user by his ID from DB
+        /// </summary>
+        /// <param name="connString"></param>
+        /// <param name="_id"></param>
+        /// <returns></returns>
+        public async Task<Users> GetUserByName(string connString, string name)
+        {
+
+            Users user = new Users();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connString))
+                using (SqlCommand cmd = new SqlCommand("SELECT * FROM users where username=@username", conn))
+                {
+                    await conn.OpenAsync();
+                    cmd.Parameters.AddWithValue("@username", name);
+
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+
+                        while (await reader.ReadAsync())
+                        {
+                            int id = reader.GetInt32(0);
+                            string username = reader.GetString(1);
+                            string password = reader.GetString(2);
+                            string email = reader.GetString(3);
+                            DateTime join_date = reader.GetDateTime(4);
+                            string avatar_url = reader.GetString(5);
+                            bool isBanned = reader.GetBoolean(6);
+                            int role_id = reader.GetInt32(7);
+                            return user = new Users(id, username, password, email, join_date, avatar_url, role_id, isBanned);
+                        }
+                    }
+
+                }
+
+                return user;
+
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+
+
+        }
+
+        public async Task<Users> GetUserByEmail(string connString, string email)
+        {
+
+            Users user = new Users();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connString))
+                using (SqlCommand cmd = new SqlCommand("SELECT * FROM users where email=@email", conn))
+                {
+                    await conn.OpenAsync();
+                    cmd.Parameters.AddWithValue("@email", email);
+
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+
+                        while (await reader.ReadAsync())
+                        {
+                            int id = reader.GetInt32(0);
+                            string username = reader.GetString(1);
+                            string password = reader.GetString(2);
+                            string _email = reader.GetString(3);
+                            DateTime join_date = reader.GetDateTime(4);
+                            string avatar_url = reader.GetString(5);
+                            bool isBanned = reader.GetBoolean(6);
+                            int role_id = reader.GetInt32(7);
+                            return user = new Users(id, username, password, _email, join_date, avatar_url, role_id, isBanned);
+                        }
+                    }
+
+                }
+
+                return user;
+
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+
+        /// <summary>
         /// Method to create a user
         /// </summary>
         /// <param name="connString"></param>
@@ -117,26 +211,36 @@ namespace Pokemon_Forum_API.Services
         {
             try
             {
-                if (!Tools.Tools.IsValidEmail(user.email)) throw new Exception();                   
+                if (!Tools.Tools.IsValidEmail(user.email)) throw new Exception();
+                var checkedUser = await GetUserByName(connString, user.username);
+                var secondCheck = await GetUserByEmail(connString, user.email);
 
-                string sqlQuery = "INSERT INTO Users(username, password, email, join_date, role_id, isBanned) VALUES(@username, @password, @email, @join_date, @role_id, @isBanned);";
-                DateTime now = DateTime.Now;
-                using (SqlConnection conn = new SqlConnection(connString))
+                if (checkedUser.username == null && secondCheck.username == null)
                 {
-                    await conn.OpenAsync();
-                    using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
+                    string sqlQuery = "INSERT INTO Users(username, password, email, join_date, role_id, isBanned) VALUES(@username, @password, @email, @join_date, @role_id, @isBanned);";
+                    DateTime now = DateTime.Now;
+                    using (SqlConnection conn = new SqlConnection(connString))
                     {
-                        cmd.Parameters.Add("@username", SqlDbType.VarChar).Value = user.username;
-                        cmd.Parameters.Add("@password", SqlDbType.VarChar).Value = BCrypt.Net.BCrypt.HashPassword(user.password);
-                        cmd.Parameters.Add("@email", SqlDbType.VarChar).Value = user.email;
-                        cmd.Parameters.Add("@join_date", SqlDbType.DateTime).Value = now;
-                        cmd.Parameters.Add("@role_id", SqlDbType.Int).Value = 3;
-                        cmd.Parameters.Add("@isBanned", SqlDbType.Bit).Value = false;
+                        await conn.OpenAsync();
+                        using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
+                        {
+                            cmd.Parameters.Add("@username", SqlDbType.VarChar).Value = user.username;
+                            cmd.Parameters.Add("@password", SqlDbType.VarChar).Value = BCrypt.Net.BCrypt.HashPassword(user.password);
+                            cmd.Parameters.Add("@email", SqlDbType.VarChar).Value = user.email;
+                            cmd.Parameters.Add("@join_date", SqlDbType.DateTime).Value = now;
+                            cmd.Parameters.Add("@role_id", SqlDbType.Int).Value = 3;
+                            cmd.Parameters.Add("@isBanned", SqlDbType.Bit).Value = false;
 
-                        await cmd.ExecuteNonQueryAsync();
+                            await cmd.ExecuteNonQueryAsync();
+                        }
                     }
+                    return new Users(user.username, user.email, now, 3, false);
                 }
-                return new Users(user.username, user.email, now, 3, false);
+                else
+                {
+                    return null;
+                }
+
             }
             catch (Exception ex)
             {
@@ -285,9 +389,9 @@ namespace Pokemon_Forum_API.Services
                             string password = reader.GetString(2);
                             string email = reader.GetString(3);
                             DateTime join_date = reader.GetDateTime(4);
-                            string avatar_url = reader.GetString(5);
-                            int role_id = reader.GetInt32(6);
-                            bool isBanned = reader.GetBoolean(7);
+                            string avatar_url = reader.IsDBNull(5)? "www.exemple.fr/imagedefouf" : reader.GetString(5);
+                            bool isBanned = reader.GetBoolean(6);
+                            int role_id = reader.GetInt32(7);
 
                             if (BCrypt.Net.BCrypt.Verify(_password, password))
                             {
@@ -303,19 +407,37 @@ namespace Pokemon_Forum_API.Services
 
                 if (user.user_id != 0)
                 {
-                    // create a JWT token
                     var tokenHandler = new JwtSecurityTokenHandler();
-                    var key = Encoding.ASCII.GetBytes("MySecretKeyThatNeedsToBeLonger");  // replace with your secret key
+
+                    //Getting the key from app setting
+                    IConfigurationBuilder builder = new ConfigurationBuilder()
+                        .SetBasePath(Directory.GetCurrentDirectory())
+                        .AddJsonFile("appSettings.json", optional: true, reloadOnChange: true);
+
+                    var configuration = builder.Build();
+
+                    JwtSettings jwtSettings = configuration.GetSection("Jwt").Get<JwtSettings>();
+
+                    var key = Encoding.ASCII.GetBytes(jwtSettings.Key);
+
+                    //Token shaping
                     var tokenDescriptor = new SecurityTokenDescriptor
                     {
-                        Subject = new ClaimsIdentity(new Claim[]
-                        {
-                        new Claim(ClaimTypes.Name, user.user_id.ToString())
-                        }),
-                        Expires = DateTime.UtcNow.AddDays(7),
-                        SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                        Subject = 
+                            new ClaimsIdentity(
+                                new Claim[]
+                                {
+                                    new Claim("User_id", user.user_id.ToString()),
+                                    new Claim("Role_id", user.role_id.ToString())
+                                }
+                            ),
+                            Expires = DateTime.UtcNow.AddDays(90),
+                            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), 
+                                                                        SecurityAlgorithms.HmacSha256Signature)
                     };
+
                     var token = tokenHandler.CreateToken(tokenDescriptor);
+
                     return token;
                 }
                 else
