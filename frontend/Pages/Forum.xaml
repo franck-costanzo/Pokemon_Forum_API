@@ -16,7 +16,7 @@
                          Source="Resources/Images/pikachu.svg" 
                          Clicked="PreviousPageClicked"/>
             <Button Grid.Column="1" Margin="-430, 0,0,0"
-                    Text="Main Page" 
+                    Text="Main Page"
                     TextColor="Blue" FontAttributes="Bold" FontSize="20"
                     BackgroundColor="Transparent"
                     Clicked="PreviousPageClicked"/>

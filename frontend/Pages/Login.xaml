@@ -12,6 +12,7 @@
                 <RowDefinition Height="1*"></RowDefinition>
                 <RowDefinition Height="1*"></RowDefinition>
                 <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
             </Grid.RowDefinitions>
 
             <Grid Grid.Row="0">
@@ -34,12 +35,14 @@
                        WidthRequest="148"/>
             </Grid>
             
-            <Entry Grid.Row="1" 
+            <Entry Grid.Row="1" HeightRequest="50"
                     x:Name="usernameInput" Placeholder="Username"
                     MaxLength="20"
                     />
             
-            <Entry Grid.Row="2" IsPassword="true" 
+            <Entry Grid.Row="2" 
+                   HeightRequest="50"
+                   IsPassword="true" 
                     x:Name="passwordInput" Placeholder="Password"
                     MaxLength="20"
                     />

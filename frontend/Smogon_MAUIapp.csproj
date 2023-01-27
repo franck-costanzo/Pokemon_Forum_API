@@ -67,6 +67,7 @@
 	  <None Remove="Resources\AppIcon\appiconfg.svg" />
 	  <None Remove="Resources\Fonts\Roboto-Bold.ttf" />
 	  <None Remove="Resources\Fonts\Roboto-Regular.ttf" />
+	  <None Remove="Resources\Fonts\Unown.ttf" />
 	  <None Remove="Resources\Images\banner.png" />
 	  <None Remove="Resources\Images\chatBub.png" />
 	  <None Remove="Resources\Images\detectivepikachu.png" />

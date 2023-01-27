@@ -12,6 +12,7 @@
                 <RowDefinition Height="1*"></RowDefinition>
                 <RowDefinition Height="1*"></RowDefinition>
                 <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
             </Grid.RowDefinitions>
 
             <Grid Grid.Row="0">
@@ -35,23 +36,34 @@
             </Grid>
             
             <Entry Grid.Row="1" VerticalTextAlignment="Center"
+                   HeightRequest="50"
                    x:Name="usernameInput" Placeholder="Username"
                   MaxLength="20"
                   />
+            
             <Entry Grid.Row="2" IsPassword="true" 
+                   HeightRequest="50"
                    VerticalTextAlignment="Center"
                   x:Name="passwordInput" Placeholder="Password"
                   MaxLength="20"
                   />
+            
             <Entry Grid.Row="3" IsPassword="true"
+                   HeightRequest="50" 
                    VerticalTextAlignment="Center"
-                   x:Name="repeatPasswordinput" Placeholder="Password"
-                   MaxLength="20"
+                   x:Name="repeatPasswordinput" Placeholder="Password Confirm"
                   />
-            <Button Grid.Row="4" Text="Register"
+
+            <Entry Grid.Row="4" Keyboard="Email"
+                   HeightRequest="50"
+                   VerticalTextAlignment="Center"
+                   x:Name="emailinput" Placeholder="email"
+                  />
+
+            <Button Grid.Row="5" Text="Register"
                 Clicked="CreateAccountAsync"/>
             
-            <Button Grid.Row="5" Text="Already a member ? Log in!"
+            <Button Grid.Row="6" Text="Already a member ? Log in!"
                     BorderColor="Transparent" Background="Transparent"
                     FontAttributes="Bold" TextColor="#094ABA"
                     Clicked="ReturnLogin"/>
