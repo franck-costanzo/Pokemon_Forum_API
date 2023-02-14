@@ -1,4 +1,4 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using MySql.Data.MySqlClient;
 using Pokemon_Forum_API.DTO.ThreadDTO;
 using Pokemon_Forum_API.Entities;
 using System;
@@ -30,8 +30,8 @@ namespace Pokemon_Forum_API.Services
             try
             {
 
-                using (SqlConnection conn = new SqlConnection(connString))
-                using (SqlCommand cmd = new SqlCommand("SELECT * FROM threads", conn))
+                using (MySqlConnection conn = new MySqlConnection(connString))
+                using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM threads", conn))
                 {
                     await conn.OpenAsync();
 
@@ -71,8 +71,8 @@ namespace Pokemon_Forum_API.Services
             try
             {
 
-                using (SqlConnection conn = new SqlConnection(connString))
-                using (SqlCommand cmd = new SqlCommand("SELECT * FROM threads where thread_id=@thread_id", conn))
+                using (MySqlConnection conn = new MySqlConnection(connString))
+                using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM threads where thread_id=@thread_id", conn))
                 {
                     await conn.OpenAsync();
                     cmd.Parameters.AddWithValue("@thread_id", _id);
@@ -120,17 +120,17 @@ namespace Pokemon_Forum_API.Services
                                                    "VALUES (@title, @create_date, @last_post_date," +
                                                              "@user_id,@subforum_id);";
 
-                using (SqlConnection conn = new SqlConnection(connString))
+                using (MySqlConnection conn = new MySqlConnection(connString))
                 {
                     await conn.OpenAsync();
-                    using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
+                    using (MySqlCommand cmd = new MySqlCommand(sqlQuery, conn))
                     {
 
-                        cmd.Parameters.Add("@title", SqlDbType.VarChar).Value = thread.title;
-                        cmd.Parameters.Add("@create_date", SqlDbType.DateTime).Value = now;
-                        cmd.Parameters.Add("@last_post_date", SqlDbType.DateTime).Value = DBNull.Value;
-                        cmd.Parameters.Add("@user_id", SqlDbType.Int).Value = thread.user_id;
-                        cmd.Parameters.Add("@subforum_id", SqlDbType.Int).Value = thread.subforum_id;
+                        cmd.Parameters.Add("@title", MySqlDbType.VarChar).Value = thread.title;
+                        cmd.Parameters.Add("@create_date", MySqlDbType.DateTime).Value = now;
+                        cmd.Parameters.Add("@last_post_date", MySqlDbType.DateTime).Value = DBNull.Value;
+                        cmd.Parameters.Add("@user_id", MySqlDbType.Int32).Value = thread.user_id;
+                        cmd.Parameters.Add("@subforum_id", MySqlDbType.Int32).Value = thread.subforum_id;
 
                         await cmd.ExecuteNonQueryAsync();
                     }
@@ -164,16 +164,16 @@ namespace Pokemon_Forum_API.Services
                                                       " user_id = @user_id, " +
                                                       " subforum_id = @subforum_id " +
                                                       " WHERE thread_id = @thread_id;";
-                    using (SqlConnection conn = new SqlConnection(connString))
-                    using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
+                    using (MySqlConnection conn = new MySqlConnection(connString))
+                    using (MySqlCommand cmd = new MySqlCommand(sqlQuery, conn))
                     {
                         await conn.OpenAsync();
-                        cmd.Parameters.Add("@title", SqlDbType.VarChar).Value = thread.title;
-                        cmd.Parameters.Add("@create_date", SqlDbType.DateTime).Value = thread.create_date;
-                        cmd.Parameters.Add("@last_post_date", SqlDbType.DateTime).Value = thread.last_post_date;
-                        cmd.Parameters.Add("@user_id", SqlDbType.Int).Value = thread.user_id;
-                        cmd.Parameters.Add("@subforum_id", SqlDbType.Int).Value = thread.subforum_id;
-                        cmd.Parameters.Add("@thread_id", SqlDbType.Int).Value = id;
+                        cmd.Parameters.Add("@title", MySqlDbType.VarChar).Value = thread.title;
+                        cmd.Parameters.Add("@create_date", MySqlDbType.DateTime).Value = thread.create_date;
+                        cmd.Parameters.Add("@last_post_date", MySqlDbType.DateTime).Value = thread.last_post_date;
+                        cmd.Parameters.Add("@user_id", MySqlDbType.Int32).Value = thread.user_id;
+                        cmd.Parameters.Add("@subforum_id", MySqlDbType.Int32).Value = thread.subforum_id;
+                        cmd.Parameters.Add("@thread_id", MySqlDbType.Int32).Value = id;
                         await cmd.ExecuteNonQueryAsync();
                         return new Threads(id, thread.title, thread.create_date, thread.last_post_date,
                                                 thread.user_id, thread.subforum_id);
@@ -207,8 +207,8 @@ namespace Pokemon_Forum_API.Services
                 try
                 {
                     string sqlQuery = "DELETE FROM threads WHERE thread_id = @thread_id;";
-                    using (SqlConnection conn = new SqlConnection(connString))
-                    using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
+                    using (MySqlConnection conn = new MySqlConnection(connString))
+                    using (MySqlCommand cmd = new MySqlCommand(sqlQuery, conn))
                     {
 
                         await conn.OpenAsync();
@@ -244,8 +244,8 @@ namespace Pokemon_Forum_API.Services
             {
                 List<Posts> list = new List<Posts>();
                 Threads thread = await GetThreadById(connString, _id);
-                using (SqlConnection conn = new SqlConnection(connString))
-                using (SqlCommand cmd = new SqlCommand("SELECT * FROM posts where thread_id=@thread_id", conn))
+                using (MySqlConnection conn = new MySqlConnection(connString))
+                using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM posts where thread_id=@thread_id", conn))
                 {
                     await conn.OpenAsync();
                     cmd.Parameters.AddWithValue("@thread_id", _id);

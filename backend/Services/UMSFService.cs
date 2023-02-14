@@ -1,5 +1,4 @@
-﻿using Microsoft.Data.SqlClient;
-using Pokemon_Forum_API.DTO.PostDTO;
+﻿using MySql.Data.MySqlClient;
 using Pokemon_Forum_API.DTO.UMSFDTO;
 using Pokemon_Forum_API.Entities;
 using System;
@@ -29,8 +28,8 @@ namespace Pokemon_Forum_API.Services
 
             try
             {
-                using (SqlConnection conn = new SqlConnection(connString))
-                using (SqlCommand cmd = new SqlCommand("SELECT * FROM User_Moderates_SubForum", conn))
+                using (MySqlConnection conn = new MySqlConnection(connString))
+                using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM User_Moderates_SubForum", conn))
                 {
                     await conn.OpenAsync();
 
@@ -65,8 +64,8 @@ namespace Pokemon_Forum_API.Services
         {
             try
             {
-                using (SqlConnection conn = new SqlConnection(connString))
-                using (SqlCommand cmd = new SqlCommand("SELECT * FROM User_Moderates_SubForum where UMSF_id=@UMSF_id", conn))
+                using (MySqlConnection conn = new MySqlConnection(connString))
+                using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM User_Moderates_SubForum where UMSF_id=@UMSF_id", conn))
                 {
                     await conn.OpenAsync();
                     cmd.Parameters.AddWithValue("@UMSF_id", _id);
@@ -106,8 +105,8 @@ namespace Pokemon_Forum_API.Services
             List<Users> users = new List<Users> {};
             try
             {
-                using (SqlConnection conn = new SqlConnection(connString))
-                using (SqlCommand cmd = new SqlCommand("SELECT * FROM User_Moderates_SubForum where subforum_id=@subforum_id", conn))
+                using (MySqlConnection conn = new MySqlConnection(connString))
+                using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM User_Moderates_SubForum where subforum_id=@subforum_id", conn))
                 {
                     await conn.OpenAsync();
                     cmd.Parameters.AddWithValue("@subforum_id", _id);
@@ -144,8 +143,8 @@ namespace Pokemon_Forum_API.Services
             List<SubForums> subForums = new List<SubForums> { };
             try
             {
-                using (SqlConnection conn = new SqlConnection(connString))
-                using (SqlCommand cmd = new SqlCommand("SELECT * FROM User_Moderates_SubForum where user_id=@user_id", conn))
+                using (MySqlConnection conn = new MySqlConnection(connString))
+                using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM User_Moderates_SubForum where user_id=@user_id", conn))
                 {
                     await conn.OpenAsync();
                     cmd.Parameters.AddWithValue("@user_id", _id);
@@ -187,14 +186,14 @@ namespace Pokemon_Forum_API.Services
                 string sqlQuery = "INSERT INTO User_Moderates_SubForum (user_id, subforum_id) " +
                                                    "VALUES (@user_id, @subforum_id);";
 
-                using (SqlConnection conn = new SqlConnection(connString))
+                using (MySqlConnection conn = new MySqlConnection(connString))
                 {
                     await conn.OpenAsync();
-                    using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
+                    using (MySqlCommand cmd = new MySqlCommand(sqlQuery, conn))
                     {
 
-                        cmd.Parameters.Add("@user_id", SqlDbType.Int).Value = post.user_id;
-                        cmd.Parameters.Add("@subforum_id", SqlDbType.Int).Value = post.subforum_id;
+                        cmd.Parameters.Add("@user_id", MySqlDbType.Int32).Value = post.user_id;
+                        cmd.Parameters.Add("@subforum_id", MySqlDbType.Int32).Value = post.subforum_id;
 
                         await cmd.ExecuteNonQueryAsync();
                     }
@@ -223,8 +222,8 @@ namespace Pokemon_Forum_API.Services
                 try
                 {
                     string sqlQuery = "DELETE FROM User_Moderates_SubForum WHERE UMSF_id = @UMSF_id;";
-                    using (SqlConnection conn = new SqlConnection(connString))
-                    using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
+                    using (MySqlConnection conn = new MySqlConnection(connString))
+                    using (MySqlCommand cmd = new MySqlCommand(sqlQuery, conn))
                     {
 
                         await conn.OpenAsync();

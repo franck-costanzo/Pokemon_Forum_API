@@ -1,4 +1,4 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using MySql.Data.MySqlClient;
 using Pokemon_Forum_API.DTO.LikeDTO;
 using Pokemon_Forum_API.Entities;
 using System;
@@ -25,8 +25,8 @@ namespace Pokemon_Forum_API.Services
         {
             try
             {
-                using (SqlConnection conn = new SqlConnection(connString))
-                using (SqlCommand cmd = new SqlCommand("SELECT * FROM likes where like_id=@like_id", conn))
+                using (MySqlConnection conn = new MySqlConnection(connString))
+                using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM likes where like_id=@like_id", conn))
                 {
                     await conn.OpenAsync();
                     cmd.Parameters.AddWithValue("@like_id", _id);
@@ -74,14 +74,14 @@ namespace Pokemon_Forum_API.Services
                 string sqlQuery = "INSERT INTO likes (post_id, user_id) " +
                                                    "VALUES (@post_id, @user_id);";
 
-                using (SqlConnection conn = new SqlConnection(connString))
+                using (MySqlConnection conn = new MySqlConnection(connString))
                 {
                     await conn.OpenAsync();
-                    using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
+                    using (MySqlCommand cmd = new MySqlCommand(sqlQuery, conn))
                     {
 
-                        cmd.Parameters.Add("@post_id", SqlDbType.Int).Value = like.post_id;
-                        cmd.Parameters.Add("@user_id", SqlDbType.Int).Value = like.user_id;
+                        cmd.Parameters.Add("@post_id", MySqlDbType.Int32).Value = like.post_id;
+                        cmd.Parameters.Add("@user_id", MySqlDbType.Int32).Value = like.user_id;
 
                         await cmd.ExecuteNonQueryAsync();
                     }
@@ -111,8 +111,8 @@ namespace Pokemon_Forum_API.Services
                 try
                 {
                     string sqlQuery = "DELETE FROM likes WHERE like_id = @like_id;";
-                    using (SqlConnection conn = new SqlConnection(connString))
-                    using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
+                    using (MySqlConnection conn = new MySqlConnection(connString))
+                    using (MySqlCommand cmd = new MySqlCommand(sqlQuery, conn))
                     {
 
                         await conn.OpenAsync();

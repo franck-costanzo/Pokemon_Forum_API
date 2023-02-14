@@ -1,8 +1,8 @@
-﻿using Microsoft.Data.SqlClient;
-using Pokemon_Forum_API.Entities;
+﻿using Pokemon_Forum_API.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System;
+using MySql.Data.MySqlClient;
 
 namespace Pokemon_Forum_API.Services
 {
@@ -19,8 +19,8 @@ namespace Pokemon_Forum_API.Services
         {
             try
             {
-                using (SqlConnection conn = new SqlConnection(connString))
-                using (SqlCommand cmd = new SqlCommand("SELECT * FROM posts WHERE content LIKE @searchString", conn))
+                using (MySqlConnection conn = new MySqlConnection(connString))
+                using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM posts WHERE content LIKE @searchString", conn))
                 {
                     await conn.OpenAsync();
                     cmd.Parameters.AddWithValue("@searchString", "%" + searchString + "%");

@@ -1,4 +1,4 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using MySql.Data.MySqlClient;
 using Pokemon_Forum_API.DTO.TeamDTO;
 using Pokemon_Forum_API.Entities;
 using System;
@@ -28,8 +28,8 @@ namespace Pokemon_Forum_API.Services
 
             try
             {
-                using (SqlConnection conn = new SqlConnection(connString))
-                using (SqlCommand cmd = new SqlCommand("SELECT * FROM teams", conn))
+                using (MySqlConnection conn = new MySqlConnection(connString))
+                using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM teams", conn))
                 {
                     await conn.OpenAsync();
 
@@ -70,8 +70,8 @@ namespace Pokemon_Forum_API.Services
         {
             try
             {
-                using (SqlConnection conn = new SqlConnection(connString))
-                using (SqlCommand cmd = new SqlCommand("SELECT * FROM teams where team_id=@team_id", conn))
+                using (MySqlConnection conn = new MySqlConnection(connString))
+                using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM teams where team_id=@team_id", conn))
                 {
                     await conn.OpenAsync();
                     cmd.Parameters.AddWithValue("@team_id", _id);
@@ -118,16 +118,16 @@ namespace Pokemon_Forum_API.Services
                 string sqlQuery = "INSERT INTO teams (name, link, date_created, user_id) " +
                                                    "VALUES (@name, @link, @date_created, @user_id);";
 
-                using (SqlConnection conn = new SqlConnection(connString))
+                using (MySqlConnection conn = new MySqlConnection(connString))
                 {
                     await conn.OpenAsync();
-                    using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
+                    using (MySqlCommand cmd = new MySqlCommand(sqlQuery, conn))
                     {
 
-                        cmd.Parameters.Add("@name", SqlDbType.VarChar).Value = team.name;
-                        cmd.Parameters.Add("@link", SqlDbType.VarChar).Value = team.link;
-                        cmd.Parameters.Add("@date_created", SqlDbType.DateTime).Value = now;
-                        cmd.Parameters.Add("@user_id", SqlDbType.Int).Value = team.user_id;
+                        cmd.Parameters.Add("@name", MySqlDbType.VarChar).Value = team.name;
+                        cmd.Parameters.Add("@link", MySqlDbType.VarChar).Value = team.link;
+                        cmd.Parameters.Add("@date_created", MySqlDbType.DateTime).Value = now;
+                        cmd.Parameters.Add("@user_id", MySqlDbType.Int32).Value = team.user_id;
 
                         await cmd.ExecuteNonQueryAsync();
                     }
@@ -158,13 +158,13 @@ namespace Pokemon_Forum_API.Services
                     string sqlQuery = "UPDATE teams SET name = @name," +
                                                       " link = @link" +
                                                       " WHERE team_id = @team_id;";
-                    using (SqlConnection conn = new SqlConnection(connString))
-                    using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
+                    using (MySqlConnection conn = new MySqlConnection(connString))
+                    using (MySqlCommand cmd = new MySqlCommand(sqlQuery, conn))
                     {
                         await conn.OpenAsync();
-                        cmd.Parameters.Add("@name", SqlDbType.VarChar).Value = team.name;
-                        cmd.Parameters.Add("@link", SqlDbType.VarChar).Value = team.link;
-                        cmd.Parameters.Add("@team_id", SqlDbType.Int).Value = id;
+                        cmd.Parameters.Add("@name", MySqlDbType.VarChar).Value = team.name;
+                        cmd.Parameters.Add("@link", MySqlDbType.VarChar).Value = team.link;
+                        cmd.Parameters.Add("@team_id", MySqlDbType.Int32).Value = id;
                         await cmd.ExecuteNonQueryAsync();
                         return new Teams(id, team.name, team.link, tempTeam.date_created, tempTeam.user_id);
 
@@ -197,8 +197,8 @@ namespace Pokemon_Forum_API.Services
                 try
                 {
                     string sqlQuery = "DELETE FROM teams WHERE team_id = @team_id;";
-                    using (SqlConnection conn = new SqlConnection(connString))
-                    using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
+                    using (MySqlConnection conn = new MySqlConnection(connString))
+                    using (MySqlCommand cmd = new MySqlCommand(sqlQuery, conn))
                     {
 
                         await conn.OpenAsync();

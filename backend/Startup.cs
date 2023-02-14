@@ -11,6 +11,7 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -30,7 +31,14 @@ namespace Pokemon_Forum_API
         {
             // Add the MVC framework and HttpContextAccessor
             services.AddControllers();
+
             services.AddHttpContextAccessor();
+
+            /*services.AddHttpsRedirection(options =>
+             {
+                 options.RedirectStatusCode = (int)HttpStatusCode.TemporaryRedirect;
+                 options.HttpsPort = 5001;
+             });*/
 
 
             // Add JWT authentication
@@ -59,12 +67,12 @@ namespace Pokemon_Forum_API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            /*if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-            }
+            }*/
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 
