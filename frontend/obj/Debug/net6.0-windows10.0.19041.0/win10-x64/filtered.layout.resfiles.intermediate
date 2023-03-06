@@ -2,6 +2,7 @@ OpenSans-Regular.ttf
 OpenSans-Semibold.ttf
 Roboto-Bold.ttf
 Roboto-Regular.ttf
+Unown.ttf
 appicon.ico
 appiconfg.ico
 appiconfgLargeTile.scale-100.png
@@ -94,13 +95,16 @@ appiconWideTile.scale-125.png
 appiconWideTile.scale-150.png
 appiconWideTile.scale-200.png
 appiconWideTile.scale-400.png
+banner.scale-100.png
 chatbub.scale-100.png
+detectivepikachu.scale-100.png
 domokun.scale-100.png
 dotnet_bot.scale-100.png
 dotnet_bot.scale-125.png
 dotnet_bot.scale-150.png
 dotnet_bot.scale-200.png
 dotnet_bot.scale-400.png
+home.scale-100.png
 load.scale-100.gif
 loading.scale-100.gif
 logo.ico
@@ -154,6 +158,12 @@ logoWideTile.scale-125.png
 logoWideTile.scale-150.png
 logoWideTile.scale-200.png
 logoWideTile.scale-400.png
+pikachu.scale-100.png
+pikachu.scale-125.png
+pikachu.scale-150.png
+pikachu.scale-200.png
+pikachu.scale-400.png
+sampleteam.scale-100.png
 search.scale-100.png
 showdown.scale-100.png
 smogon.scale-100.png

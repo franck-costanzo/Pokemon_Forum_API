@@ -1,6 +1,9 @@
 ﻿using Smogon_MAUIapp.Entities;
 using Smogon_MAUIapp.Pages;
 using Smogon_MAUIapp.Tools;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Maui;
+using Microsoft.Maui.Hosting;
 
 namespace Smogon_MAUIapp;
 
@@ -10,7 +13,7 @@ public static class MauiProgram
 	{
 		var builder = MauiApp.CreateBuilder();
 		builder
-			.UseMauiApp<App>()
+            .UseMauiApp<App>()
 			.ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

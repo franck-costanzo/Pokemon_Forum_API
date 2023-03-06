@@ -6,7 +6,6 @@ using Pokemon_Forum_API.Entities;
 using Pokemon_Forum_API.Tools;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Security.Claims;
@@ -407,8 +406,6 @@ namespace Pokemon_Forum_API.Services
 
                 if (user.user_id != 0)
                 {
-                    var tokenHandler = new JwtSecurityTokenHandler();
-
                     //Getting the key from app setting
                     IConfigurationBuilder builder = new ConfigurationBuilder()
                         .SetBasePath(Directory.GetCurrentDirectory())
@@ -423,19 +420,19 @@ namespace Pokemon_Forum_API.Services
                     //Token shaping
                     var tokenDescriptor = new SecurityTokenDescriptor
                     {
-                        Subject = 
-                            new ClaimsIdentity(
-                                new Claim[]
-                                {
-                                    new Claim("User_id", user.user_id.ToString()),
-                                    new Claim("Role_id", user.role_id.ToString())
-                                }
-                            ),
-                            Expires = DateTime.UtcNow.AddDays(90),
-                            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), 
-                                                                        SecurityAlgorithms.HmacSha256Signature)
+                        Subject = new ClaimsIdentity(new Claim[]
+                            {
+                                new Claim("User_id", user.user_id.ToString()),
+                                new Claim("Role_id", user.role_id.ToString())
+                            }),
+                        Expires = DateTime.UtcNow.AddDays(90),
+                        SigningCredentials = 
+                        new SigningCredentials( new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature ),
+                        Issuer = jwtSettings.Issuer,
+                        Audience = jwtSettings.Audience
                     };
 
+                    var tokenHandler = new JwtSecurityTokenHandler();
                     var token = tokenHandler.CreateToken(tokenDescriptor);
 
                     return token;

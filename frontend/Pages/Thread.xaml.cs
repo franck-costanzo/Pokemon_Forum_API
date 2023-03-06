@@ -166,13 +166,13 @@ public partial class Thread : ContentPage
         }
     }
 
-
+    private async void CreatePost(object sender, EventArgs e)
+    {
+        var content = new CreatePost(this.id);
+        await Navigation.PushModalAsync(content);
+    }
 
     #endregion
 
-    private async void CreatePost(object sender, EventArgs e)
-    {
-        var content = new CreatePost();
-        await Navigation.PushModalAsync(content);
-    }
+
 }

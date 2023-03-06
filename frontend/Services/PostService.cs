@@ -1,6 +1,13 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.IdentityModel.Tokens;
+using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Smogon_MAUIapp.DTO.PostDTO;
 using Smogon_MAUIapp.Entities;
+using System.IdentityModel.Tokens.Jwt;
+using System.Net.Http.Headers;
+using System.Text;
+using Smogon_MAUIapp.Tools;
 
 namespace Smogon_MAUIapp.Services
 {
@@ -64,9 +71,41 @@ namespace Smogon_MAUIapp.Services
         /// <param name="connString"></param>
         /// <param name="post"></param>
         /// <returns></returns>
-        public async Task<Posts> CreatePost(PostDto post)
+        public async Task<Posts> CreatePost(PostDto post, JwtSecurityToken jwtToken)
         {
-            return new Posts();
+            var json = JsonConvert.SerializeObject(post);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            // Verify JWT token
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = Jwtools.Issuer,
+                ValidAudience = Jwtools.Audience,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Jwtools.Key))
+            };
+
+            try
+            {
+                var claimsPrincipal = new JwtSecurityTokenHandler().ValidateToken(jwtToken.RawData, tokenValidationParameters, out var validatedToken);
+            }
+            catch (SecurityTokenException)
+            {
+                // Token validation failed
+                throw new Exception("Invalid JWT token.");
+            }
+
+            // Add JWT token to Authorization header
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwtToken.RawData);
+
+            var response = await client.PostAsync($"posts", content);
+            response.EnsureSuccessStatusCode();
+            var responseJson = await response.Content.ReadAsStringAsync();
+            var createdPost = JsonConvert.DeserializeObject<Posts>(responseJson);
+            return createdPost;
         }
 
         /// <summary>
