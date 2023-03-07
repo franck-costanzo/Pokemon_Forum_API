@@ -1,5 +1,6 @@
 ﻿using Smogon_MAUIapp.Entities;
 using Smogon_MAUIapp.Services;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace Smogon_MAUIapp.Pages;
 
@@ -8,11 +9,15 @@ public partial class Thread : ContentPage
     #region Properties
 
     private Threads thread = new Threads();
+    ThreadService threadService = new ThreadService();
+    ForumService forumService = new ForumService();
+    SubForumService subForumService = new SubForumService();
+    PostService postService = new PostService();
+
 
     private bool IsFromForum = new bool();
     private bool IsFromPost = new bool();
     private int id = 0;
-
 
     #endregion
 
@@ -23,7 +28,14 @@ public partial class Thread : ContentPage
     public Thread(int id, bool IsFromPosts, bool IsFromForum)
 	{		
 		InitializeComponent();
+
+        MessagingCenter.Subscribe<object, int>(this, "PostCreated", (sender, threadId) =>
+        {
+            UpdateItemSource(threadId, IsFromPost, IsFromForum);
+        });
+
         this.id = id;
+        this.IsFromPost = IsFromPosts;
         this.IsFromForum = IsFromForum;
         loadingImage.IsVisible = true;
         UpdateItemSource(id, IsFromPosts, IsFromForum);
@@ -35,11 +47,7 @@ public partial class Thread : ContentPage
 
     private async void UpdateItemSource(int id, bool IsFromPosts, bool IsFromForum)
     {
-        myThread.ItemsSource = null;
-        ThreadService threadService = new ThreadService();
-        ForumService forumService = new ForumService();
-        SubForumService subForumService = new SubForumService();
-        PostService postService = new PostService();
+        myThread.ItemsSource = null;        
         Posts post = new Posts();        
 
         if (IsFromPosts)
@@ -118,7 +126,6 @@ public partial class Thread : ContentPage
                     threadView.IsVisible = true;
                     threadTitle.Text = thread.title;
                     myThread.ItemsSource = thread.posts;
-
                     
                 }
                 else if (thread != null && !IsFromForum)
@@ -165,14 +172,35 @@ public partial class Thread : ContentPage
             await Navigation.PushAsync(new SubForum(id));
         }
     }
-
     private async void CreatePost(object sender, EventArgs e)
     {
         var content = new CreatePost(this.id);
+        await Navigation.PushModalAsync(content);    
+    }
+    private async void Edit_Post(object sender, EventArgs e)
+    {
+        var button = (Button)sender;
+        var post = (Posts)button.BindingContext;
+        var postid = post.post_id;
+        var content = new CreatePost(this.id, postid);
         await Navigation.PushModalAsync(content);
     }
 
-    #endregion
+    private async void Delete_Post(object sender, EventArgs e)
+    {
+        var button = (Button)sender;
+        var post = (Posts)button.BindingContext;
+        var postid = post.post_id;
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var jwtToken = tokenHandler.ReadJwtToken(Preferences.Get("token", ""));
+        bool answer = await DisplayAlert("Question?", "Do you really want to delete your post ?", "Yes", "No");
+        if (answer)
+        {
+            await postService.DeletePost(postid, jwtToken);
+            UpdateItemSource(id, IsFromPost, IsFromForum);
+        }
+    }
 
+    #endregion
 
 }

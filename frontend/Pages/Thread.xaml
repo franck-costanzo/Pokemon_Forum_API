@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:tools="clr-namespace:Smogon_MAUIapp.Tools"
              x:Class="Smogon_MAUIapp.Pages.Thread"
              Title="Thread"
              Shell.NavBarIsVisible="False">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <tools:IsCurrentUserConverter x:Key="UserIdConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ScrollView>
         <VerticalStackLayout BackgroundColor="#ECECEC">
 
@@ -63,7 +69,7 @@
 
                                         <Label Grid.Row="0" Grid.Column="1"
                                                HorizontalTextAlignment="End"
-                                               Text="{Binding create_date, StringFormat='Date posted : {0:dd/MM/yyyy @ hh:mm}'}"
+                                               Text="{Binding create_date, StringFormat='Date posted : {0:dd/MM/yyyy}'}"
                                                FontSize="12" TextColor="Grey"/>                                    
                                     </Grid>
                                     <Label Text="{Binding content}"
@@ -73,6 +79,25 @@
                                                Grid.Column="1"
                                                VerticalTextAlignment="Start"
                                                HorizontalTextAlignment="Start"/>
+                                    <HorizontalStackLayout 
+                                            Grid.Row="1"
+                                            Grid.Column="1"
+                                            Margin="0,0,5,5"
+                                            VerticalOptions="End" 
+                                            HorizontalOptions="End">
+                                        <Button  
+                                            Margin="0"
+                                            Text="Edit" 
+                                            IsVisible="{Binding user_id, Converter={StaticResource UserIdConverter}}"
+                                            Clicked="Edit_Post"/>
+                                        <Button  
+                                            Margin="0"
+                                            Text="Delete" 
+                                            IsVisible="{Binding user_id, Converter={StaticResource UserIdConverter}}"
+                                            Clicked="Delete_Post"/>
+                                        
+                                    </HorizontalStackLayout>
+                                    
                                 </StackLayout>
                             </ViewCell>
                         </DataTemplate>

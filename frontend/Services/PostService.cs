@@ -42,19 +42,8 @@ namespace Smogon_MAUIapp.Services
         #endregion
 
         /// <summary>
-        /// Method to get all posts from DB
+        /// Method to get one post by his ID
         /// </summary>
-        /// <param name="connString"></param>
-        /// <returns></returns>
-        public async Task<List<Posts>> GetAllPosts()
-        {
-            return new List<Posts>();
-        }
-
-        /// <summary>
-        /// Method to get one post by his ID from DB
-        /// </summary>
-        /// <param name="connString"></param>
         /// <param name="_id"></param>
         /// <returns></returns>
         public async Task<Posts> GetPostById(int _id)
@@ -68,35 +57,13 @@ namespace Smogon_MAUIapp.Services
         /// <summary>
         /// Method to create a post
         /// </summary>
-        /// <param name="connString"></param>
         /// <param name="post"></param>
+        /// <param name="jwtToken"></param>
         /// <returns></returns>
         public async Task<Posts> CreatePost(PostDto post, JwtSecurityToken jwtToken)
         {
             var json = JsonConvert.SerializeObject(post);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            // Verify JWT token
-            var tokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateIssuer = true,
-                ValidateAudience = true,
-                ValidateLifetime = true,
-                ValidateIssuerSigningKey = true,
-                ValidIssuer = Jwtools.Issuer,
-                ValidAudience = Jwtools.Audience,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Jwtools.Key))
-            };
-
-            try
-            {
-                var claimsPrincipal = new JwtSecurityTokenHandler().ValidateToken(jwtToken.RawData, tokenValidationParameters, out var validatedToken);
-            }
-            catch (SecurityTokenException)
-            {
-                // Token validation failed
-                throw new Exception("Invalid JWT token.");
-            }
 
             // Add JWT token to Authorization header
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwtToken.RawData);
@@ -111,24 +78,40 @@ namespace Smogon_MAUIapp.Services
         /// <summary>
         /// Method to update a post by his ID
         /// </summary>
-        /// <param name="connString"></param>
         /// <param name="id"></param>
         /// <param name="post"></param>
-        /// <returns></returns>
-        public async Task<Posts> UpdatePost(int id, PostDto post)
+        /// <param name="jwtToken"></param>
+        /// <returns></returns>        
+        public async Task<Posts> UpdatePost(int id, PostDto post, JwtSecurityToken jwtToken)
         {
-            return new Posts();
+            var json = JsonConvert.SerializeObject(post);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            // Add JWT token to Authorization header
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwtToken.RawData);
+
+            var response = await client.PutAsync($"posts/{id}", content);
+            response.EnsureSuccessStatusCode();
+            var responseJson = await response.Content.ReadAsStringAsync();
+            var updatedPost = JsonConvert.DeserializeObject<Posts>(responseJson);
+            return updatedPost;
         }
 
         /// <summary>
         /// Method to delete a post by his ID
         /// </summary>
-        /// <param name="connString"></param>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<Posts> DeletePost(int id)
+        public async Task<Posts> DeletePost(int id, JwtSecurityToken jwtToken)
         {
-            return new Posts();
+            // Add JWT token to Authorization header
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwtToken.RawData);
+
+            var response = await client.DeleteAsync($"posts/{id}");
+            response.EnsureSuccessStatusCode();
+            var responseJson = await response.Content.ReadAsStringAsync();
+            var deletedPost = JsonConvert.DeserializeObject<Posts>(responseJson);
+            return deletedPost;
         }
 
 

@@ -1,4 +1,6 @@
+using Microsoft.IdentityModel.Tokens;
 using Smogon_MAUIapp.DTO.PostDTO;
+using Smogon_MAUIapp.Entities;
 using Smogon_MAUIapp.Services;
 using Smogon_MAUIapp.Tools;
 using System.IdentityModel.Tokens.Jwt;
@@ -7,27 +9,39 @@ namespace Smogon_MAUIapp.Pages;
 
 public partial class CreatePost : ContentPage
 {
+    #region Properties
+
     PostService postService = new PostService();
     private int threadId = 0;
+    private int? postid = null;
 
-    //TODO:
-    /*
-        - implementation de la methode pour sauvegarder
-        - aggrémenter le postService pour la création du post
-        - rajouter l'id du post et gérer l'id de l'utilisateur qui créé le post
-     */
+    public event EventHandler ModalClosed;
+
+    #endregion
 
     #region Constructor
 
-    public CreatePost(int id)
+    public CreatePost(int id, int? post_id = null)
 	{
 		InitializeComponent();
         this.threadId = id;
+        if (post_id != null)
+        {
+            this.postid = post_id;
+            UpdateItemSource((int)post_id);
+        }
     }
 
     #endregion
 
     #region Methods
+
+    private async void UpdateItemSource(int id)
+    {
+        Posts post = await postService.GetPostById(id);
+        MarkdownEditor.Text = post.content;
+    }
+
     private async void SaveButton_Clicked(object sender, EventArgs e)
     {
         if (String.IsNullOrEmpty(MarkdownEditor.Text))
@@ -40,7 +54,6 @@ public partial class CreatePost : ContentPage
         }
         else
         {
-            //var token = new JwtSecurityToken(Preferences.Get("token", ""));
             var tokenHandler = new JwtSecurityTokenHandler();
             var jwtToken = tokenHandler.ReadJwtToken(Preferences.Get("token", ""));
             var userIdClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == "User_id");
@@ -54,20 +67,33 @@ public partial class CreatePost : ContentPage
                 postDto.thread_id = this.threadId;
             }
 
-            var post = await postService.CreatePost(postDto, jwtToken);
-
-            if (post != null)
+            Posts post; 
+            if(postid != null)
             {
-                await DisplayAlert("Created", "Your post has been created", "Continue");
-                /// TODO :
-                /// - fermer le modal
-                /// - niquer des memes
-                /// - reload les datas dans la page !
-                
+                post = await postService.UpdatePost((int)postid, postDto, jwtToken);
             }
             else
             {
-                await DisplayAlert("Creation Error", "We weren't able to create your post !", "Continue");
+                post = await postService.CreatePost(postDto, jwtToken);
+            }
+            
+
+            if (post != null)
+            {
+                if(postid != null)
+                {
+                    await DisplayAlert("Created", "The post has been updated", "Continue");
+                }
+                else
+                {
+                    await DisplayAlert("Created", "The post has been created", "Continue");
+                }
+                await Navigation.PopModalAsync();
+                MessagingCenter.Send<object, int>(this, "PostCreated", threadId);
+            }
+            else
+            {
+                await DisplayAlert("Creation Error", "We haven't been able to create your post !", "Continue");
             }
         }
     }
