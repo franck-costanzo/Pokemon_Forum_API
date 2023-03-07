@@ -54,7 +54,7 @@ namespace Pokemon_Forum_API.Controllers
         public async Task<ActionResult<Users>> GetLast3PostsAndLast5TeamsByUserId(int id)
         {
             var user = await userService.GetLast3PostsAndLast5TeamsByUserId(connectionString, id);
-            if (user.username != null)
+            if (user != null && user.username != null)
             {
                 user.password = "Password is encrypted";
                 return Ok(user);

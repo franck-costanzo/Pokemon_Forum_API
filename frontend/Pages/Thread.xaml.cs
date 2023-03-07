@@ -185,7 +185,6 @@ public partial class Thread : ContentPage
         var content = new CreatePost(this.id, postid);
         await Navigation.PushModalAsync(content);
     }
-
     private async void Delete_Post(object sender, EventArgs e)
     {
         var button = (Button)sender;

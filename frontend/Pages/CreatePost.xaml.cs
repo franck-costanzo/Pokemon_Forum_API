@@ -15,8 +15,6 @@ public partial class CreatePost : ContentPage
     private int threadId = 0;
     private int? postid = null;
 
-    public event EventHandler ModalClosed;
-
     #endregion
 
     #region Constructor

@@ -18,6 +18,9 @@
     <MauiXaml Update="Pages\Create.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
+    <MauiXaml Update="Pages\CreateTeam.xaml">
+      <SubType>Designer</SubType>
+    </MauiXaml>
     <MauiXaml Update="Pages\CreatePost.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
@@ -31,6 +34,9 @@
       <SubType>Designer</SubType>
     </MauiXaml>
     <MauiXaml Update="Pages\PokePaste.xaml">
+      <SubType>Designer</SubType>
+    </MauiXaml>
+    <MauiXaml Update="Pages\TeamView.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
     <MauiXaml Update="Pages\showdown.xaml">

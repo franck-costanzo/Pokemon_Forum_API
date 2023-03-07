@@ -7,83 +7,137 @@
     <ContentPage.Resources>
         <tools:StringTruncate x:Key="stringTruncate" />
     </ContentPage.Resources>
-    <VerticalStackLayout>
+    <ScrollView>
+        <VerticalStackLayout>
 
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-            </Grid.RowDefinitions>
-            <Label Grid.Row="0" HeightRequest="175"  BackgroundColor="#6363B0"
-                       Text="Profile" FontAttributes="Bold" TextColor="White" FontSize="20"
-                       Padding="20"
-                       HorizontalTextAlignment="Center" VerticalTextAlignment="Start"/>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" HeightRequest="175"  BackgroundColor="#6363B0"
+                           Text="Profile" FontAttributes="Bold" TextColor="White" FontSize="20"
+                           Padding="20"
+                           HorizontalTextAlignment="Center" VerticalTextAlignment="Start"/>
 
-            <Frame Grid.Row="1" Margin="0, -110, 0, 0"
-                       BorderColor="White"
-                       CornerRadius="100"
-                       HeightRequest="150"
-                       WidthRequest="150"
-                       IsClippedToBounds="True"
-                       HorizontalOptions="Center"
-                       VerticalOptions="Center">
-                <Border Background="#FFFFFF" WidthRequest="148" HeightRequest="148"
-                            StrokeShape="Ellipse">
-                    <Image Source="Resources/Images/domokun.png"
-                                Aspect="AspectFill"
-                                HeightRequest="148"
-                                WidthRequest="148"/>
-                </Border>
-            </Frame>
-        </Grid>
+                <Frame Grid.Row="1" Margin="0, -110, 0, 0"
+                           BorderColor="White"
+                           CornerRadius="100"
+                           HeightRequest="150"
+                           WidthRequest="150"
+                           IsClippedToBounds="True"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center">
+                    <Border Background="#FFFFFF" WidthRequest="148" HeightRequest="148"
+                                StrokeShape="Ellipse">
+                        <Image Source="Resources/Images/domokun.png"
+                                    Aspect="AspectFill"
+                                    HeightRequest="148"
+                                    WidthRequest="148"/>
+                    </Border>
+                </Frame>
+            </Grid>
 
-        <Label Text="{Binding user.username}" 
-                HorizontalTextAlignment="Center" 
-                FontSize="30" FontAttributes="Bold"/>
+            <Label Text="{Binding username}" 
+                   Margin="0, 10, 0, 0"
+                    HorizontalTextAlignment="Center" 
+                    FontSize="30" FontAttributes="Bold"/>
 
-        <Label Text="Last Posts" TextColor="#094ABA" Margin="0, 10, 0, 0"
-                x:Name="lastPosts" IsVisible="False"
-                HorizontalTextAlignment="Center" 
-                FontSize="20" FontAttributes="Bold"/>
+            
 
-        <ListView ItemsSource="{Binding user.posts}" VerticalScrollBarVisibility="Never"
-                    x:Name="postsView"  IsVisible="False"
-                    SeparatorVisibility="None" SelectionMode="None"
-                    Margin="20 , 50, 20, 20" HasUnevenRows="True"
-                    RowHeight="75" VerticalOptions="EndAndExpand">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell Tapped="ViewCell_Tapped">
-                        <Grid Margin="0,0,0,10">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="3*" />
-                                <RowDefinition Height="1*" />
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="3*" />
-                                <ColumnDefinition Width="1*" />
-                            </Grid.ColumnDefinitions>
-                            <Label Grid.Row="0"  Grid.Column="0" Grid.ColumnSpan="2"
-                                           Text="{Binding content, Converter={StaticResource stringTruncate}}"/>
-                            <Label Grid.Row="1"  Grid.Column="1"
-                                           Text="{Binding create_date}"
-                                           FontAttributes="Italic" TextColor="LightGrey"
-                                           VerticalOptions="End" />
-                        </Grid>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+            <!-- TEAMS -->
+            
+            <Grid Margin="0, 40, 0, 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Label  Text="Teams" TextColor="#094ABA"
+                        Grid.Column="0"
+                        VerticalTextAlignment="Center"
+                        HorizontalTextAlignment="Center" 
+                        FontSize="20" FontAttributes="Bold"/>
+                <Button Text="Add a team" 
+                        Grid.Column="1"
+                        IsVisible="{Binding user_id, Converter={StaticResource UserIdConverter}}"                    
+                        VerticalOptions="Center"                     
+                        HorizontalOptions="Center"                    
+                        Clicked="AddATeam"/>
+            </Grid>
+            
 
-        <Label Text="Teams" TextColor="#094ABA" Margin="0, 10, 0, 0"
-                HorizontalTextAlignment="Center" 
-                FontSize="20" FontAttributes="Bold"/>
-        <Image Source="Resources/Images/sampleteam.png" Margin="20, 0, 20, 0"/>
-        <Image Source="Resources/Images/sampleteam.png" Margin="20, 0, 20, 0"/>
-        <Image Source="Resources/Images/sampleteam.png" Margin="20, 0, 20, 0"/>
-        <Image Source="Resources/Images/sampleteam.png" Margin="20, 0, 20, 0"/>
-        <Image Source="Resources/Images/sampleteam.png" Margin="20, 0, 20, 0"/>
-        <Image Source="Resources/Images/sampleteam.png" Margin="20, 0, 20, 0"/>
-        <Image Source="Resources/Images/sampleteam.png" Margin="20, 0, 20, 0"/>
-    </VerticalStackLayout>
+            
+
+            <ListView ItemsSource="{Binding teams}" 
+                      Margin="0, 5, 0, 0" 
+                      SelectionMode="None"
+                      SeparatorVisibility="None" >
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="4*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label  Grid.Column="0"
+                                        Text="{Binding name}"
+                                        TextColor="Blue" FontSize="20"
+                                        HorizontalTextAlignment="Center"
+                                        VerticalTextAlignment="Center"
+                                        >
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="TeamTapped"/>
+                                    </Label.GestureRecognizers>
+                                </Label>
+                                <ImageButton Grid.Column="1"
+                                             Margin="0,0,20, 0"
+                                             Source="Resources/Images/trash.png" 
+                                             Clicked="DeleteATeam" 
+                                             VerticalOptions="Center"
+                                             HorizontalOptions="Center"/>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <!-- POSTS -->
+            
+            <Label Text="Last Posts" TextColor="#094ABA" Margin="0, 40, 0, 0"
+                    x:Name="lastPosts"
+                    HorizontalTextAlignment="Center" 
+                    FontSize="20" FontAttributes="Bold"/>
+
+            <ListView ItemsSource="{Binding posts}" VerticalScrollBarVisibility="Never"
+                        x:Name="postsView"
+                        SeparatorVisibility="None" SelectionMode="None"
+                        Margin="20, 30, 20, 0" HasUnevenRows="True"
+                        RowHeight="75" VerticalOptions="EndAndExpand">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid Margin="0,0,0,10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="3*" />
+                                    <RowDefinition Height="1*" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*" />
+                                    <ColumnDefinition Width="1*" />
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Row="0"  Grid.Column="0" Grid.ColumnSpan="2"
+                                               Text="{Binding content, Converter={StaticResource stringTruncate}}"/>
+                                <Label Grid.Row="1"  Grid.Column="1"
+                                               Text="{Binding create_date}"
+                                               FontAttributes="Italic" TextColor="LightGrey"
+                                               VerticalOptions="End" />
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

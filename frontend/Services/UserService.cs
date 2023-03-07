@@ -30,16 +30,6 @@ namespace Smogon_MAUIapp.Services
             client = new HttpClient { BaseAddress = new Uri(url) };
         }
 
-        /// <summary>
-        /// Method to get all users from DB
-        /// </summary>
-        /// <param name="connString"></param>
-        /// <returns></returns>
-        public async Task<List<Users>> GetAllUsers()
-        {
-            
-            return new List<Users>();
-        }
 
         /// <summary>
         /// Method to get one user by his ID from DB
@@ -49,8 +39,10 @@ namespace Smogon_MAUIapp.Services
         /// <returns></returns>
         public async Task<Users> GetUserById(int _id)
         {
+            var json = await client.GetStringAsync($"users/{_id}");
+            var user = JsonConvert.DeserializeObject<Users>(json);
 
-            return new Users();
+            return user;
         }
 
         /// <summary>
@@ -165,26 +157,19 @@ namespace Smogon_MAUIapp.Services
             }
         }
 
-        /// <summary>
-        /// Method to get all threads by user ID
-        /// </summary>
-        /// <param name="connString"></param>
-        /// <param name="user_id"></param>
-        /// <returns></returns>
-        public async Task<List<Threads>> GetThreadsByUserId(int user_id)
-        {
-            return new List<Threads>();
-        }
+
 
         /// <summary>
-        /// Method to get all posts by User Id
+        /// Method to Get Last 3 Posts And Last 5 Teams By User Id
         /// </summary>
-        /// <param name="connString"></param>
         /// <param name="user_id"></param>
         /// <returns></returns>
-        public async Task<List<Posts>> GetPostsByUserId(int user_id)
+        public async Task<Users> GetLast3PostsAndLast5TeamsByUserId(int user_id)
         {
-            return new List<Posts>();
+            var json = await client.GetStringAsync($"users/{user_id}/teamslastposts");
+            var user = JsonConvert.DeserializeObject<Users>(json);
+
+            return user;
         }
 
     }

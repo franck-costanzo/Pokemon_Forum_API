@@ -72,6 +72,7 @@
 	  <None Remove="Resources\Fonts\Roboto-Bold.ttf" />
 	  <None Remove="Resources\Fonts\Roboto-Regular.ttf" />
 	  <None Remove="Resources\Fonts\Unown.ttf" />
+	  <None Remove="Resources\Icons\trash.png" />
 	  <None Remove="Resources\Images\banner.png" />
 	  <None Remove="Resources\Images\chatBub.png" />
 	  <None Remove="Resources\Images\detectivepikachu.png" />
@@ -113,6 +114,9 @@
 	  <Compile Update="Pages\Create.xaml.cs">
 	    <DependentUpon>Create.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Pages\CreateTeam.xaml.cs">
+	    <DependentUpon>CreateTeam.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Pages\CreateThread.xaml.cs">
 	    <DependentUpon>CreateThread.xaml</DependentUpon>
 	  </Compile>
@@ -125,6 +129,9 @@
 	  <Compile Update="Pages\PokePaste.xaml.cs">
 	    <DependentUpon>PokePaste.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Pages\TeamView.xaml.cs">
+	    <DependentUpon>TeamView.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Pages\showdown.xaml.cs">
 	    <DependentUpon>showdown.xaml</DependentUpon>
 	  </Compile>
@@ -134,6 +141,9 @@
 
 	<ItemGroup>
 	  <MauiXaml Update="Pages\Create.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\CreateTeam.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\CreatePost.xaml">
@@ -149,6 +159,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\PokePaste.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\TeamView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\showdown.xaml">

@@ -12,9 +12,9 @@ namespace Smogon_MAUIapp.Tools
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var text = (string)value;
-            if(text.Length > 150)
+            if(text.Length > 30)
             {
-                text = text.Substring(0, 149) + " [...]";
+                text = text.Substring(0, 29) + " [...]";
                 
                 return text;
             } else

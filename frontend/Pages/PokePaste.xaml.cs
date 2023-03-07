@@ -3,7 +3,7 @@ namespace Smogon_MAUIapp.Pages;
 
 public partial class PokePaste : ContentPage
 {
-	public PokePaste()
+	public PokePaste(int? id = null)
 	{
 		InitializeComponent();
 	}
@@ -17,6 +17,8 @@ public partial class PokePaste : ContentPage
         UrlWebViewSource currentURL = (UrlWebViewSource)pokepasteView.Source;
         await Clipboard.Default.SetTextAsync(currentURL.Url);
         await Navigation.PopModalAsync();
+
+        
 
     }
 }

@@ -90,8 +90,8 @@ namespace Pokemon_Forum_API.Services
                             string username = reader.GetString(1);
                             string password = reader.GetString(2);
                             string email = reader.GetString(3);
-                            DateTime join_date = reader.GetDateTime(4);
-                            string avatar_url = reader.GetString(5);
+                            string avatar_url = reader.IsDBNull(4)? "no avatar" : reader.GetString(4);
+                            DateTime join_date = reader.GetDateTime(5);
                             bool isBanned = reader.GetBoolean(6);
                             int role_id = reader.GetInt32(7);
                             return user = new Users(id, username, password, email, join_date, avatar_url, role_id, isBanned);
@@ -158,6 +158,12 @@ namespace Pokemon_Forum_API.Services
 
         }
 
+        /// <summary>
+        /// Method to get one user by his email from DB
+        /// </summary>
+        /// <param name="connString"></param>
+        /// <param name="email"></param>
+        /// <returns></returns>
         public async Task<Users> GetUserByEmail(string connString, string email)
         {
 
@@ -198,7 +204,6 @@ namespace Pokemon_Forum_API.Services
                 return null;
             }
         }
-
 
         /// <summary>
         /// Method to create a user
@@ -541,10 +546,10 @@ namespace Pokemon_Forum_API.Services
 
                 using (MySqlConnection conn = new MySqlConnection(connString))
                 using (MySqlCommand cmd = new MySqlCommand(
-                                                "SELECT TOP 3 * " +
+                                                "SELECT * " +
                                                 "FROM Posts " +
-                                                "WHERE user_id = @user_id" +
-                                                "ORDER BY create_date DESC", conn))
+                                                "WHERE user_id = @user_id " +
+                                                "ORDER BY create_date desc limit 3", conn))
                 {
                     await conn.OpenAsync();
                     cmd.Parameters.AddWithValue("@user_id", user_id);
@@ -562,14 +567,15 @@ namespace Pokemon_Forum_API.Services
                         }
                     }
                 }
+
                 user.posts = posts;
 
                 using (MySqlConnection conn = new MySqlConnection(connString))
                 using (MySqlCommand cmd = new MySqlCommand(
-                                                "SELECT TOP 5 *" +
+                                                "SELECT *" +
                                                 " FROM Teams " +
-                                                "WHERE user_id = @user_id" +
-                                                "ORDER BY date_created DESC", conn))
+                                                "WHERE user_id = @user_id " +
+                                                " ORDER BY date_created desc ", conn))
                 {
                     await conn.OpenAsync();
                     cmd.Parameters.AddWithValue("@user_id", user_id);
