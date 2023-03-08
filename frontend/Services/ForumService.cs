@@ -33,6 +33,8 @@ namespace Smogon_MAUIapp.Services
 
         #endregion
 
+        #region Methods
+
         /// <summary>
         /// Method to get all forums from DB
         /// </summary>
@@ -137,6 +139,7 @@ namespace Smogon_MAUIapp.Services
             
         }
 
-        
+        #endregion
+
     }
 }

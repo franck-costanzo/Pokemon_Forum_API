@@ -57,7 +57,6 @@ namespace Pokemon_Forum_API.Controllers
                 var createdThread = await threadService.CreateThread(connectionString, thread);
                 if (createdThread != null)
                 {
-
                     return Ok(createdThread);
                 }
                 else
@@ -115,7 +114,7 @@ namespace Pokemon_Forum_API.Controllers
 
 
         [HttpGet("{id}/posts")]
-        public async Task<ActionResult<List<Threads>>> GetAllThreadsByThreadId(int id)
+        public async Task<ActionResult<List<Threads>>> GetAllPostsByThreadId(int id)
         {
             var threads = await threadService.GetAllPostsByThreadId(connectionString, id);
             if (threads == null)

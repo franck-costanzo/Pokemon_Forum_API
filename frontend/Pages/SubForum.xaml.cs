@@ -7,7 +7,9 @@ namespace Smogon_MAUIapp.Pages;
 public partial class SubForum : ContentPage
 {
     #region Properties
+
     private int forumId { get; set; }
+    int subforumId = 0;
 
     #endregion
 
@@ -16,11 +18,16 @@ public partial class SubForum : ContentPage
     public SubForum(int id)
 	{
 		InitializeComponent();
+
+        MessagingCenter.Subscribe<object, int>(this, "threadCreated", (sender, subForumId) =>
+        {
+            UpdateItemSource(id);
+        });
+
+        this.subforumId = id;
         loadingImage.IsVisible = true;
         UpdateItemSource(id);
     }
-
-
 
     #endregion
 
@@ -40,12 +47,9 @@ public partial class SubForum : ContentPage
 
         try
         {
-
-
             var aTask = Task.Run(async () => {
 
                 subforum = await subForumService.GetAllThreadsBySubForumId(id);
-
             });
 
             await Task.WhenAll(aTask);
@@ -59,7 +63,7 @@ public partial class SubForum : ContentPage
 
                 await Task.WhenAll(alphaTask);
 
-                previousPage.Text = forum.name;
+                previousPage.Text = forum.name.Length <= 18 ? forum.name : forum.name.Substring(0, 17) + " ...";
                 subForumTitle.Text = subforum.name;
                 subForumTitle.IsVisible = true;
                 this.forumId = subforum.forum_id;
@@ -103,7 +107,7 @@ public partial class SubForum : ContentPage
 
     private async void CreateThread(object sender, EventArgs e)
     {
-        await Navigation.PushModalAsync(new CreateThread());
+        await Navigation.PushModalAsync(new CreateThread(subforumId));
     }
 
     #endregion

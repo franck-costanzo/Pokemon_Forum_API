@@ -6,6 +6,8 @@ namespace Smogon_MAUIapp.Services
 {
     public class TopicService : InfosAPI
     {
+        #region Properties
+
         public string url
         {
             get
@@ -20,10 +22,18 @@ namespace Smogon_MAUIapp.Services
 
         private HttpClient client;
 
+        #endregion
+
+        #region Constructor
+
         public TopicService()
         {
             client = new HttpClient { BaseAddress = new Uri(url) };
         }
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Method to get all topics from DB
@@ -102,5 +112,6 @@ namespace Smogon_MAUIapp.Services
             return forumsList;
         }
 
+        #endregion
     }
 }

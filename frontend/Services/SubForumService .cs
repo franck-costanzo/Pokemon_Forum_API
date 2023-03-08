@@ -36,6 +36,11 @@ namespace Smogon_MAUIapp.Services
 
         #region Methods
 
+        /// <summary>
+        /// Get subforum by its Id
+        /// </summary>
+        /// <param name="_id"></param>
+        /// <returns></returns>
         public async Task<SubForums> GetSubForumById(int _id)
         {
             var json = await client.GetStringAsync($"subforums/{_id}");
@@ -45,9 +50,8 @@ namespace Smogon_MAUIapp.Services
         }
 
         /// <summary>
-        /// Method to get one subForum by his ID from DB
+        /// Method to get all the threads by subForum ID
         /// </summary>
-        /// <param name="connString"></param>
         /// <param name="_id"></param>
         /// <returns></returns>
         public async Task<SubForums> GetAllThreadsBySubForumId(int _id)
@@ -59,6 +63,5 @@ namespace Smogon_MAUIapp.Services
         }
 
         #endregion
-
     }
 }

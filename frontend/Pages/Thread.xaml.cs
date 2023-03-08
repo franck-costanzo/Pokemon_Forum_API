@@ -18,6 +18,7 @@ public partial class Thread : ContentPage
     private bool IsFromForum = new bool();
     private bool IsFromPost = new bool();
     private int id = 0;
+    private int subforumId = 0;
 
     #endregion
 
@@ -34,11 +35,12 @@ public partial class Thread : ContentPage
             UpdateItemSource(threadId, IsFromPost, IsFromForum);
         });
 
+       
+        UpdateItemSource(id, IsFromPosts, IsFromForum);
         this.id = id;
         this.IsFromPost = IsFromPosts;
         this.IsFromForum = IsFromForum;
         loadingImage.IsVisible = true;
-        UpdateItemSource(id, IsFromPosts, IsFromForum);
     }
 
     #endregion
@@ -106,12 +108,13 @@ public partial class Thread : ContentPage
             {
                 var aTask = Task.Run(async () => {
                     thread = await threadService.GetThreadWithPostByThreadId(id);
-                });
+                });                
 
                 await Task.WhenAll(aTask);
 
                 if (thread != null && IsFromForum)
                 {
+                    this.subforumId = (int)thread.subforum_id;
 
                     var bTask = Task.Run(async () =>
                     {
@@ -130,6 +133,8 @@ public partial class Thread : ContentPage
                 }
                 else if (thread != null && !IsFromForum)
                 {
+                    this.subforumId = (int)thread.subforum_id;
+
                     var bTask = Task.Run(async () =>
                     {
                         thread.subforum = await subForumService.GetSubForumById((int)thread.subforum_id);
@@ -139,7 +144,7 @@ public partial class Thread : ContentPage
 
                     loadingImage.IsVisible = false;
                     previousPage.IsVisible = true;
-                    previousPage.Text = thread.subforum.name;
+                    previousPage.Text = thread.subforum.name.Length <= 18 ? thread.subforum.name : thread.subforum.name.Substring(0, 17) + " ..."; ;
                     threadView.IsVisible = true;
                     threadTitle.Text = thread.title;
                     myThread.ItemsSource = thread.posts;
@@ -165,13 +170,14 @@ public partial class Thread : ContentPage
     {
         if (IsFromForum)
         {
-            await Navigation.PushAsync(new Forum(id));
+            await Navigation.PushAsync(new Forum(subforumId));
         }
         else
         {
-            await Navigation.PushAsync(new SubForum(id));
+            await Navigation.PushAsync(new SubForum(subforumId));
         }
     }
+
     private async void CreatePost(object sender, EventArgs e)
     {
         var content = new CreatePost(this.id);

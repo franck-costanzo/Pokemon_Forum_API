@@ -1,7 +1,20 @@
+using Smogon_MAUIapp.DTO.PostDTO;
+using Smogon_MAUIapp.DTO.ThreadDTO;
+using Smogon_MAUIapp.Entities;
+using Smogon_MAUIapp.Services;
+using System.IdentityModel.Tokens.Jwt;
+
 namespace Smogon_MAUIapp.Pages;
 
 public partial class CreateThread : ContentPage
 {
+    #region Properties
+    
+    ThreadService threadService = new ThreadService();
+    PostService postService = new PostService();
+    int subForumId = 0;
+
+    #endregion
     //TODO:
     /*
         - implementation de la methode pour sauvegarder
@@ -11,10 +24,11 @@ public partial class CreateThread : ContentPage
 
     #region Constructor
 
-    public CreateThread()
+    public CreateThread(int subforumId)
 	{
 		InitializeComponent();
-	}
+        this.subForumId = subforumId;
+    }
 
     #endregion
 
@@ -39,8 +53,49 @@ public partial class CreateThread : ContentPage
             await DisplayAlert("Post", "Your thread needs to be at least 50 letters long", "OK");
         }
         else
-        {
-            //TODO
+        {   
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var jwtToken = tokenHandler.ReadJwtToken(Preferences.Get("token", ""));
+            var userIdClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == "User_id");
+
+            ThreadDto threadDto = new ThreadDto();
+
+            if (userIdClaim != null && int.TryParse(userIdClaim.Value, out int userId))
+            {
+                threadDto.title = titleEntry.Text;
+                threadDto.create_date = DateTime.Now;
+                threadDto.user_id = userId;
+                threadDto.subforum_id = subForumId;
+            }
+
+            var thread = await threadService.CreateThread(threadDto, jwtToken);
+
+            if (thread != null)
+            {
+                PostDto postDto = new PostDto();
+                postDto.content = MarkdownEditor.Text;
+                postDto.create_date = DateTime.Now;
+                postDto.user_id = Int32.Parse(userIdClaim.Value);
+                postDto.thread_id = thread.thread_id;
+
+                var post = await postService.CreatePost(postDto, jwtToken);
+                if (post != null)
+                {
+                    await DisplayAlert("Created", "The thread has been created", "Continue");
+                    await Navigation.PopModalAsync();
+                    MessagingCenter.Send<object, int>(this, "threadCreated", subForumId);
+                }
+                else
+                {
+                    await DisplayAlert("Created", "The thread has been created, but the post wasn't", "Continue");
+                    await Navigation.PopModalAsync();
+                    MessagingCenter.Send<object, int>(this, "threadCreated", subForumId);
+                }
+            }
+            else
+            {
+                await DisplayAlert("Creation Error", "We haven't been able to create your Thread !", "Continue");
+            }
         }
     }
 

@@ -4,6 +4,7 @@ using Pokemon_Forum_API.Entities;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 
 namespace Pokemon_Forum_API.Services
@@ -135,8 +136,34 @@ namespace Pokemon_Forum_API.Services
                         await cmd.ExecuteNonQueryAsync();
                     }
                 }
-                return new Threads(thread.title, thread.create_date, thread.last_post_date,
-                                    thread.user_id, thread.subforum_id);
+
+                Threads lastThread = new Threads();
+                string lastThreadQuery = "SELECT * FROM threads ORDER BY thread_id DESC LIMIT 1;";
+
+                using (MySqlConnection conn = new MySqlConnection(connString))
+                using (MySqlCommand cmd = new MySqlCommand(lastThreadQuery, conn))
+                {
+                    await conn.OpenAsync();
+
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+
+                        while (await reader.ReadAsync())
+                        {
+                            int thread_id = reader.GetInt32(0);
+                            string title = reader.GetString(1);
+                            DateTime create_date = reader.GetDateTime(2);
+                            DateTime? last_post_date = reader.IsDBNull(3) ? null : reader.GetDateTime(3);
+                            int user_id = reader.GetInt32(4);
+                            int subforum_id = reader.GetInt32(5);
+                            lastThread = new Threads(thread_id, title, create_date, last_post_date, user_id, subforum_id);
+                        }
+                    }
+
+                }
+
+
+                return lastThread;
             }
             catch (Exception ex)
             {

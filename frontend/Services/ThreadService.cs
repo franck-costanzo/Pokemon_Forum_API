@@ -1,6 +1,9 @@
 ﻿using Newtonsoft.Json;
 using Smogon_MAUIapp.DTO.ThreadDTO;
 using Smogon_MAUIapp.Entities;
+using System.IdentityModel.Tokens.Jwt;
+using System.Net.Http.Headers;
+using System.Text;
 
 namespace Smogon_MAUIapp.Services
 {
@@ -68,9 +71,19 @@ namespace Smogon_MAUIapp.Services
         /// <param name="connString"></param>
         /// <param name="thread"></param>
         /// <returns></returns>
-        public async Task<Threads> CreateThread(ThreadDto thread)
+        public async Task<Threads> CreateThread(ThreadDto thread, JwtSecurityToken jwtToken)
         {
-            return new Threads();
+            var json = JsonConvert.SerializeObject(thread);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            // Add JWT token to Authorization header
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwtToken.RawData);
+
+            var response = await client.PostAsync($"threads", content);
+            response.EnsureSuccessStatusCode();
+            var responseJson = await response.Content.ReadAsStringAsync();
+            var createdThread = JsonConvert.DeserializeObject<Threads>(responseJson);
+            return createdThread;
         }
 
         /// <summary>

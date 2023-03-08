@@ -246,7 +246,7 @@ namespace Pokemon_Forum_API.Services
                             int thread_id = reader.GetInt32(0);
                             string title = reader.GetString(1);
                             DateTime create_date = reader.GetDateTime(2);
-                            DateTime last_post_date = reader.GetDateTime(3);
+                            DateTime? last_post_date = reader.IsDBNull(3) ? null : reader.GetDateTime(3);
                             int user_id = reader.GetInt32(4);
                             int subForum_id = reader.GetInt32(5);
                             list.Add(new Threads(thread_id, title, create_date, last_post_date, user_id, subForum_id));
