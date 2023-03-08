@@ -21,6 +21,9 @@ namespace Smogon_MAUIapp.Entities
         public Users user { get; set; }
         public List<Likes> likes { get; set; } = new List<Likes>();
 
+        public int likeCount { get; set; } = 0;
+        public bool IsLikedByUser { get; set; } = false;
+
         #endregion
 
         #region Constructor

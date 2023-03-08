@@ -26,10 +26,10 @@ namespace Pokemon_Forum_API.Controllers
         public LikesController(){}
 
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Likes>> GetLikeById(int id)
+        [HttpGet("postanduser/{postAndUserID}")]
+        public async Task<ActionResult<Likes>> GetLikeByPostIdAndUserId(string postAndUserID)
         {
-            var like = await likeService.GetLikeById(connectionString, id);
+            var like = await likeService.GetLikeByPostIdAndUserId(connectionString, postAndUserID);
             if (like != null)
             {
                 return Ok(like);
@@ -64,11 +64,11 @@ namespace Pokemon_Forum_API.Controllers
         }
 
 
-        [HttpDelete("{id}")]
+        [HttpPost("delete")]
         [Authorize]
-        public async Task<ActionResult<Likes>> DeleteLike(int id)
+        public async Task<ActionResult<Likes>> DeleteLike(LikeDto like)
         {
-            var deletedLike = await likeService.DeleteLike(connectionString, id);
+            var deletedLike = await likeService.DeleteLike(connectionString, like);
             if (deletedLike != null)
             {                
                 return Ok(deletedLike);

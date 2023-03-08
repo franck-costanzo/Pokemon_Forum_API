@@ -6,6 +6,7 @@ namespace Smogon_MAUIapp.Pages;
 public partial class Login : ContentPage
 {
     private UserService userService = new UserService();
+
 	public Login()
 	{
 		InitializeComponent();

@@ -24,6 +24,9 @@ namespace Pokemon_Forum_API.Entities
         #endregion
 
         #region Constructor
+        public Posts()
+        {
+        }
 
         public Posts(int post_id, string content, DateTime create_date, int thread_id, int user_id)
         {
@@ -34,9 +37,6 @@ namespace Pokemon_Forum_API.Entities
             this.user_id = user_id;
         }
 
-        public Posts()
-        {
-        }
 
         public Posts(string content, DateTime create_date, int thread_id, int user_id)
         {

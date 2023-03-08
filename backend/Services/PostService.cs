@@ -260,9 +260,18 @@ namespace Pokemon_Forum_API.Services
                     }
 
                 }
-                post.likes = list;
 
-                return post;
+                if (list.Count > 0)
+                {
+                    post.likes = list;
+
+                    return post;
+                }
+                else
+                {
+                    return post;
+                }
+                
             }
             catch(Exception ex)
             {

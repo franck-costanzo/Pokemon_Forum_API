@@ -75,6 +75,8 @@
 	  <None Remove="Resources\Icons\trash.png" />
 	  <None Remove="Resources\Images\banner.png" />
 	  <None Remove="Resources\Images\chatBub.png" />
+	  <None Remove="Resources\Images\coeurPlein.png" />
+	  <None Remove="Resources\Images\coeurVide.png" />
 	  <None Remove="Resources\Images\detectivepikachu.png" />
 	  <None Remove="Resources\Images\domokun.png" />
 	  <None Remove="Resources\Images\home.png" />

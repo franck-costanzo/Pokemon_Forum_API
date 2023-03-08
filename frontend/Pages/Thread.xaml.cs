@@ -1,4 +1,5 @@
-﻿using Smogon_MAUIapp.Entities;
+﻿using Smogon_MAUIapp.DTO.LikeDTO;
+using Smogon_MAUIapp.Entities;
 using Smogon_MAUIapp.Services;
 using System.IdentityModel.Tokens.Jwt;
 
@@ -13,6 +14,7 @@ public partial class Thread : ContentPage
     ForumService forumService = new ForumService();
     SubForumService subForumService = new SubForumService();
     PostService postService = new PostService();
+    LikeService likeService = new LikeService();
 
 
     private bool IsFromForum = new bool();
@@ -177,7 +179,6 @@ public partial class Thread : ContentPage
             await Navigation.PushAsync(new SubForum(subforumId));
         }
     }
-
     private async void CreatePost(object sender, EventArgs e)
     {
         var content = new CreatePost(this.id);
@@ -205,7 +206,73 @@ public partial class Thread : ContentPage
             UpdateItemSource(id, IsFromPost, IsFromForum);
         }
     }
+    private async void reloadPostView(int post_id)
+    {
+        var post = await postService.GetAllLikesByPostId(post_id);
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var jwtToken = tokenHandler.ReadJwtToken(Preferences.Get("token", ""));
+        var userIdClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == "User_id");
+        string postAndUserId = post.post_id + "-" + userIdClaim.Value;
+        var liked = await likeService.GetLikeByPostIdAndUserId(postAndUserId);
+        if (liked.like_id != 0)
+        {
+            post.IsLikedByUser = true;
+        }
+        post.likeCount = post.likes.Count;
+
+        for (var i = 0; i < thread.posts.Count; i++)
+        {
+            if ( post.post_id == thread.posts[i].post_id)
+            {                
+                thread.posts[i] = post;
+            }
+        }
+        myThread.ItemsSource = null;
+        myThread.ItemsSource = thread.posts;
+    }
 
     #endregion
 
+    private async void ImageButton_Clicked(object sender, EventArgs e)
+    {
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var jwtToken = tokenHandler.ReadJwtToken(Preferences.Get("token", ""));
+        var userIdClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == "User_id");
+
+        var userId = Int32.Parse(userIdClaim.Value);
+
+        var button = (ImageButton)sender;
+        var post = (Posts)button.BindingContext;
+        var postid = post.post_id;
+
+        LikeDto likeDto = new LikeDto();
+        likeDto.post_id = postid;
+        likeDto.user_id = userId;
+
+        if (button.Source.ToString().Substring(6) == "Resources/Images/coeurvide.png")
+        {
+            try
+            {
+                var like = await likeService.CreateLike(likeDto, jwtToken);
+                reloadPostView(postid);
+            }
+            catch (Exception)
+            {
+                await DisplayAlert("Like Error", "There has been a problem when trying to save your like", "OK");
+            }            
+        }
+        else
+        {
+            try
+            {
+                var like = await likeService.DeleteLike(likeDto, jwtToken);
+                reloadPostView(postid);
+            }
+            catch (Exception)
+            {
+                await DisplayAlert("Like Error", "There has been a problem when trying to remove your like", "OK");
+            }
+            
+        }
+    }
 }

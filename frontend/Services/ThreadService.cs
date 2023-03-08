@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Android.Service.QuickSettings;
+using Newtonsoft.Json;
 using Smogon_MAUIapp.DTO.ThreadDTO;
 using Smogon_MAUIapp.Entities;
 using System.IdentityModel.Tokens.Jwt;
@@ -11,6 +12,8 @@ namespace Smogon_MAUIapp.Services
     {
         #region Properties
 
+        PostService postService = new PostService();
+        LikeService likeService = new LikeService();
         public string url
         {
             get
@@ -54,13 +57,18 @@ namespace Smogon_MAUIapp.Services
         /// <summary>
         /// Method to get one thread by his ID from DB
         /// </summary>
-        /// <param name="connString"></param>
         /// <param name="_id"></param>
         /// <returns></returns>
         public async Task<Threads> GetThreadById(int _id)
         {
             var json = await client.GetStringAsync($"threads/{_id}");
             var thread = JsonConvert.DeserializeObject<Threads>(json);
+
+            for(var i =0; i < thread.posts.Count; i++)
+            {
+                thread.posts[i] = await postService.GetAllLikesByPostId(thread.posts[i].post_id);
+                thread.posts[i].likeCount = thread.posts[i].likes.Count;
+            }
 
             return thread;
         }
@@ -109,8 +117,6 @@ namespace Smogon_MAUIapp.Services
             return new Threads();
         }
 
-
-
         /// <summary>
         /// Method to get all posts by thread ID from DB
         /// </summary>
@@ -121,6 +127,23 @@ namespace Smogon_MAUIapp.Services
         {
             var json = await client.GetStringAsync($"threads/{_id}/posts");
             var thread = JsonConvert.DeserializeObject<Threads>(json);
+
+            // Get the current user ID
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var jwtToken = tokenHandler.ReadJwtToken(Preferences.Get("token", ""));
+            var userIdClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == "User_id");            
+
+            for (var i = 0; i < thread.posts.Count; i++)
+            {
+                thread.posts[i] = await postService.GetAllLikesByPostId(thread.posts[i].post_id);
+                string postAndUserId = thread.posts[i].post_id + "-" + userIdClaim.Value;
+                var liked = await likeService.GetLikeByPostIdAndUserId(postAndUserId);
+                if (liked.like_id != 0)
+                {
+                    thread.posts[i].IsLikedByUser = true;
+                }
+                thread.posts[i].likeCount = thread.posts[i].likes.Count;
+            }
 
             return thread;
         }

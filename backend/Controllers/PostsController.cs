@@ -113,14 +113,16 @@ namespace Pokemon_Forum_API.Controllers
 
 
         [HttpGet("{id}/likes")]
-        public async Task<ActionResult<List<Threads>>> GetAllThreadsByPostId(int id)
+        public async Task<ActionResult<List<Threads>>> GetAllLikesByPostId(int id)
         {
-            var threads = await postService.GetAllLikesByPostId(connectionString, id);
-            if (threads == null)
+            var postWithlikes = await postService.GetAllLikesByPostId(connectionString, id);
+
+            if (postWithlikes == null)
             {
                 return NotFound();
             }
-            return Ok(threads);
+
+            return Ok(postWithlikes);
         }
 
 

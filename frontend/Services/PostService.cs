@@ -124,7 +124,11 @@ namespace Smogon_MAUIapp.Services
         /// <returns></returns>
         public async Task<Posts> GetAllLikesByPostId(int _id)
         {
-            return new Posts();
+            var response = await client.GetAsync($"posts/{_id}/likes");
+            response.EnsureSuccessStatusCode();
+            var responseJson = await response.Content.ReadAsStringAsync();
+            var postWithLikes = JsonConvert.DeserializeObject<Posts>(responseJson);
+            return postWithLikes;
         }
 
     }

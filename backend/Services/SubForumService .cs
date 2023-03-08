@@ -240,7 +240,6 @@ namespace Pokemon_Forum_API.Services
 
                     using (var reader = await cmd.ExecuteReaderAsync())
                     {
-
                         while (await reader.ReadAsync())
                         {
                             int thread_id = reader.GetInt32(0);

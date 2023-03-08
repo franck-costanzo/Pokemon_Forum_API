@@ -35,7 +35,7 @@
                        WidthRequest="148"/>
             </Grid>
             
-            <Entry Grid.Row="1" HeightRequest="50"
+            <Entry Grid.Row="1" HeightRequest="50" 
                     x:Name="usernameInput" Placeholder="Username"
                     MaxLength="20"
                     />
