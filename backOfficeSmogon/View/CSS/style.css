@@ -32,7 +32,14 @@
     color: var(--main-font-color);
 }
 
+html {
+    height: 100%;
+}
 
+body {
+    margin: 0;
+    min-height: 100vh;
+}
 
 /* ------------------------------------------------- */
 
@@ -109,7 +116,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        min-height: 500px;
+        min-height: 400px;
     }
 
     #loginForm {
@@ -286,25 +293,5 @@
         }        
 
     }  
-
-/* ------------------------------------------------- */
-
-/* ------------- */
-/*     FOOTER    */
-/* ------------- */
-
-    footer{
-        width: 100%;
-        text-align: end;
-        padding: 0 2%;
-    }
-
-    /* ------------- */
-    /*     DESKTOP   */
-    /* ------------- */
-
-    @media screen and (min-width: 968px){ 
-
-    }
 
 /* ----------------------------------------------------------------------------------- */

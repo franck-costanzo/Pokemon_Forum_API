@@ -15,10 +15,6 @@
     </header>
 
     <?= $content ?>
-
-    <footer>
-        <?php require_once ('View/footer.php') ?>   
-    </footer>
     
 </body>
 </html>
