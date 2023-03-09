@@ -1,0 +1,310 @@
+/* ----------------------------------------------------------------------------------- */
+
+/* -------------- */
+/*     GENERAL    */
+/* -------------- */
+@font-face {
+    font-family: "Main-Regular";
+    src: url("View/Fonts/Roboto-Regular.ttf");
+}
+
+@font-face {
+    font-family: "Main-Bold";
+    src: url("View/Fonts/Roboto-Bold.ttf");
+}
+
+:root {
+    --main-color-1 : #6363B0;
+    --main-color-2 : #8d8dcd;
+    --main-color-3 : #ECECEC;
+    --main-font : Main-Regular;
+    --bold-font : Main-Bold;
+    --main-font-color : #000000;
+    --special-font-color : #8C8C8C;
+    --bold-font-color : #094ABA;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: var(--main-font);
+    color: var(--main-font-color);
+}
+
+
+
+/* ------------------------------------------------- */
+
+/* ------------- */
+/*     HEADER    */
+/* ------------- */
+
+    header {
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        background-color: var(--main-color-1);
+        height: 15%;
+        overflow-y: hidden;
+        z-index: 10; 
+    }
+
+    #logo{
+        width: 100px;
+        margin: 10px;
+        text-align: center;
+    }
+
+    header > div:first-child {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        flex-grow: 1;
+    }
+
+    header > div:not(:first-child) {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        flex-grow: 1;
+        margin: 30px;
+    }
+
+    h1{
+        color:white;
+        text-align: center;
+        font-family: var(--main-font);
+    }
+
+    #decoBtn{
+        padding: 10px;
+        Margin-left: 15px;
+        text-align: center;
+        background-color: var(--main-color-2);
+        color: white;
+        border: none;
+        font-size: 20px;
+    }
+
+    /* ------------- */
+    /*     DESKTOP   */
+    /* ------------- */
+
+    @media screen and (min-width: 968px){
+         
+
+    }
+
+/* ------------------------------------------------- */
+
+/* -------------- */
+/*      MAIN      */
+/* -------------- */
+    
+    /* ------------- LOGIN -------------------*/
+    #loginPage{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 500px;
+    }
+
+    #loginForm {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #loginForm > h1 {
+        color: var(--main-color-1);
+        font-size: 40px;
+        margin-bottom: 20px;
+    }
+
+    #loginForm > label {
+        font-size: 30px;
+    }
+
+    #loginForm > input[type="text"],
+    #loginForm > input[type="password"]{
+        text-align: center;
+        margin: 5px;
+        min-height: 40px;
+        font-size: 30px;
+    }
+
+    #loginForm > h2, 
+    #loginForm > label,
+    #loginSubmit{
+        margin-top: 10px;
+    }
+
+    #loginSubmit{
+        padding: 15px 15px;
+        background-color: var(--main-color-2);
+        color: white;
+        border: none;
+        max-width: 150px;
+        font-size: 30px;
+        margin-top: 60px;
+    }
+
+    /* ------------- */
+    /*     DESKTOP   */
+    /* ------------- */
+
+    @media screen and (min-width: 968px){
+        
+        #loginSubmit{
+            margin-top: 40px;
+        }
+
+    }
+
+    /* ------------- USERS -------------------*/
+    .adminSection {
+        margin-top: 3%;
+    }
+    
+    section:nth-child(3) > form{
+        margin: 3% 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    #formRight {
+        width: 100%;
+    }
+    
+    #formRight > select, 
+    #formRight > input {
+        margin: 0% 1%;
+        padding: 2%;
+        min-width: 100px;
+    }
+    
+    section:nth-child(3) > form > input{
+        padding: 15px 15px;
+        margin: 0% 1%;
+    }
+    
+    section > h2 {
+        text-align: center;
+    }
+    
+    section > table {
+        margin: 3% auto;
+        width: 75%;
+        text-align: center;
+    }
+    
+    section > table > thead > tr {
+        background-color: var(--main-color-1);
+        color: white;    
+    }
+    
+    section > table > thead > tr > th {
+        color: white;
+        padding: 5px 5px;
+    }
+    
+    section > table > tbody > tr > td {
+        padding: 10px 5px;
+    }
+    
+    section > table > tbody > tr > td:last-child {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    section > table > tbody > tr > td > a {
+        margin-left: 5%;
+        padding: 15px 15px;
+        background-color: var(--main-color-2);
+        color: white;
+        border: none;
+    }
+    
+    #formRight > select, #formRight > input {
+        padding:  1%;
+        width: 50%;
+    }
+    
+    #formRight > input[type=submit] {
+        padding: 15px 15px;
+        background-color: var(--main-color-2);
+        color: white;
+        border: none;
+        max-width: 150px;
+    }
+
+    .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .page-item  {
+        margin: 0 5%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 30px;
+        height: 30px;
+        background-color: var(--main-color-2);
+        color: white;
+        font-weight: bold;
+        border-radius: 5px;
+    }
+    
+    .page-item-numbers {
+        margin: 0 5%;
+        color: var(--main-color-1);
+        font-weight: bold;
+    }
+    
+    /* ------------- */
+    /*     DESKTOP   */
+    /* ------------- */
+
+    @media screen and (min-width: 968px){
+        
+        section > table > tbody > tr > td:last-child {
+            flex-direction: row;
+        }
+    
+        #formRight {
+            width: 80%;
+            display: flex;
+        }        
+
+    }  
+
+/* ------------------------------------------------- */
+
+/* ------------- */
+/*     FOOTER    */
+/* ------------- */
+
+    footer{
+        width: 100%;
+        text-align: end;
+        padding: 0 2%;
+    }
+
+    /* ------------- */
+    /*     DESKTOP   */
+    /* ------------- */
+
+    @media screen and (min-width: 968px){ 
+
+    }
+
+/* ----------------------------------------------------------------------------------- */
