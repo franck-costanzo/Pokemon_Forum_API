@@ -230,9 +230,6 @@ public partial class Thread : ContentPage
         myThread.ItemsSource = null;
         myThread.ItemsSource = thread.posts;
     }
-
-    #endregion
-
     private async void ImageButton_Clicked(object sender, EventArgs e)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
@@ -259,7 +256,7 @@ public partial class Thread : ContentPage
             catch (Exception)
             {
                 await DisplayAlert("Like Error", "There has been a problem when trying to save your like", "OK");
-            }            
+            }
         }
         else
         {
@@ -272,7 +269,9 @@ public partial class Thread : ContentPage
             {
                 await DisplayAlert("Like Error", "There has been a problem when trying to remove your like", "OK");
             }
-            
+
         }
     }
+
+    #endregion
 }

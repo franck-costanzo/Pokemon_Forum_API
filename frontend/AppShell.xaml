@@ -18,12 +18,12 @@
             </ShellContent>
         </Tab>
 
-        <Tab Icon="Resources/Images/search.png" Shell.NavBarIsVisible="False">
+        <!--<Tab Icon="Resources/Images/search.png" Shell.NavBarIsVisible="False">
             <ShellContent
                 ContentTemplate="{DataTemplate local:Pages.Search}" 
                 Route="Search">
             </ShellContent>
-        </Tab>
+        </Tab>-->
 
         <Tab Icon="Resources/Images/snorlax.png" Shell.NavBarIsVisible="False">
             <ShellContent

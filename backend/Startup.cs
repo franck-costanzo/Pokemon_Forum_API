@@ -1,9 +1,11 @@
+using Google.Protobuf.WellKnownTypes;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Pokemon_Forum_API.Tools;
 using System.Text;
 
 namespace Pokemon_Forum_API
@@ -21,16 +23,9 @@ namespace Pokemon_Forum_API
         public void ConfigureServices(IServiceCollection services)
         {
             // Add the MVC framework and HttpContextAccessor
-            services.AddControllers();
+            services.AddControllers();            
 
             services.AddHttpContextAccessor();
-
-            /*services.AddHttpsRedirection(options =>
-             {
-                 options.RedirectStatusCode = (int)HttpStatusCode.TemporaryRedirect;
-                 options.HttpsPort = 5001;
-             });*/
-
 
             // Add JWT authentication
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -58,7 +53,7 @@ namespace Pokemon_Forum_API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseRouting();
+            app.UseRouting();            
 
             app.UseAuthentication();
 
@@ -68,6 +63,9 @@ namespace Pokemon_Forum_API
             {
                 endpoints.MapControllers();
             });
+
+            app.UseMiddleware<AntiXssMiddleware>();
+            
         }
     }
 }

@@ -10,14 +10,14 @@
     },
     "Pokemon_Forum_API": {
       "commandName": "Project",
-      "commandLineArgs": "--urls=http://192.168.137.1:5000",
+      "commandLineArgs": "http://localhost:5000",
       "launchBrowser": true,
       "launchUrl": "users",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": "true",
-      "applicationUrl": "http://192.168.137.1:5000"
+      "applicationUrl": "http://localhost:5000"
     }
   },
   "$schema": "http://json.schemastore.org/launchsettings.json",

@@ -50,7 +50,7 @@ namespace Pokemon_Forum_API.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult<Posts>> PostPost(TeamDto post)
+        public async Task<ActionResult<Posts>> PostPost(PostDto post)
         {
             try
             {
@@ -72,7 +72,7 @@ namespace Pokemon_Forum_API.Controllers
 
         [HttpPut("{id}")]
         [Authorize]
-        public async Task<IActionResult> PutPost(int id, TeamDto post)
+        public async Task<IActionResult> PutPost(int id, PostDto post)
         {
             try 
             {

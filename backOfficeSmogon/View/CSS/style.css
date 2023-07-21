@@ -3,22 +3,11 @@
 /* -------------- */
 /*     GENERAL    */
 /* -------------- */
-@font-face {
-    font-family: "Main-Regular";
-    src: url("View/Fonts/Roboto-Regular.ttf");
-}
-
-@font-face {
-    font-family: "Main-Bold";
-    src: url("View/Fonts/Roboto-Bold.ttf");
-}
 
 :root {
     --main-color-1 : #6363B0;
     --main-color-2 : #8d8dcd;
     --main-color-3 : #ECECEC;
-    --main-font : Main-Regular;
-    --bold-font : Main-Bold;
     --main-font-color : #000000;
     --special-font-color : #8C8C8C;
     --bold-font-color : #094ABA;
@@ -28,7 +17,6 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: var(--main-font);
     color: var(--main-font-color);
 }
 
@@ -36,7 +24,8 @@ html {
     height: 100%;
 }
 
-body {
+body {    
+    font-family: 'Roboto', sans-serif;
     margin: 0;
     min-height: 100vh;
 }
