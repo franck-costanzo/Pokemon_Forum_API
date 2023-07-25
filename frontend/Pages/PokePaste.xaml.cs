@@ -3,10 +3,24 @@ namespace Smogon_MAUIapp.Pages;
 
 public partial class PokePaste : ContentPage
 {
+    private string _url;
 	public PokePaste(int? id = null)
 	{
 		InitializeComponent();
-	}
+
+        pokepasteView.Navigating += WebView_Navigating;
+
+    }
+
+    private void WebView_Navigating(object sender, WebNavigatingEventArgs e)
+    {
+        var url = e.Url;
+        var pokepasteUrl = @"https://pokepast.es/";
+        if (url.Contains(pokepasteUrl) && url.Length > (pokepasteUrl).Length)
+        {
+            _url = url;
+        }
+    }
 
     private async void SaveClicked(object sender, EventArgs e)
     {
@@ -14,8 +28,8 @@ public partial class PokePaste : ContentPage
             if (Platform.CurrentActivity.CurrentFocus != null)
                 Platform.CurrentActivity.HideKeyboard(Platform.CurrentActivity.CurrentFocus);
 #endif
-        UrlWebViewSource currentURL = (UrlWebViewSource)pokepasteView.Source;
-        await Clipboard.Default.SetTextAsync(currentURL.Url);
+        
+        await Clipboard.Default.SetTextAsync(_url);
         await Navigation.PopModalAsync();
 
         
