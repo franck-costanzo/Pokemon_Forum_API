@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Smogon_MAUIapp.Pages.Login"
+             Title="Login">
+    <ScrollView>
+        <Grid >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="3*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" 
+                       HeightRequest="175"  BackgroundColor="#6363B0"
+                       Text="Login" FontAttributes="Bold" 
+                       TextColor="White" FontSize="30"
+                       Padding="20"
+                       HorizontalTextAlignment="Center" VerticalTextAlignment="Start"/>
+
+
+                <Image Grid.Row="1" Source="Resources/Images/banner.png"
+                       BackgroundColor="Transparent"
+                       Margin="0, -100, 0, 0"
+                       HeightRequest="148"
+                       WidthRequest="148"/>
+            </Grid>
+            
+            <Entry Grid.Row="1" HeightRequest="50" 
+                    x:Name="usernameInput" Placeholder="Username"
+                    MaxLength="20"
+                    />
+            
+            <Entry Grid.Row="2" 
+                   HeightRequest="50"
+                   IsPassword="true" 
+                    x:Name="passwordInput" Placeholder="Password"
+                    MaxLength="20"
+                    />
+            
+            <Button Grid.Row="3" Text="Log in"
+                Clicked="LoginUser"/>
+            
+            <Button Grid.Row="4" Text="Forgot your password ?" 
+                BorderColor="Transparent" Background="Transparent"
+                FontAttributes="Bold" TextColor="#094ABA"
+                Clicked="PasswordForgottenAsync" />
+
+            <Button Grid.Row="5" Text="Not a member ? Sign up !" 
+                BorderColor="Transparent" Background="Transparent"
+                FontAttributes="Bold" TextColor="#094ABA"
+                Clicked="CreateAccount" />
+        </Grid>
+    </ScrollView>
+
+
+</ContentPage>

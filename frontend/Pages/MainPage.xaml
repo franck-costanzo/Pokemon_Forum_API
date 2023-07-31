@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:Smogon_MAUIapp.Tools"
+             x:Class="Smogon_MAUIapp.Pages.MainPage"
+             Title="                        Home"
+             Shell.NavBarIsVisible="False">
+
+    <ScrollView>
+
+        <VerticalStackLayout BackgroundColor="#ECECEC">
+            
+            <Frame Margin="20" Background="LightGrey">
+                <StackLayout>
+                    <Label Text="Welcome to Smogon!" HorizontalOptions="CenterAndExpand"/>
+                    <Label Text="Take a moment to read the " HorizontalOptions="CenterAndExpand"/>
+
+                    <Label Text="Introduction to Smogon" TextColor="Blue" HorizontalOptions="CenterAndExpand">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="Intro_Tapped"/>
+                        </Label.GestureRecognizers>                                
+                    </Label>
+
+                    <Label HorizontalOptions="CenterAndExpand"
+                        Text="For a run-down on everything Smogon, and make sure you take some time to read the "                                
+                    />
+
+                    <Label  Text="Global Rules" TextColor="Blue" HorizontalOptions="CenterAndExpand">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="Rules_Tapped"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                </StackLayout>
+            </Frame>
+
+            <StackLayout x:Name="loadingImage" 
+                     IsVisible="False" 
+                     VerticalOptions="CenterAndExpand" 
+                     HorizontalOptions="CenterAndExpand">
+                <Label Text="Loading..." HorizontalTextAlignment="Center"/>
+            </StackLayout>
+
+            <ListView x:Name="mainPageView" 
+                      Margin="20" MinimumHeightRequest="1000" HasUnevenRows="True" 
+                      VerticalScrollBarVisibility="Never">
+                
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        
+                        <ViewCell>
+                            <StackLayout Margin = "0,0,0,30">
+
+                                <Label Text="{Binding name}" FontAttributes="Bold"
+                                       FontSize="18"
+                                       HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
+                                       Background="#8d8dcd" TextColor="White" HeightRequest="50"/>
+
+                                <ListView ItemsSource="{Binding forums}" HasUnevenRows="True"
+                                          BackgroundColor="#FFFFFF"
+                                          VerticalScrollBarVisibility="Never">
+                                    
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <ViewCell Tapped="ViewCell_Tapped">
+                                                <Grid Padding="10">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="3*" />
+                                                        <RowDefinition Height="2*" />
+                                                    </Grid.RowDefinitions>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="1*" />
+                                                        <ColumnDefinition Width="7*" />
+                                                    </Grid.ColumnDefinitions>
+                                                    
+                                                    <Image Source="Resources/Images/chatbub.png"
+                                                           Grid.Row="0" Grid.RowSpan="2"/>
+                                                    
+                                                    <Label Text="{Binding name}"
+                                                           TextColor="#6363B0"
+                                                           FontSize="16"
+                                                           Margin="30, 0, 20, 0"
+                                                           Grid.Row="0" Grid.Column="1"
+                                                           FontAttributes="Bold"/>
+                                                    
+                                                    <Label Text="{Binding description}"
+                                                           FontSize="12"
+                                                           Margin="30, 0, 20, 0"
+                                                           Grid.Row="1" Grid.Column="1"
+                                                           TextColor="Grey"/>
+                                                </Grid>                                          
+                                            </ViewCell>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                    
+                                </ListView>
+                                
+                            </StackLayout>
+                        </ViewCell>
+                        
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                
+            </ListView>
+            
+        </VerticalStackLayout>
+        
+    </ScrollView>
+
+</ContentPage>

@@ -1,21 +1,16 @@
-﻿using Microsoft.IdentityModel.Tokens;
-using MySql.Data.MySqlClient;
+﻿using MySql.Data.MySqlClient;
 using Pokemon_Forum_API.DTO.SubForumDTO;
 using Pokemon_Forum_API.Entities;
-using Pokemon_Forum_API.Services;
 using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
+using System.Data;
 using System.Threading.Tasks;
-using utils;
 
 namespace Pokemon_Forum_API.Services
 {
     public class SubForumService
     {
-        string connectionString = Utils.ConnectionString;
+        string connectionString = Tools.Tools.connectionString;
 
         UserService userService = new UserService();
         ForumService forumService = new ForumService();
@@ -245,17 +240,15 @@ namespace Pokemon_Forum_API.Services
 
                     using (var reader = await cmd.ExecuteReaderAsync())
                     {
-
                         while (await reader.ReadAsync())
                         {
                             int thread_id = reader.GetInt32(0);
                             string title = reader.GetString(1);
                             DateTime create_date = reader.GetDateTime(2);
-                            DateTime last_post_date = reader.GetDateTime(3);
+                            DateTime? last_post_date = reader.IsDBNull(3) ? null : reader.GetDateTime(3);
                             int user_id = reader.GetInt32(4);
-                            int? subForum_id = reader.GetInt32(5);
-                            int? subsubForum_id = reader.GetInt32(6);
-                            list.Add(new Threads(thread_id, title, create_date, last_post_date, user_id, subForum_id, subsubForum_id));
+                            int subForum_id = reader.GetInt32(5);
+                            list.Add(new Threads(thread_id, title, create_date, last_post_date, user_id, subForum_id));
                         }
                     }
 

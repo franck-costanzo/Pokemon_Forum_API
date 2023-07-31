@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Pokemon_Forum_API.DTO.BannedUserDTO;
 using Pokemon_Forum_API.Entities;
 using Pokemon_Forum_API.Services;
@@ -18,7 +19,7 @@ namespace Pokemon_Forum_API.Controllers
     [Route("/bannedusers")]
     public class BannedUsersController : ControllerBase
     {
-        string connectionString = Utils.ConnectionString;
+        string connectionString = Tools.Tools.connectionString;
         BannedUserService bannedUserService = new BannedUserService();
 
         public BannedUsersController(){}
@@ -47,6 +48,7 @@ namespace Pokemon_Forum_API.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<BannedUsers>> PostBannedUser(BannedUserDto bannedUser)
         {
             try
@@ -68,6 +70,7 @@ namespace Pokemon_Forum_API.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> PutBannedUser(int id, BannedUserDto bannedUser)
         {
             try 
@@ -92,6 +95,7 @@ namespace Pokemon_Forum_API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<ActionResult<BannedUsers>> DeleteBannedUser(int id)
         {
             var deletedBannedUser = await bannedUserService.DeleteBannedUser(connectionString, id);

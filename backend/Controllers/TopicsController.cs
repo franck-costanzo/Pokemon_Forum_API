@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Pokemon_Forum_API.DTO.TopicDTO;
 using Pokemon_Forum_API.Entities;
 using Pokemon_Forum_API.Services;
@@ -18,7 +19,8 @@ namespace Pokemon_Forum_API.Controllers
     [Route("/topics")]
     public class TopicsController : ControllerBase
     {
-        string connectionString = Utils.ConnectionString;
+        //string connectionString = Utils.ConnectionString;
+        string connectionString = Tools.Tools.connectionString;
         TopicService topicService = new TopicService();
 
         public TopicsController(){}
@@ -47,6 +49,7 @@ namespace Pokemon_Forum_API.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<Topics>> PostTopic(TopicDto topic)
         {
             try
@@ -70,6 +73,7 @@ namespace Pokemon_Forum_API.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> PutTopic(int id, TopicDto topic)
         {
             try 
@@ -97,6 +101,7 @@ namespace Pokemon_Forum_API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<ActionResult<Topics>> DeleteTopic(int id)
         {
             var deletedTopic = await topicService.DeleteTopic(connectionString, id);

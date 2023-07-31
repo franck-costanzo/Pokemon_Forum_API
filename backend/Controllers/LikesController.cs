@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Pokemon_Forum_API.DTO.LikeDTO;
 using Pokemon_Forum_API.Entities;
 using Pokemon_Forum_API.Services;
@@ -18,16 +19,17 @@ namespace Pokemon_Forum_API.Controllers
     [Route("/likes")]
     public class LikesController : ControllerBase
     {
-        string connectionString = Utils.ConnectionString;
+        //string connectionString = Utils.ConnectionString;
+        string connectionString = Tools.Tools.connectionString;
         LikeService likeService = new LikeService();
 
         public LikesController(){}
 
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Likes>> GetLikeById(int id)
+        [HttpGet("postanduser/{postAndUserID}")]
+        public async Task<ActionResult<Likes>> GetLikeByPostIdAndUserId(string postAndUserID)
         {
-            var like = await likeService.GetLikeById(connectionString, id);
+            var like = await likeService.GetLikeByPostIdAndUserId(connectionString, postAndUserID);
             if (like != null)
             {
                 return Ok(like);
@@ -39,6 +41,7 @@ namespace Pokemon_Forum_API.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<Likes>> PostLike(LikeDto like)
         {
             try
@@ -61,10 +64,11 @@ namespace Pokemon_Forum_API.Controllers
         }
 
 
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Likes>> DeleteLike(int id)
+        [HttpPost("delete")]
+        [Authorize]
+        public async Task<ActionResult<Likes>> DeleteLike(LikeDto like)
         {
-            var deletedLike = await likeService.DeleteLike(connectionString, id);
+            var deletedLike = await likeService.DeleteLike(connectionString, like);
             if (deletedLike != null)
             {                
                 return Ok(deletedLike);

@@ -2,15 +2,15 @@
 using Pokemon_Forum_API.DTO.LikeDTO;
 using Pokemon_Forum_API.Entities;
 using System;
-using System.Collections.Generic;
+using System.Data;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
-using utils;
 
 namespace Pokemon_Forum_API.Services
 {
     public class LikeService
     {
-        string connectionString = Utils.ConnectionString;
+        string connectionString = Tools.Tools.connectionString;
 
         UserService userService = new UserService();
         PostService postService = new PostService();
@@ -22,15 +22,20 @@ namespace Pokemon_Forum_API.Services
         /// <param name="connString"></param>
         /// <param name="_id"></param>
         /// <returns></returns>
-        public async Task<Likes> GetLikeById(string connString, int _id)
+        public async Task<Likes> GetLikeByPostIdAndUserId(string connString, string postAndUserID)
         {
+            string[] Ids = postAndUserID.Split("-");
+            int post_id = Int32.Parse(Ids[0]);
+            int user_id = Int32.Parse(Ids[1]);
             try
             {
                 using (MySqlConnection conn = new MySqlConnection(connString))
-                using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM likes where like_id=@like_id", conn))
+                using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM likes " +
+                                                           "where post_id=@post_id and user_id=@user_id", conn))
                 {
                     await conn.OpenAsync();
-                    cmd.Parameters.AddWithValue("@like_id", _id);
+                    cmd.Parameters.AddWithValue("@post_id", post_id);
+                    cmd.Parameters.AddWithValue("@user_id", user_id);
 
                     using (var reader = await cmd.ExecuteReaderAsync())
                     {
@@ -38,11 +43,9 @@ namespace Pokemon_Forum_API.Services
                         while (await reader.ReadAsync())
                         {
                             int like_id = reader.GetInt32(0);
-                            int post_id = reader.GetInt32(1);
-                            int user_id = reader.GetInt32(2);
+                            int _post_id = reader.GetInt32(1);
+                            int _user_id = reader.GetInt32(2);
                             var like = new Likes(like_id, post_id, user_id);
-                            like.user = await userService.GetUserById(connString, user_id);
-                            like.post = await postService.GetPostById(connString, post_id);
 
                             return like;
                         }
@@ -50,7 +53,7 @@ namespace Pokemon_Forum_API.Services
 
                 }
 
-                
+                return new Likes();
 
             }
             catch(Exception ex)
@@ -60,6 +63,8 @@ namespace Pokemon_Forum_API.Services
 
             return null;
         }
+
+
 
         /// <summary>
         /// Method to create a like
@@ -103,36 +108,26 @@ namespace Pokemon_Forum_API.Services
         /// <param name="connString"></param>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<Likes> DeleteLike(string connString, int id)
+        public async Task<Likes> DeleteLike(string connString, LikeDto likeDto)
         {
-
-            var tempLike = await GetLikeById(connectionString, id);
-            if (tempLike != null)
+            try
             {
-                try
+                string sqlQuery = "DELETE FROM likes WHERE user_id = @user_id AND post_id=@post_id;";
+                using (MySqlConnection conn = new MySqlConnection(connString))
+                using (MySqlCommand cmd = new MySqlCommand(sqlQuery, conn))
                 {
-                    string sqlQuery = "DELETE FROM likes WHERE like_id = @like_id;";
-                    using (MySqlConnection conn = new MySqlConnection(connString))
-                    using (MySqlCommand cmd = new MySqlCommand(sqlQuery, conn))
-                    {
-
-                        await conn.OpenAsync();
-                        cmd.Parameters.AddWithValue("@like_id", id);
-
-                        await cmd.ExecuteNonQueryAsync();
-                        return tempLike;
-
-                    }
-                }
-                catch (Exception ex)
-                {
-                    return null;
+                    await conn.OpenAsync();
+                    cmd.Parameters.AddWithValue("@user_id", likeDto.user_id); 
+                    cmd.Parameters.AddWithValue("@post_id", likeDto.post_id);
+                    var like = await cmd.ExecuteNonQueryAsync();
+                    return new Likes();
                 }
             }
-            else
+            catch (Exception ex)
             {
                 return null;
             }
+
         }
 
 

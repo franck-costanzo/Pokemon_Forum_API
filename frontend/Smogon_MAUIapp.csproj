@@ -1,0 +1,187 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>net6.0-android;net6.0-ios;net6.0-maccatalyst</TargetFrameworks>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net6.0-windows10.0.19041.0</TargetFrameworks>
+		<OutputType>Exe</OutputType>
+		<RootNamespace>Smogon_MAUIapp</RootNamespace>
+		<UseMaui>true</UseMaui>
+		<SingleProject>true</SingleProject>
+		<ImplicitUsings>enable</ImplicitUsings>
+
+		<!-- Display name -->
+		<ApplicationTitle>Smogon Forum</ApplicationTitle>
+
+		<!-- App Identifier -->
+		<ApplicationId>com.companyname.smogon_mauiapp</ApplicationId>
+		<ApplicationIdGuid>3fea9cbb-aae0-4ac3-aea7-aba0cd052a9e</ApplicationIdGuid>
+
+		<!-- Versions -->
+		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+		<ApplicationVersion>1</ApplicationVersion>
+
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">14.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
+		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+		<AssemblyName>Smogon Forums</AssemblyName>
+		<ApplicationIcon>Resources\Icons\logo.ico</ApplicationIcon>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-android|AnyCPU'">
+	  <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
+	  <Debugger>Xamarin</Debugger>
+	  <AndroidKeyStore>False</AndroidKeyStore>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-android|AnyCPU'">
+	  <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
+	  <Debugger>Xamarin</Debugger>
+	  <AndroidKeyStore>False</AndroidKeyStore>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<!-- App Icon -->
+		<MauiIcon Include="Resources\AppIcon\appicon.ico" />
+		<MauiIcon Include="Resources\AppIcon\appiconfg.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+
+		<!-- Splash Screen -->	
+
+
+		<!-- Images -->
+		<MauiImage Include="Resources\Images\*" />
+		<MauiImage Update="Resources\Images\dotnet_bot.svg" BaseSize="168,208" />
+		<MauiImage Update="Resources\Images\logo.svg" BaseSize="64,64" Color="#6363B0" />
+
+		<!-- Custom Fonts -->
+		<MauiFont Include="Resources\Fonts\*" />
+
+		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
+		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiImage Remove="Resources\Images\splash.svg" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Remove="Resources\AppIcon\appicon.ico" />
+	  <None Remove="Resources\AppIcon\appiconfg.svg" />
+	  <None Remove="Resources\Fonts\Roboto-Bold.ttf" />
+	  <None Remove="Resources\Fonts\Roboto-Regular.ttf" />
+	  <None Remove="Resources\Fonts\Unown.ttf" />
+	  <None Remove="Resources\Icons\trash.png" />
+	  <None Remove="Resources\Images\banner.png" />
+	  <None Remove="Resources\Images\chatBub.png" />
+	  <None Remove="Resources\Images\coeurPlein.png" />
+	  <None Remove="Resources\Images\coeurVide.png" />
+	  <None Remove="Resources\Images\detectivepikachu.png" />
+	  <None Remove="Resources\Images\domokun.png" />
+	  <None Remove="Resources\Images\home.png" />
+	  <None Remove="Resources\Images\load.gif" />
+	  <None Remove="Resources\Images\logo.svg" />
+	  <None Remove="Resources\Images\pikachu.svg" />
+	  <None Remove="Resources\Images\splash.svg" />
+	  <None Remove="Resources\navbar\search.png" />
+	  <None Remove="Resources\navbar\showdown.png" />
+	  <None Remove="Resources\navbar\smogon.png" />
+	  <None Remove="Resources\navbar\snorlax.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiIcon Include="Resources\Icons\logo.ico" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiImage Include="Resources\navbar\search.png" />
+	  <MauiImage Include="Resources\navbar\showdown.png" />
+	  <MauiImage Include="Resources\navbar\smogon.png" />
+	  <MauiImage Include="Resources\navbar\snorlax.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<MauiSplashScreen Include="Resources\Images\splash.svg" Color="#6363B0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Markdig" Version="0.30.4" />
+	  <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+	  <PackageReference Include="System.Configuration.ConfigurationManager" Version="7.0.0" />
+	  <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.25.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Pages\Create.xaml.cs">
+	    <DependentUpon>Create.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Pages\CreateTeam.xaml.cs">
+	    <DependentUpon>CreateTeam.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Pages\CreateThread.xaml.cs">
+	    <DependentUpon>CreateThread.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Pages\Forum.xaml.cs">
+	    <DependentUpon>Forum.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Pages\MainPage.xaml.cs">
+	    <DependentUpon>MainPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Pages\PokePaste.xaml.cs">
+	    <DependentUpon>PokePaste.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Pages\TeamView.xaml.cs">
+	    <DependentUpon>TeamView.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Pages\showdown.xaml.cs">
+	    <DependentUpon>showdown.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+
+
+	<ItemGroup>
+	  <MauiXaml Update="Pages\Create.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\CreateTeam.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\CreatePost.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\CreateThread.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\Login.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\Forum.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\PokePaste.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\TeamView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\showdown.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\Profile.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\Search.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\SubForum.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\Thread.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
+
+
+</Project>

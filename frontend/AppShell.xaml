@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="Smogon_MAUIapp.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:Smogon_MAUIapp"
+    Shell.FlyoutBehavior="Disabled">
+
+
+    <!--Main Page-->
+    <TabBar >
+
+        <Tab Icon="Resources/navbar/home.png" Shell.NavBarIsVisible="False" >
+            <ShellContent
+                Shell.NavBarIsVisible="False"
+                ContentTemplate="{DataTemplate local:Pages.MainPage}" 
+                Route="MainPage">
+            </ShellContent>
+        </Tab>
+
+        <!--<Tab Icon="Resources/Images/search.png" Shell.NavBarIsVisible="False">
+            <ShellContent
+                ContentTemplate="{DataTemplate local:Pages.Search}" 
+                Route="Search">
+            </ShellContent>
+        </Tab>-->
+
+        <Tab Icon="Resources/Images/snorlax.png" Shell.NavBarIsVisible="False">
+            <ShellContent
+                ContentTemplate="{DataTemplate local:Pages.Profile}" 
+                Route="Profile" />
+        </Tab>
+
+        <Tab Icon="Resources/Images/showdown.png" Shell.NavBarIsVisible="False">
+            <ShellContent
+                ContentTemplate="{DataTemplate local:Pages.Showdown}" 
+                Route="Showdown" />
+        </Tab>
+
+    </TabBar>
+
+</Shell>

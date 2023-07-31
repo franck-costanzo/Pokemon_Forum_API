@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Pokemon_Forum_API.DTO.ThreadDTO;
 using Pokemon_Forum_API.Entities;
 using Pokemon_Forum_API.Services;
@@ -18,7 +19,8 @@ namespace Pokemon_Forum_API.Controllers
     [Route("/threads")]
     public class ThreadsController : ControllerBase
     {
-        string connectionString = Utils.ConnectionString;
+        //string connectionString = Utils.ConnectionString;
+        string connectionString = Tools.Tools.connectionString;
         ThreadService threadService = new ThreadService();
 
         public ThreadsController(){}
@@ -47,6 +49,7 @@ namespace Pokemon_Forum_API.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<Threads>> PostThread(ThreadDto thread)
         {
             try
@@ -54,7 +57,6 @@ namespace Pokemon_Forum_API.Controllers
                 var createdThread = await threadService.CreateThread(connectionString, thread);
                 if (createdThread != null)
                 {
-
                     return Ok(createdThread);
                 }
                 else
@@ -69,6 +71,7 @@ namespace Pokemon_Forum_API.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> PutThread(int id, ThreadDto thread)
         {
             try 
@@ -94,6 +97,7 @@ namespace Pokemon_Forum_API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<ActionResult<Threads>> DeleteThread(int id)
         {
             var deletedThread = await threadService.DeleteThread(connectionString, id);
@@ -110,7 +114,7 @@ namespace Pokemon_Forum_API.Controllers
 
 
         [HttpGet("{id}/posts")]
-        public async Task<ActionResult<List<Threads>>> GetAllThreadsByThreadId(int id)
+        public async Task<ActionResult<List<Threads>>> GetAllPostsByThreadId(int id)
         {
             var threads = await threadService.GetAllPostsByThreadId(connectionString, id);
             if (threads == null)

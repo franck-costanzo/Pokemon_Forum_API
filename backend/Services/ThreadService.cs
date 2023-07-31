@@ -1,18 +1,17 @@
 ﻿using MySql.Data.MySqlClient;
 using Pokemon_Forum_API.DTO.ThreadDTO;
 using Pokemon_Forum_API.Entities;
-using Pokemon_Forum_API.Services;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
-using System.Xml;
-using utils;
 
 namespace Pokemon_Forum_API.Services
 {
     public class ThreadService
     {
-        string connectionString = Utils.ConnectionString;
+        string connectionString = Tools.Tools.connectionString;
 
         UserService userService = new UserService();
         ForumService forumService = new ForumService();
@@ -47,20 +46,8 @@ namespace Pokemon_Forum_API.Services
                             DateTime create_date = reader.GetDateTime(2);
                             DateTime? last_post_date = reader.IsDBNull(3) ? null : reader.GetDateTime(3);
                             int user_id = reader.GetInt32(4);
-                            int? forum_id = reader.IsDBNull(5) ? null : reader.GetInt32(5);
-                            int? subforum_id = reader.IsDBNull(6) ? null : reader.GetInt32(6);
-                            var thread = new Threads(thread_id, title, create_date, last_post_date, user_id, forum_id, subforum_id);
-                            /*var tempThread = await GetAllPostsByThreadId(connString, thread_id);
-                            thread.posts = tempThread.posts;
-                            thread.user = await userService.GetUserById(connString, user_id);*/
-                            /*if(forum_id!= null)
-                            {
-                                thread.forum = await forumService.GetForumById(connString, (int)forum_id);
-                            }
-                            if(subforum_id != null)
-                            {
-                                thread.subforum = await subForumService.GetSubForumById(connString, (int)subforum_id);
-                            }*/
+                            int subforum_id = reader.GetInt32(5);
+                            var thread = new Threads(thread_id, title, create_date, last_post_date, user_id, subforum_id);
                             threads.Add(thread);
                         }
                     }
@@ -101,20 +88,8 @@ namespace Pokemon_Forum_API.Services
                             DateTime create_date = reader.GetDateTime(2);
                             DateTime? last_post_date = reader.IsDBNull(3) ? null : reader.GetDateTime(3);
                             int user_id = reader.GetInt32(4);
-                            int? forum_id = reader.IsDBNull(5) ? null : reader.GetInt32(5);
-                            int? subforum_id = reader.IsDBNull(6) ? null : reader.GetInt32(6);
-                            var thread = new Threads(thread_id, title, create_date, last_post_date, user_id, forum_id, subforum_id);
-                            /*var tempThread = await GetAllPostsByThreadId(connString, thread_id);
-                            thread.posts = tempThread.posts;
-                            thread.user = await userService.GetUserById(connString, user_id);
-                            if (forum_id != null)
-                            {
-                                thread.forum = await forumService.GetForumById(connString, (int)forum_id);
-                            }
-                            if (subforum_id != null)
-                            {
-                                thread.subforum = await subForumService.GetSubForumById(connString, (int)subforum_id);
-                            }*/
+                            int subforum_id = reader.GetInt32(5);
+                            var thread = new Threads(thread_id, title, create_date, last_post_date, user_id, subforum_id);
                             return thread;
                         }
                     }
@@ -142,9 +117,9 @@ namespace Pokemon_Forum_API.Services
             {
 
                 string sqlQuery = "INSERT INTO threads (title, create_date, last_post_date, " +
-                                                            "user_id, forum_id, subforum_id) " +
+                                                            "user_id, subforum_id) " +
                                                    "VALUES (@title, @create_date, @last_post_date," +
-                                                             "@user_id, @forum_id, @subforum_id);";
+                                                             "@user_id,@subforum_id);";
 
                 using (MySqlConnection conn = new MySqlConnection(connString))
                 {
@@ -156,14 +131,39 @@ namespace Pokemon_Forum_API.Services
                         cmd.Parameters.Add("@create_date", MySqlDbType.DateTime).Value = now;
                         cmd.Parameters.Add("@last_post_date", MySqlDbType.DateTime).Value = DBNull.Value;
                         cmd.Parameters.Add("@user_id", MySqlDbType.Int32).Value = thread.user_id;
-                        cmd.Parameters.Add("@forum_id", MySqlDbType.Int32).Value = thread.forum_id;
                         cmd.Parameters.Add("@subforum_id", MySqlDbType.Int32).Value = thread.subforum_id;
 
                         await cmd.ExecuteNonQueryAsync();
                     }
                 }
-                return new Threads(thread.title, thread.create_date, thread.last_post_date,
-                                    thread.user_id, thread.forum_id, thread.subforum_id);
+
+                Threads lastThread = new Threads();
+                string lastThreadQuery = "SELECT * FROM threads ORDER BY thread_id DESC LIMIT 1;";
+
+                using (MySqlConnection conn = new MySqlConnection(connString))
+                using (MySqlCommand cmd = new MySqlCommand(lastThreadQuery, conn))
+                {
+                    await conn.OpenAsync();
+
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+
+                        while (await reader.ReadAsync())
+                        {
+                            int thread_id = reader.GetInt32(0);
+                            string title = reader.GetString(1);
+                            DateTime create_date = reader.GetDateTime(2);
+                            DateTime? last_post_date = reader.IsDBNull(3) ? null : reader.GetDateTime(3);
+                            int user_id = reader.GetInt32(4);
+                            int subforum_id = reader.GetInt32(5);
+                            lastThread = new Threads(thread_id, title, create_date, last_post_date, user_id, subforum_id);
+                        }
+                    }
+
+                }
+
+
+                return lastThread;
             }
             catch (Exception ex)
             {
@@ -189,7 +189,6 @@ namespace Pokemon_Forum_API.Services
                                                       " create_date =  @create_date," +
                                                       " last_post_date =  @last_post_date," +
                                                       " user_id = @user_id, " +
-                                                      " forum_id = @forum_id, " +
                                                       " subforum_id = @subforum_id " +
                                                       " WHERE thread_id = @thread_id;";
                     using (MySqlConnection conn = new MySqlConnection(connString))
@@ -200,12 +199,11 @@ namespace Pokemon_Forum_API.Services
                         cmd.Parameters.Add("@create_date", MySqlDbType.DateTime).Value = thread.create_date;
                         cmd.Parameters.Add("@last_post_date", MySqlDbType.DateTime).Value = thread.last_post_date;
                         cmd.Parameters.Add("@user_id", MySqlDbType.Int32).Value = thread.user_id;
-                        cmd.Parameters.Add("@forum_id", MySqlDbType.Int32).Value = thread.forum_id;
                         cmd.Parameters.Add("@subforum_id", MySqlDbType.Int32).Value = thread.subforum_id;
                         cmd.Parameters.Add("@thread_id", MySqlDbType.Int32).Value = id;
                         await cmd.ExecuteNonQueryAsync();
                         return new Threads(id, thread.title, thread.create_date, thread.last_post_date,
-                                                thread.user_id, thread.forum_id, thread.subforum_id);
+                                                thread.user_id, thread.subforum_id);
 
                     }
                 }

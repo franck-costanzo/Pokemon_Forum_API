@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Smogon_MAUIapp.Pages.CreateTeam"
+             Title="CreateTeam">
+    <ScrollView>
+        <StackLayout>
+            <Label Text="Create Team"  FontAttributes="Bold"
+                   FontSize="18"
+                   HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
+                   Background="#8d8dcd" TextColor="White" HeightRequest="50"/>
+
+            <Frame Margin="20" Background="LightGrey">
+                <StackLayout>
+                    <Label Text="If you want to implement teams use :" HorizontalOptions="CenterAndExpand"/>
+
+                    <Label Text="https://pokepast.es/" 
+                           TextColor="Blue" FontSize="16"
+                           HorizontalOptions="CenterAndExpand">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="PokepasteTapped"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+
+                    <Label Text="and don't forget you can use the showdown tab to generate teams you can paste in pokepaste !" 
+                           HorizontalOptions="CenterAndExpand"/>
+                </StackLayout>
+            </Frame>
+
+
+            <Border Margin="20, 10, 20, 20" MinimumHeightRequest="200" BackgroundColor="#B5B5FB">
+                <StackLayout>
+                    <Label Text="Name of Your team :" Margin="20, 10, 20, 0" FontSize="16"/>
+                    <Border Margin="20, 0">
+                        <Entry x:Name="teamname" Placeholder="Choose a Name" BackgroundColor="Transparent"/>
+                    </Border>
+
+                    <Label Text="Link :" Margin="20, 10, 20, 0" FontSize="16"/>
+                    <Border Margin="20, 0">
+                        <Entry x:Name="link" Placeholder="Enter an address" BackgroundColor="Transparent"/>
+                    </Border>
+                </StackLayout>
+
+            </Border>
+            <Button x:Name="SaveButton" Text="Save" Clicked="SaveButton_Clicked"/>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

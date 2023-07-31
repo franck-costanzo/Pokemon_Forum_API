@@ -1,20 +1,16 @@
-﻿using Microsoft.IdentityModel.Tokens;
-using MySql.Data.MySqlClient;
+﻿using MySql.Data.MySqlClient;
 using Pokemon_Forum_API.DTO.TopicDTO;
 using Pokemon_Forum_API.Entities;
 using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
+using System.Data;
 using System.Threading.Tasks;
-using utils;
 
 namespace Pokemon_Forum_API.Services
 {
     public class TopicService
     {
-        string connectionString = Utils.ConnectionString;
+        string connectionString = Tools.Tools.connectionString;
         public TopicService() {}
 
         /// <summary>

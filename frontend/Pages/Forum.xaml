@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Smogon_MAUIapp.Pages.Forum"
+             Title="Forum"
+             Shell.NavBarIsVisible="False">
+    <VerticalStackLayout BackgroundColor="#ECECEC">
+
+        <Grid Margin="0" Padding="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="4"/>
+            </Grid.ColumnDefinitions>
+            <ImageButton Grid.Column="0" HorizontalOptions="Start"
+                         HeightRequest="75" WidthRequest="75"
+                         Source="Resources/Images/pikachu.svg" 
+                         Clicked="PreviousPageClicked"/>
+            <Button Grid.Column="1" Margin="-430, 0,0,0"
+                    Text="Main Page"
+                    TextColor="Blue" FontAttributes="Bold" FontSize="20"
+                    BackgroundColor="Transparent"
+                    Clicked="PreviousPageClicked"/>
+        </Grid>
+        
+
+
+        <StackLayout x:Name="loadingImage" 
+                     IsVisible="False" 
+                     VerticalOptions="CenterAndExpand" 
+                     HorizontalOptions="CenterAndExpand">
+            <Label Text="Loading..." HorizontalTextAlignment="Center"/>
+        </StackLayout>
+        
+        
+        <Label x:Name="forumTitle" FontAttributes="Bold" IsVisible="False" Margin="20,20, 20, 0"
+               FontSize="18"
+               HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
+               Background="#8d8dcd" TextColor="White" HeightRequest="50"/>
+
+
+
+        <ListView HasUnevenRows="True" Margin="20,0,20,0"
+                  BackgroundColor="#FFFFFF"
+                    x:Name="subforumView" IsVisible="False"
+                    VerticalScrollBarVisibility="Never">
+
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell Tapped="SubForumTapped">
+                        <Grid Padding="10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="3*" />
+                                <RowDefinition Height="2*" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="7*" />
+                            </Grid.ColumnDefinitions>
+
+
+                            <Image Source="Resources/Images/chatbub.png"
+                                                        Grid.Row="0" Grid.RowSpan="2"/>
+
+                            <Label Text="{Binding name}"
+                                   FontSize="16"
+                                   TextColor="#6363B0"
+                                   Margin="40, 0, 20, 0"
+                                   Grid.Row="0" Grid.Column="1" 
+                                   FontAttributes="Bold"/>
+
+                            <Label Text="{Binding description}"
+                                    FontSize="12"
+                                    Margin="40, 0, 20, 0"
+                                    Grid.Row="1" Grid.Column="1" TextColor="Grey"/>
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+
+        </ListView>
+
+    </VerticalStackLayout>
+</ContentPage>

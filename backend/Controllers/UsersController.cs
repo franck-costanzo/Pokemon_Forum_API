@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Pokemon_Forum_API.DTO.UserDTO;
 using Pokemon_Forum_API.Entities;
 using Pokemon_Forum_API.Services;
@@ -18,7 +19,8 @@ namespace Pokemon_Forum_API.Controllers
     [Route("/users")]
     public class UsersController : ControllerBase
     {
-        string connectionString = Utils.ConnectionString;
+        string connectionString = Tools.Tools.connectionString;
+        //string connectionString = Utils.ConnectionString;
         //string connectionString = @"Server=127.0.0.1;User ID=root;Password=;Database=smogon_forum;";
         UserService userService = new UserService();
 
@@ -28,7 +30,7 @@ namespace Pokemon_Forum_API.Controllers
         public async Task<ActionResult<List<Users>>> GetAllUsers()
         {
             var users = await userService.GetAllUsers(connectionString);
-            if (users.Count == 0)
+            if (users == null)
                 return BadRequest("An error occurred while getting all the users. Please check your request and try again.");
             return Ok(users);
         }
@@ -38,6 +40,21 @@ namespace Pokemon_Forum_API.Controllers
         {
             var user = await userService.GetUserById(connectionString, id);
             if (user.username != null)
+            {
+                user.password = "Password is encrypted";
+                return Ok(user);
+            }
+            else
+            {
+                return BadRequest("An error occurred while getting user. Please check your request and try again.");
+            }
+        }
+
+        [HttpGet("{id}/teamslastposts")]
+        public async Task<ActionResult<Users>> GetLast3PostsAndLast5TeamsByUserId(int id)
+        {
+            var user = await userService.GetLast3PostsAndLast5TeamsByUserId(connectionString, id);
+            if (user != null && user.username != null)
             {
                 user.password = "Password is encrypted";
                 return Ok(user);
@@ -76,6 +93,7 @@ namespace Pokemon_Forum_API.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> PutUser(int id, UserDtoUpdate user)
         {
             try 
@@ -103,7 +121,37 @@ namespace Pokemon_Forum_API.Controllers
 
         }
 
+        [HttpPut("avatar/{id}")]
+        [Authorize]
+        public async Task<IActionResult> UpdateUserAvatar(int id, UserDtoUpdateAvatar user)
+        {
+            try
+            {
+                var updatedUser = await userService.UpdateUserAvatar(connectionString, id, user);
+                if (updatedUser.username != null)
+                {
+                    dynamic response = new ExpandoObject();
+                    response.user_id = id;
+                    response.avatar_url = updatedUser.avatar_url;
+                    return Ok(response);
+                }
+                else
+                {
+                    return BadRequest("An error occurred while updating the user's avatar. Please check your request and try again.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("An error occurred while updating the user's avatar. Please check your request and try again.");
+
+            }
+
+
+        }
+
+
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<ActionResult<Users>> DeleteUser(int id)
         {
             var deletedUser = await userService.DeleteUser(connectionString, id);

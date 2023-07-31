@@ -1,21 +1,17 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿
 using MySql.Data.MySqlClient;
 using Pokemon_Forum_API.DTO.BannedUserDTO;
 using Pokemon_Forum_API.Entities;
 using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
+using System.Data;
 using System.Threading.Tasks;
-using utils;
 
 namespace Pokemon_Forum_API.Services
 {
     public class BannedUserService
     {
-        string connectionString = Utils.ConnectionString;
-
+        string connectionString = Tools.Tools.connectionString;
         UserService userService = new UserService();
         public BannedUserService() { }
 
@@ -47,10 +43,6 @@ namespace Pokemon_Forum_API.Services
                             DateTime ban_end_date = reader.GetDateTime(4);
                             string reason = reader.GetString(5);
                             var tempUser = new BannedUsers(banned_user_id, user_id, banned_by_user_id, ban_start_date, ban_end_date, reason);
-                            tempUser.user = await userService.GetUserById(connectionString, user_id);
-                            tempUser.user.password = "Password way encrypted";
-                            tempUser.bannedbyuser = await userService.GetUserById(connectionString, banned_by_user_id);
-                            tempUser.bannedbyuser.password = "Password way encrypted";
                             bannedUsers.Add(tempUser);
                         }
                     }

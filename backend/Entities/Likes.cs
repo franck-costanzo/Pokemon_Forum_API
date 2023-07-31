@@ -22,6 +22,9 @@ namespace Pokemon_Forum_API.Entities
         #endregion
 
         #region Constructor
+        public Likes()
+        {
+        }
 
         public Likes(int like_id, int post_id, int user_id)
         {
@@ -30,9 +33,6 @@ namespace Pokemon_Forum_API.Entities
             this.user_id = user_id;
         }
 
-        public Likes()
-        {
-        }
 
         public Likes(int post_id, int user_id)
         {

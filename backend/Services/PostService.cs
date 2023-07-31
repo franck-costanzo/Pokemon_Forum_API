@@ -1,17 +1,16 @@
 ﻿using MySql.Data.MySqlClient;
 using Pokemon_Forum_API.DTO.PostDTO;
 using Pokemon_Forum_API.Entities;
-using Pokemon_Forum_API.Services;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Threading.Tasks;
-using utils;
 
 namespace Pokemon_Forum_API.Services
 {
     public class PostService
     {
-        string connectionString = Utils.ConnectionString;
+        string connectionString = Tools.Tools.connectionString;
 
         UserService userService = new UserService();
         ThreadService threadService = new ThreadService();
@@ -44,12 +43,7 @@ namespace Pokemon_Forum_API.Services
                             DateTime create_date = reader.GetDateTime(2);
                             int thread_id = reader.GetInt32(3);
                             int user_id = reader.GetInt32(4);
-                            var thread = new Posts(post_id, content, create_date, thread_id, user_id);
-                            /*var tempPost = await GetAllLikesByPostId(connString, post_id);
-                            thread.likes = tempPost.likes;*/
-                            /*thread.user = await userService.GetUserById(connString, user_id);
-                            thread.thread = await threadService.GetThreadById(connString, thread_id);*/
-                        
+                            var thread = new Posts(post_id, content, create_date, thread_id, user_id);                        
                             posts.Add(thread);
                         }
                     }
@@ -110,6 +104,7 @@ namespace Pokemon_Forum_API.Services
 
             return null;
         }
+
 
         /// <summary>
         /// Method to create a post
@@ -265,9 +260,18 @@ namespace Pokemon_Forum_API.Services
                     }
 
                 }
-                post.likes = list;
 
-                return post;
+                if (list.Count > 0)
+                {
+                    post.likes = list;
+
+                    return post;
+                }
+                else
+                {
+                    return post;
+                }
+                
             }
             catch(Exception ex)
             {

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Pokemon_Forum_API.DTO.ForumDTO;
 using Pokemon_Forum_API.Entities;
 using Pokemon_Forum_API.Services;
@@ -18,7 +19,8 @@ namespace Pokemon_Forum_API.Controllers
     [Route("/forums")]
     public class ForumsController : ControllerBase
     {
-        string connectionString = Utils.ConnectionString;
+        //string connectionString = Utils.ConnectionString;
+        string connectionString = Tools.Tools.connectionString;
         ForumService forumService = new ForumService();
 
         public ForumsController(){}
@@ -47,6 +49,7 @@ namespace Pokemon_Forum_API.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<Forums>> PostForum(ForumDto forum)
         {
             try
@@ -58,7 +61,6 @@ namespace Pokemon_Forum_API.Controllers
                     response.name = createdForum.name;
                     response.description = createdForum.description;
                     response.subforums = createdForum.subforums;
-                    response.threads= createdForum.threads;
                     return Ok(response);
                 }
                 else
@@ -73,6 +75,7 @@ namespace Pokemon_Forum_API.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> PutForum(int id, ForumDto forum)
         {
             try 
@@ -85,7 +88,6 @@ namespace Pokemon_Forum_API.Controllers
                     response.name = updatedForum.name;
                     response.description = updatedForum.description;
                     response.subforums = updatedForum.subforums;
-                    response.threads = updatedForum.threads;
                     return Ok(response);
                 }
                 else
@@ -103,6 +105,7 @@ namespace Pokemon_Forum_API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<ActionResult<Forums>> DeleteForum(int id)
         {
             var deletedForum = await forumService.DeleteForum(connectionString, id);
@@ -122,17 +125,6 @@ namespace Pokemon_Forum_API.Controllers
         public async Task<ActionResult<List<Threads>>> GetAllSubForumsByForumId(int id)
         {
             var threads = await forumService.GetAllSubForumsByForumId(connectionString, id);
-            if (threads == null)
-            {
-                return NotFound();
-            }
-            return Ok(threads);
-        }
-
-        [HttpGet("{id}/threads")]
-        public async Task<ActionResult<List<Threads>>> GetAllThreadsByForumId(int id)
-        {
-            var threads = await forumService.GetAllThreadsByForumId(connectionString, id);
             if (threads == null)
             {
                 return NotFound();

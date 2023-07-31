@@ -1,0 +1,35 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Smogon_MAUIapp.Entities
+{
+    public class Teams
+    {
+        #region Properties 
+
+        public int team_id { get; set; }
+        public string name { get; set; }
+        public string link { get; set; }
+        public DateTime date_created { get; set; }
+        public int user_id { get; set; }
+
+        #endregion
+
+        #region Constructors
+
+        public Teams(int team_id, string name, string link, DateTime date_created, int user_id)
+        {
+            this.team_id = team_id;
+            this.name = name;
+            this.link = link;
+            this.date_created = date_created;
+            this.user_id = user_id;
+        }
+
+        #endregion
+
+    }
+}

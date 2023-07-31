@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Pokemon_Forum_API.DTO.RoleDTO;
 using Pokemon_Forum_API.Entities;
 using Pokemon_Forum_API.Services;
@@ -18,7 +19,8 @@ namespace Pokemon_Forum_API.Controllers
     [Route("/roles")]
     public class RolesController : ControllerBase
     {
-        string connectionString = Utils.ConnectionString;
+        //string connectionString = Utils.ConnectionString;
+        string connectionString = Tools.Tools.connectionString;
         RoleService roleService = new RoleService();
 
         public RolesController(){}
@@ -47,6 +49,7 @@ namespace Pokemon_Forum_API.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<Roles>> PostRole(RoleDto role)
         {
             try
@@ -71,6 +74,7 @@ namespace Pokemon_Forum_API.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> PutRole(int id, RoleDto role)
         {
             try 
@@ -99,6 +103,7 @@ namespace Pokemon_Forum_API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<ActionResult<Roles>> DeleteRole(int id)
         {
             var deletedRole = await roleService.DeleteRole(connectionString, id);

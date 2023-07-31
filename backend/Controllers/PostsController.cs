@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Pokemon_Forum_API.DTO.PostDTO;
 using Pokemon_Forum_API.Entities;
 using Pokemon_Forum_API.Services;
@@ -18,7 +19,8 @@ namespace Pokemon_Forum_API.Controllers
     [Route("/posts")]
     public class PostsController : ControllerBase
     {
-        string connectionString = Utils.ConnectionString;
+        //string connectionString = Utils.ConnectionString;
+        string connectionString = Tools.Tools.connectionString;
         PostService postService = new PostService();
 
         public PostsController(){}
@@ -47,6 +49,7 @@ namespace Pokemon_Forum_API.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<Posts>> PostPost(PostDto post)
         {
             try
@@ -68,6 +71,7 @@ namespace Pokemon_Forum_API.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> PutPost(int id, PostDto post)
         {
             try 
@@ -92,6 +96,7 @@ namespace Pokemon_Forum_API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<ActionResult<Posts>> DeletePost(int id)
         {
             var deletedPost = await postService.DeletePost(connectionString, id);
@@ -108,14 +113,16 @@ namespace Pokemon_Forum_API.Controllers
 
 
         [HttpGet("{id}/likes")]
-        public async Task<ActionResult<List<Threads>>> GetAllThreadsByPostId(int id)
+        public async Task<ActionResult<List<Threads>>> GetAllLikesByPostId(int id)
         {
-            var threads = await postService.GetAllLikesByPostId(connectionString, id);
-            if (threads == null)
+            var postWithlikes = await postService.GetAllLikesByPostId(connectionString, id);
+
+            if (postWithlikes == null)
             {
                 return NotFound();
             }
-            return Ok(threads);
+
+            return Ok(postWithlikes);
         }
 
 
